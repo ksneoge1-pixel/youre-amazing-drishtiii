@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hey drishtiiii : )</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Georgia", serif;
+        overflow-x: hidden;
+        cursor: default;
+        background: linear-gradient(
+          to bottom,
+          #1a4d6d 0%,
+          #0d2f47 30%,
+          #061a2b 60%,
+          #020a15 100%
+        );
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .bubbles {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .bubble {
+        position: absolute;
+        bottom: -100px;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.05)
+        );
+        border-radius: 50%;
+        opacity: 0.4;
+        animation: rise 15s infinite ease-in;
+      }
+
+      @keyframes rise {
+        0% {
+          bottom: -100px;
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(100px);
+        }
+        100% {
+          bottom: 110vh;
+          transform: translateX(-100px);
+        }
+      }
+
+      .surprise-button {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50px;
+        padding: 15px 30px;
+        color: #ffffff;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 32px rgba(100, 200, 255, 0.3);
+        overflow: hidden;
+      }
+
+      .surprise-button::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        animation: shimmer 3s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      .surprise-button::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50px;
+        padding: 2px;
+        background: linear-gradient(
+          90deg,
+          #ff6b9d,
+          #c44569,
+          #ffa502,
+          #05c46b,
+          #0fbcf9,
+          #a55eea,
+          #ff6b9d
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        animation: rotate-border 4s linear infinite;
+        opacity: 0.6;
+      }
+
+      @keyframes rotate-border {
+        0% {
+          filter: hue-rotate(0deg);
+        }
+        100% {
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      .surprise-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 40px rgba(100, 200, 255, 0.5);
+        background: rgba(255, 255, 255, 0.25);
+      }
+
+      .button-text {
+        position: relative;
+        z-index: 1;
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 60px 30px;
+        transition: transform 0.1s ease-out;
+      }
+
+      h1 {
+        font-size: 3.5em;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+        letter-spacing: 2px;
+      }
+
+      .message {
+        font-size: 1.5em;
+        color: #b8e6ff;
+        text-align: center;
+        margin-bottom: 60px;
+        line-height: 1.8;
+        text-shadow: 0 0 10px rgba(100, 200, 255, 0.3);
+      }
+
+      .word {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        transition: transform 0.2s;
+        margin: 0 2px;
+      }
+
+      .word:hover {
+        transform: scale(1.05);
+      }
+
+      .sparkle {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 0 6px white;
+        will-change: transform, opacity;
+      }
+
+      .firework-particle {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        will-change: transform, opacity;
+      }
+
+      .playlist {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        margin-top: 50px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateY(-20px);
+      }
+
+      .playlist.revealed {
+        max-height: 1200px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .playlist h2 {
+        color: #ffffff;
+        font-size: 2em;
+        margin-bottom: 30px;
+        text-align: center;
+        text-shadow: 0 0 15px rgba(100, 200, 255, 0.4);
+      }
+
+      .song-item {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .song-item.dancing {
+        animation: dance 2s ease-in-out infinite;
+      }
+
+      .song-item:nth-child(2).dancing {
+        animation-delay: 0.1s;
+      }
+
+      .song-item:nth-child(3).dancing {
+        animation-delay: 0.2s;
+      }
+
+      .song-item:nth-child(4).dancing {
+        animation-delay: 0.3s;
+      }
+
+      .song-item:nth-child(5).dancing {
+        animation-delay: 0.4s;
+      }
+
+      .song-item:nth-child(6).dancing {
+        animation-delay: 0.5s;
+      }
+
+      @keyframes dance {
+        0%,
+        100% {
+          transform: translateX(0) rotate(0deg) scale(1);
+        }
+        10% {
+          transform: translateX(-15px) rotate(-3deg) scale(1.02);
+        }
+        30% {
+          transform: translateX(20px) rotate(3deg) scale(0.98);
+        }
+        50% {
+          transform: translateX(-10px) rotate(-2deg) scale(1.05);
+        }
+        70% {
+          transform: translateX(25px) rotate(4deg) scale(0.96);
+        }
+        90% {
+          transform: translateX(-20px) rotate(-3deg) scale(1.03);
+        }
+      }
+
+      .song-item:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateX(10px);
+        box-shadow: 0 5px 20px rgba(100, 200, 255, 0.3);
+      }
+
+      .song-info {
+        flex: 1;
+      }
+
+      .song-title {
+        color: #ffffff;
+        font-size: 1.3em;
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+
+      .song-artist {
+        color: #b8e6ff;
+        font-size: 1em;
+        opacity: 0.9;
+      }
+
+      .play-icon {
+        font-size: 1.5em;
+        margin-left: 15px;
+        color: #0fbcf9;
+        transition: all 0.3s ease;
+      }
+
+      .song-item.playing .play-icon {
+        color: #ff6b9d;
+      }
+
+      .dance-button {
+        background: rgba(45, 85, 255, 0.2);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 100, 200, 0.4);
+        border-radius: 50px;
+        padding: 15px 35px;
+        color: #ffffff;
+        font-size: 1.2em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 25px rgba(255, 100, 200, 0.3);
+        margin-top: 30px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease 0.3s;
+      }
+
+      .playlist.revealed .dance-button {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .dance-button::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .dance-button:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .dance-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 35px rgba(255, 100, 200, 0.5);
+        background: rgba(255, 100, 200, 0.3);
+        border-color: rgba(255, 100, 200, 0.6);
+      }
+
+      .dance-button:active {
+        transform: scale(0.95);
+      }
+
+      .dance-button span {
+        position: relative;
+        z-index: 1;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5em;
+        }
+
+        .message {
+          font-size: 1.2em;
+        }
+
+        .playlist {
+          padding: 25px;
+        }
+
+        .song-item {
+          padding: 15px 20px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .play-icon {
+          margin-left: 0;
+          margin-top: 10px;
+        }
+
+        .surprise-button {
+          top: 15px;
+          right: 15px;
+          padding: 12px 20px;
+          font-size: 0.9em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="surprise-button" id="surpriseBtn">
+      <span class="button-text">✨ Click here for a surprise</span>
+    </button>
+
+    <div class="bubbles" id="bubbles"></div>
+
+    <div class="container">
+      <h1 id="title">Heyyy There, My Shooting Star!</h1>
+
+      <div class="message" id="message">
+        <p>
+            I just want to remind you how <b>amazing</b>, <b>kind</b>, <b>sweet</b>, <b>cute</b>, <b>endearing</b>,
+            and <b>comforting</b> you are, with your absolutely <b>beautiful</b>, <b>soothing</b> voice 
+            and your incredibly <b>beautiful</b>caring nature, which always makes me feel like <b>home</b>.
+            <br><br>            
+            You'll be really successful someday, with all the hardwork and dedication
+            you put into everything you do. I'm so proud(or happy for you, in your words :D), 
+            impressed and inspired by everything you've done, including the masterpieces,
+            painting, poems, proses, yourself,and I can't wait to see all the great things
+            you'll achieve in the future. <br><br>
+
+            Just keep being yourself, the wonderful person you are, and never forget,
+            how much you are valued. <br><br>
+            I abso-f*ing-lutely loved the way you were listening to me, so attentively, with so much
+            interest and care, when I was telling you about the NSG operation exhibition. <br><br>
+
+            I'm really grateful to have crossed paths with you, and I cherish every laugh,
+            every joke, every little, deep and fun conversation we've had, memeories we've shared and every upcoming ones.. <br><br>
+
+            and how could i forgettt, may this Diwali light up your inner self, bring you endless
+            joy,<b>beeeeauuutiful</b> smilesss, <b>prosperityyyy</b>, and <b>successssss</b>. <b>Happy Diwaliii drishti ;)</b>  
+            <br>Like those animations?? :)))))))) 
+            <br>try clicking on the words and seeeee heheheheh
+
+            <br>You're an angel, drishti. Never forget that : )
+        </p>
+      </div>
+
+      <div class="playlist" id="playlist">
+        <h2>Your (& my) Fav Songss (remind me of you)</h2>
+        <div class="song-item" data-src="./src/ihateuiloveyou.mp3">
+          <div class="song-info">
+            <div class="song-title">i hate you, i love you</div>
+            <div class="song-artist">Olivia O'brien anddd gnashhh</div>
+          </div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="song-item" data-src="./src/Yellow.mp3">
+          <div class="song-info">
+            <div class="song-title">Yellow</div>
+            <div class="song-artist">Coldplayy</div>
+          </div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="song-item" data-src="./src/Judaai.mp3">
+          <div class="song-info">
+            <div class="song-title">Judaai</div>
+            <div class="song-artist">lots of emmm'</div>
+          </div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="song-item" data-src="./src/Somebodysme.mp3">
+          <div class="song-info">
+            <div class="song-title">Somebody's meee</div>
+            <div class="song-artist">Enrique Iglesiaaas</div>
+          </div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="song-item" data-src="./src/whereweregoingggg.mp3">
+          <div class="song-info">
+            <div class="song-title">where we're going</div>
+            <div class="song-artist">Elijah Wooods</div>
+          </div>
+          <div class="play-icon">▶</div>
+        </div>
+        <div class="song-item" data-src="./src/24sevennnnn.mp3">
+          <div class="song-info">
+            <div class="song-title">24/sevennnnn, 365 :)</div>
+            <div class="song-artist">Elijah wooods</div>
+          </div>
+          <div class="play-icon">▶</div>
+        </div>
+
+        <button class="dance-button" id="danceBtn">
+          <span>make em' danceeee hehe</span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Create bubbles
+      const bubblesContainer = document.getElementById("bubbles");
+      for (let i = 0; i < 15; i++) {
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.style.left = Math.random() * 100 + "%";
+        bubble.style.width = Math.random() * 30 + 20 + "px";
+        bubble.style.height = bubble.style.width;
+        bubble.style.animationDuration = Math.random() * 10 + 10 + "s";
+        bubble.style.animationDelay = Math.random() * 5 + "s";
+        bubblesContainer.appendChild(bubble);
+      }
+
+      // Make ALL text into hoverable words
+      function wrapWordsInElement(element) {
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_TEXT,
+          null,
+          false
+        );
+
+        const textNodes = [];
+        let node;
+        while ((node = walker.nextNode())) {
+          if (node.textContent.trim()) {
+            textNodes.push(node);
+          }
+        }
+
+        textNodes.forEach((textNode) => {
+          const text = textNode.textContent;
+          const words = text.split(/(\s+)/);
+          const span = document.createElement("span");
+
+          words.forEach((word) => {
+            if (word.trim()) {
+              const wordSpan = document.createElement("span");
+              wordSpan.className = "word";
+              wordSpan.textContent = word;
+              span.appendChild(wordSpan);
+            } else {
+              span.appendChild(document.createTextNode(word));
+            }
+          });
+
+          textNode.parentNode.replaceChild(span, textNode);
+        });
+      }
+
+      // Apply to all elements with text
+      wrapWordsInElement(document.getElementById("title"));
+      wrapWordsInElement(document.getElementById("message"));
+      wrapWordsInElement(document.getElementById("playlist"));
+
+      // Sparkle system with optimization
+      let sparkleIntervals = new Map();
+      let activeSparkles = new Map();
+      const MAX_SPARKLES_PER_WORD = 50;
+
+      function attachEventsToAllWords() {
+        const words = document.querySelectorAll(".word");
+
+        words.forEach((word) => {
+          // Remove old listeners if any
+          word.replaceWith(word.cloneNode(true));
+        });
+
+        // Re-query after replacing
+        document.querySelectorAll(".word").forEach((word) => {
+          word.addEventListener("mouseenter", function (e) {
+            activeSparkles.set(e.target, []);
+            const interval = setInterval(() => {
+              createSparkle(e.target);
+            }, 100);
+            sparkleIntervals.set(e.target, interval);
+          });
+
+          word.addEventListener("mouseleave", function (e) {
+            const interval = sparkleIntervals.get(e.target);
+            if (interval) {
+              clearInterval(interval);
+              sparkleIntervals.delete(e.target);
+            }
+
+            // Remove all sparkles for this word
+            const sparkles = activeSparkles.get(e.target);
+            if (sparkles) {
+              sparkles.forEach((sparkle) => {
+                if (sparkle && sparkle.parentNode) {
+                  sparkle.remove();
+                }
+              });
+              activeSparkles.delete(e.target);
+            }
+          });
+
+          word.addEventListener("click", function (e) {
+            e.stopPropagation();
+            createFirework(e);
+          });
+        });
+      }
+
+      attachEventsToAllWords();
+
+      function createSparkle(element) {
+        const sparkles = activeSparkles.get(element) || [];
+        if (sparkles.length >= MAX_SPARKLES_PER_WORD) return;
+
+        const rect = element.getBoundingClientRect();
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+
+        sparkle.style.left = x + "px";
+        sparkle.style.top = y + "px";
+
+        document.body.appendChild(sparkle);
+
+        sparkles.push(sparkle);
+        activeSparkles.set(element, sparkles);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 3 + 2;
+        const dx = Math.cos(angle) * velocity;
+        const dy = Math.sin(angle) * velocity;
+
+        let opacity = 1;
+        let posX = 0;
+        let posY = 0;
+
+        const animate = () => {
+          if (!activeSparkles.has(element) || !sparkle.parentNode) {
+            sparkle.remove();
+            return;
+          }
+
+          opacity -= 0.025;
+          posX += dx;
+          posY += dy;
+
+          sparkle.style.transform = `translate(${posX}px, ${posY}px)`;
+          sparkle.style.opacity = opacity;
+
+          if (opacity > 0 && sparkle.parentNode) {
+            requestAnimationFrame(animate);
+          } else {
+            sparkle.remove();
+            const currentSparkles = activeSparkles.get(element);
+            if (currentSparkles) {
+              const index = currentSparkles.indexOf(sparkle);
+              if (index > -1) currentSparkles.splice(index, 1);
+            }
+          }
+        };
+
+        animate();
+      }
+
+      function createFirework(e) {
+        const colors = [
+          "#ff6b9d",
+          "#c44569",
+          "#ffa502",
+          "#ffd32a",
+          "#05c46b",
+          "#0fbcf9",
+          "#4bcffa",
+          "#a55eea",
+        ];
+        const particleCount = 30;
+
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const targetY = startY - 200;
+
+        const rocket = document.createElement("div");
+        rocket.className = "firework-particle";
+        rocket.style.left = startX + "px";
+        rocket.style.top = startY + "px";
+        rocket.style.background = "#ffffff";
+        rocket.style.boxShadow = "0 0 8px white";
+        document.body.appendChild(rocket);
+
+        let currentY = startY;
+        const rocketSpeed = 10;
+
+        const rocketInterval = setInterval(() => {
+          currentY -= rocketSpeed;
+          rocket.style.transform = `translateY(${currentY - startY}px)`;
+
+          if (currentY <= targetY) {
+            clearInterval(rocketInterval);
+            rocket.remove();
+
+            for (let i = 0; i < particleCount; i++) {
+              const particle = document.createElement("div");
+              particle.className = "firework-particle";
+              particle.style.left = startX + "px";
+              particle.style.top = targetY + "px";
+              particle.style.background =
+                colors[Math.floor(Math.random() * colors.length)];
+              particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+
+              document.body.appendChild(particle);
+
+              const angle = (Math.PI * 2 * i) / particleCount;
+              const velocity = Math.random() * 4 + 3;
+              const dx = Math.cos(angle) * velocity;
+              const dy = Math.sin(angle) * velocity;
+
+              animateParticle(particle, dx, dy);
+            }
+          }
+        }, 16);
+      }
+
+      function animateParticle(particle, dx, dy) {
+        let posX = 0;
+        let posY = 0;
+        let opacity = 1;
+        let gravity = 0.15;
+        let velocityY = dy;
+
+        const animate = () => {
+          velocityY += gravity;
+          posX += dx;
+          posY += velocityY;
+          opacity -= 0.02;
+
+          particle.style.transform = `translate(${posX}px, ${posY}px)`;
+          particle.style.opacity = opacity;
+
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        };
+
+        animate();
+      }
+
+      // Parallax effect
+      let parallaxFrame;
+      document.addEventListener("mousemove", (e) => {
+        if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
+
+        parallaxFrame = requestAnimationFrame(() => {
+          const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+          const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+
+          document.querySelector(
+            ".container"
+          ).style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+      });
+
+      // Audio player functionality
+      let currentAudio = null;
+      let currentPlayingItem = null;
+
+      document.querySelectorAll(".song-item[data-src]").forEach((item) => {
+        item.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const src = this.getAttribute("data-src");
+          const icon = this.querySelector(".play-icon");
+
+          // If clicking on the same song
+          if (currentPlayingItem === this) {
+            if (currentAudio.paused) {
+              currentAudio.play();
+              this.classList.add("playing");
+              icon.textContent = "⏸";
+            } else {
+              currentAudio.pause();
+              this.classList.remove("playing");
+              icon.textContent = "▶";
+            }
+          } else {
+            // Stop previous song if any
+            if (currentAudio) {
+              currentAudio.pause();
+              if (currentPlayingItem) {
+                currentPlayingItem.classList.remove("playing");
+                currentPlayingItem.querySelector(".play-icon").textContent =
+                  "▶";
+              }
+            }
+
+            // Play new song
+            currentAudio = new Audio(src);
+            currentPlayingItem = this;
+            currentAudio.play();
+            this.classList.add("playing");
+            icon.textContent = "⏸";
+
+            // Reset icon when song ends
+            currentAudio.addEventListener("ended", () => {
+              this.classList.remove("playing");
+              icon.textContent = "▶";
+              currentAudio = null;
+              currentPlayingItem = null;
+            });
+          }
+        });
+      });
+
+      // Surprise button functionality
+      const surpriseBtn = document.getElementById("surpriseBtn");
+      const playlist = document.getElementById("playlist");
+
+      surpriseBtn.addEventListener("click", function () {
+        playlist.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        setTimeout(() => {
+          playlist.classList.add("revealed");
+          attachEventsToAllWords();
+
+          surpriseBtn.style.opacity = "0";
+          setTimeout(() => {
+            surpriseBtn.style.display = "none";
+          }, 300);
+        }, 800);
+      });
+
+      // Dance button functionality
+      const danceBtn = document.getElementById("danceBtn");
+      let isDancing = false;
+
+      danceBtn.addEventListener("click", function () {
+        const songItems = document.querySelectorAll(".song-item[data-src]");
+        isDancing = !isDancing;
+
+        if (isDancing) {
+          songItems.forEach((item) => {
+            item.classList.add("dancing");
+          });
+          danceBtn.querySelector("span").textContent = "Stawwwppp XDDD";
+        } else {
+          songItems.forEach((item) => {
+            item.classList.remove("dancing");
+          });
+          danceBtn.querySelector("span").textContent = "make em' danceeee hehe";
+        }
+      });
+    </script>
+  </body>
+</html>
