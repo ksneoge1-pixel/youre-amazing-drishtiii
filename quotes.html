@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Motivation 💭</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Georgia", serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            z-index: 10;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 50px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 60px 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 8em;
+            color: rgba(255, 255, 255, 0.2);
+            font-family: Georgia, serif;
+        }
+
+        .quote-text {
+            font-size: 2em;
+            color: #ffffff;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+        }
+
+        .quote-category {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .button {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            padding: 18px 40px;
+            color: #ffffff;
+            font-size: 1.3em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .quote-card {
+                padding: 40px 30px;
+                min-height: 300px;
+            }
+
+            .quote-card::before {
+                font-size: 5em;
+                left: 20px;
+            }
+
+            .quote-text {
+                font-size: 1.5em;
+            }
+
+            .quote-category {
+                font-size: 1em;
+            }
+
+            .button {
+                font-size: 1.1em;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <a href="index.html" class="back-button">← Back to Home</a>
+
+    <div class="container">
+        <h1>Daily Motivation</h1>
+        <p class="subtitle">You've got this, drishti! 💪✨🫶🫶</p>
+
+        <div class="quote-card">
+            <div class="quote-category" id="category">MOTIVATION</div>
+            <div class="quote-text" id="quoteText">
+                "Click to get your dose of motivation hehehe"
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="button" id="newQuoteBtn">
+                <span><span class="emoji">✨</span>New Quote</span>
+            </button>
+            <button class="button" id="studyQuoteBtn">
+                <span><span class="emoji">📚</span>Study Mode</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const quotes = {
+            motivation: [
+                "You are capable of amazing things. Keep going, one step at a time! 💫",
+                "Every small effort you make today is building the future you dream of. 🌟",
+                "You're doing better than you think. Be proud of how far you've come! 🎯",
+                "Remember: the struggle you're in today is developing the strength you need for tomorrow. 💪",
+                "Your dedication and hard work will pay off. Keep believing in yourself! ✨",
+                "You're not just studying, you're building your dreams. Keep shining! 🌟",
+                "Difficult roads often lead to beautiful destinations. You're on the right path! 🛤️",
+                "You are stronger than your challenges and braver than you believe. Keep going! 🦋",
+                "Success is the sum of small efforts repeated day in and day out. You're doing it! 🌈",
+                "Your future self is cheering you on. Make them proud! 🎉"
+            ],
+            study: [
+                "Take a deep breath. You've prepared well, now trust yourself! 📚",
+                "Every page you study brings you closer to your goals. Keep going! 📖",
+                "Your hard work is not going unnoticed. You're making amazing progress! 🎓",
+                "It's okay to take breaks. Rest is part of the journey to success! ☕",
+                "You don't have to be perfect(altho.. you are for mee......). You just have to keep trying. And you are! 💯",
+                "Focus on progress, not perfection. You're learning and growing every day! 🌱",
+                "Your dedication to studying shows how much you care about your future. Keep it up! 📝",
+                "Remember why you started. Your dreams are worth every minute of effort! 🎯",
+                "You're building knowledge that will serve you for a lifetime. That's incredible! 🧠",
+                "Study breaks are not time wasted—they're investments in better focus! 🌸"
+            ],
+            adorable: [
+                "You know what? You're absolutely amazing and I believe in you with all my heart! 💕",
+                "Just a reminder that you're doing so, so well. I'm proud of you! 🥰",
+                "You light up every space you're in. Never forget how special you are! ✨",
+                "Your smile is the most beautiful thing in the world. Keep shining, always! 😊",
+                "You make the world a better place just by being you. That's your superpower! 🌟",
+                "I hope you know how incredibly talented and capable you are! 💖",
+                "You deserve all the good things coming your way. Keep being wonderful! 🌈",
+                "Your kindness and warmth make everything better. Never change! 💝",
+                "You're not just smart—you're thoughtful, caring, and absolutely wonderful! 🦋",
+                "The world is lucky to have someone as amazing as you in it! 🌺"
+            ],
+            exam: [
+                "You've worked so hard for this. Trust in your preparation and do your best! 🎯",
+                "Exams are temporary, but your determination and character last forever! 💪",
+                "You know more than you think you do. Breathe, trust yourself, and shine! ⭐",
+                "One exam doesn't define you. You're so much more than a score! 🌟",
+                "You've got this! Your hard work has prepared you well for this moment! 🎓",
+                "Stay calm, stay focused, stay confident. You are ready! 💯",
+                "Remember: You're not just taking an exam, you're showing what you know! 📚",
+                "Success is already yours—you've earned it with all your dedication! 🏆",
+                "Believe in yourself as much as I believe in you. You'll do amazing! ✨",
+                "After this exam, you'll be one step closer to your dreams. Keep pushing! 🚀"
+            ]
+        };
+
+        const quoteText = document.getElementById('quoteText');
+        const category = document.getElementById('category');
+        const newQuoteBtn = document.getElementById('newQuoteBtn');
+        const studyQuoteBtn = document.getElementById('studyQuoteBtn');
+        const starsContainer = document.getElementById('stars');
+
+        let currentMode = 'all';
+
+        // Create twinkling stars background
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star-particle';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        function getRandomQuote(mode = 'all') {
+            let selectedCategory;
+            let categoryName;
+
+            if (mode === 'study') {
+                const studyCategories = ['study', 'exam', 'motivation'];
+                selectedCategory = studyCategories[Math.floor(Math.random() * studyCategories.length)];
+            } else {
+                const allCategories = Object.keys(quotes);
+                selectedCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+            }
+
+            const categoryQuotes = quotes[selectedCategory];
+            const randomQuote = categoryQuotes[Math.floor(Math.random() * categoryQuotes.length)];
+
+            // Set category display name
+            switch(selectedCategory) {
+                case 'motivation':
+                    categoryName = 'MOTIVATION';
+                    break;
+                case 'study':
+                    categoryName = 'STUDY POWER';
+                    break;
+                case 'adorable':
+                    categoryName = 'JUST FOR YOU';
+                    break;
+                case 'exam':
+                    categoryName = 'EXAM CONFIDENCE';
+                    break;
+            }
+
+            return { quote: randomQuote, category: categoryName };
+        }
+
+        function displayQuote() {
+            // Fade out
+            quoteText.style.opacity = '0';
+            category.style.opacity = '0';
+
+            setTimeout(() => {
+                const { quote, category: cat } = getRandomQuote(currentMode);
+                quoteText.textContent = quote;
+                category.textContent = cat;
+
+                // Fade in
+                quoteText.style.transition = 'opacity 0.5s ease';
+                category.style.transition = 'opacity 0.5s ease';
+                quoteText.style.opacity = '1';
+                category.style.opacity = '1';
+            }, 300);
+        }
+
+        newQuoteBtn.addEventListener('click', () => {
+            currentMode = 'all';
+            displayQuote();
+        });
+
+        studyQuoteBtn.addEventListener('click', () => {
+            currentMode = 'study';
+            displayQuote();
+        });
+
+        // Display initial quote after a short delay
+        setTimeout(() => {
+            displayQuote();
+        }, 500);
+    </script>
+</body>
+</html>
