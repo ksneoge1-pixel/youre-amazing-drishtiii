@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch the Butterflies 🦋</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Georgia", serif;
+            background: linear-gradient(
+                to bottom,
+                #1a4d6d 0%,
+                #0d2f47 30%,
+                #061a2b 60%,
+                #020a15 100%
+            );
+            min-height: 100vh;
+            overflow: hidden;
+            cursor: none;
+            position: relative;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .score-board {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px 30px;
+            color: #fff;
+            font-size: 1.5em;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .release-button {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .release-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .title {
+            position: fixed;
+            top: 5%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .subtitle {
+            font-size: 0.5em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .butterfly {
+            position: absolute;
+            font-size: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            animation: flutter 2s ease-in-out infinite;
+        }
+
+        @keyframes flutter {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        .butterfly:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .star {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+        }
+
+        .star::before {
+            content: '⭐';
+            font-size: 20px;
+            animation: twinkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .star:hover {
+            transform: scale(1.5) rotate(180deg);
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.1s ease;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-cursor::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+        }
+
+        .custom-cursor.catching {
+            width: 60px;
+            height: 60px;
+            border-color: rgba(255, 200, 100, 1);
+            box-shadow: 0 0 30px rgba(255, 200, 100, 0.8);
+        }
+
+        .caught-message {
+            position: fixed;
+            font-size: 2em;
+            color: #ffffff;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 9999;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        .released-butterfly {
+            position: fixed;
+            font-size: 40px;
+            pointer-events: none;
+            z-index: 9998;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            animation: flyToTop 3s ease-in-out forwards;
+        }
+
+        @keyframes flyToTop {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-120vh) rotate(360deg);
+            }
+        }
+
+        .thank-you-message {
+            position: fixed;
+            font-size: 1.8em;
+            color: #ffffff;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 9999;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            animation: flyToTop 3s ease-in-out forwards;
+        }
+
+        .flowers {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to top, rgba(255, 150, 150, 0.3), transparent);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .flower {
+            position: absolute;
+            bottom: 0;
+            font-size: 3em;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2em;
+            }
+
+            .score-board {
+                font-size: 1.2em;
+                padding: 15px 20px;
+            }
+
+            .butterfly {
+                font-size: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Back</a>
+
+    <div class="score-board">
+        🦋 Caught: <span id="score">0</span>
+    </div>
+
+    <button class="release-button" id="releaseBtn" style="display: none;">
+        Release them all 🕊️
+    </button>
+
+    <div class="title">
+        Catch the Butterflies & Stars(u too, are one of em')!
+    </div>
+
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="flowers" id="flowers"></div>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const scoreElement = document.getElementById('score');
+        const flowersContainer = document.getElementById('flowers');
+        const releaseBtn = document.getElementById('releaseBtn');
+        let score = 0;
+
+        // Show/hide release button based on score
+        function updateReleaseButton() {
+            if (score > 0) {
+                releaseBtn.style.display = 'block';
+            } else {
+                releaseBtn.style.display = 'none';
+            }
+        }
+
+        // Release all caught butterflies
+        releaseBtn.addEventListener('click', () => {
+            if (score === 0) return;
+
+            const releaseCount = score;
+            
+            // Create released butterflies from the bottom of the screen
+            for (let i = 0; i < releaseCount; i++) {
+                setTimeout(() => {
+                    // Create butterfly
+                    const butterfly = document.createElement('div');
+                    butterfly.className = 'released-butterfly';
+                    butterfly.textContent = '🦋';
+                    
+                    // Start from bottom of screen with random X position
+                    const startX = Math.random() * (window.innerWidth - 50);
+                    const startY = window.innerHeight + 50;
+                    
+                    butterfly.style.left = startX + 'px';
+                    butterfly.style.top = startY + 'px';
+                    document.body.appendChild(butterfly);
+                    
+                    // Create thank you message
+                    const thankYou = document.createElement('div');
+                    thankYou.className = 'thank-you-message';
+                    thankYou.textContent = 'Thank youuu';
+                    thankYou.style.left = (startX + 10) + 'px';
+                    thankYou.style.top = (startY - 30) + 'px';
+                    document.body.appendChild(thankYou);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        butterfly.remove();
+                        thankYou.remove();
+                    }, 3000);
+                }, i * 200);
+            }
+            
+            // Reset score
+            score = 0;
+            scoreElement.textContent = score;
+            updateReleaseButton();
+        });
+
+        // Custom cursor
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 20 + 'px';
+            cursor.style.top = e.clientY - 20 + 'px';
+        });
+
+        // Create flowers at bottom
+        const flowerEmojis = ['🌸', '🌺', '🌻', '🌷', '🌹', '🏵️'];
+        for (let i = 0; i < 15; i++) {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.textContent = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+            flower.style.left = (i * 7) + '%';
+            flowersContainer.appendChild(flower);
+        }
+
+        // Butterfly colors
+        const butterflyEmojis = ['🦋', '🦋', '🦋'];
+        
+        function createButterfly() {
+            const butterfly = document.createElement('div');
+            butterfly.className = 'butterfly';
+            butterfly.textContent = butterflyEmojis[Math.floor(Math.random() * butterflyEmojis.length)];
+            
+            const startX = Math.random() * (window.innerWidth - 100);
+            const startY = Math.random() * (window.innerHeight - 200) + 100;
+            
+            butterfly.style.left = startX + 'px';
+            butterfly.style.top = startY + 'px';
+            
+            document.body.appendChild(butterfly);
+            
+            // Animate butterfly movement
+            let posX = startX;
+            let posY = startY;
+            let velocityX = (Math.random() - 0.5) * 2;
+            let velocityY = (Math.random() - 0.5) * 2;
+            
+            function moveButterfly() {
+                if (!document.body.contains(butterfly)) return;
+                
+                posX += velocityX;
+                posY += velocityY;
+                
+                // Bounce off edges
+                if (posX <= 0 || posX >= window.innerWidth - 50) velocityX *= -1;
+                if (posY <= 100 || posY >= window.innerHeight - 200) velocityY *= -1;
+                
+                butterfly.style.left = posX + 'px';
+                butterfly.style.top = posY + 'px';
+                
+                requestAnimationFrame(moveButterfly);
+            }
+            
+            moveButterfly();
+            
+            // Click to catch
+            butterfly.addEventListener('click', (e) => {
+                catchCreature(butterfly, e.clientX, e.clientY, '🦋 Caught!');
+            });
+            
+            // Remove after 15 seconds if not caught
+            setTimeout(() => {
+                if (document.body.contains(butterfly)) {
+                    butterfly.style.transition = 'all 1s ease';
+                    butterfly.style.opacity = '0';
+                    setTimeout(() => butterfly.remove(), 1000);
+                }
+            }, 15000);
+        }
+
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            const startX = Math.random() * (window.innerWidth - 50);
+            const startY = Math.random() * (window.innerHeight - 200) + 100;
+            
+            star.style.left = startX + 'px';
+            star.style.top = startY + 'px';
+            
+            document.body.appendChild(star);
+            
+            // Animate star movement (slower than butterflies)
+            let posX = startX;
+            let posY = startY;
+            let velocityX = (Math.random() - 0.5) * 1;
+            let velocityY = (Math.random() - 0.5) * 1;
+            
+            function moveStar() {
+                if (!document.body.contains(star)) return;
+                
+                posX += velocityX;
+                posY += velocityY;
+                
+                if (posX <= 0 || posX >= window.innerWidth - 30) velocityX *= -1;
+                if (posY <= 100 || posY >= window.innerHeight - 200) velocityY *= -1;
+                
+                star.style.left = posX + 'px';
+                star.style.top = posY + 'px';
+                
+                requestAnimationFrame(moveStar);
+            }
+            
+            moveStar();
+            
+            star.addEventListener('click', (e) => {
+                catchCreature(star, e.clientX, e.clientY, '⭐ Beautiful!');
+            });
+            
+            setTimeout(() => {
+                if (document.body.contains(star)) {
+                    star.style.transition = 'all 1s ease';
+                    star.style.opacity = '0';
+                    setTimeout(() => star.remove(), 1000);
+                }
+            }, 20000);
+        }
+
+        function catchCreature(element, x, y, message) {
+            score++;
+            scoreElement.textContent = score;
+            updateReleaseButton();
+            
+            // Animate catch
+            cursor.classList.add('catching');
+            setTimeout(() => cursor.classList.remove('catching'), 200);
+            
+            // Show caught message
+            const msg = document.createElement('div');
+            msg.className = 'caught-message';
+            msg.textContent = message;
+            msg.style.left = x + 'px';
+            msg.style.top = y + 'px';
+            document.body.appendChild(msg);
+            
+            setTimeout(() => msg.remove(), 1000);
+            
+            // Remove creature with animation
+            element.style.transition = 'all 0.5s ease';
+            element.style.transform = 'scale(2) rotate(360deg)';
+            element.style.opacity = '0';
+            setTimeout(() => element.remove(), 500);
+        }
+
+        // Spawn creatures periodically
+        setInterval(() => {
+            if (Math.random() > 0.3) {
+                createButterfly();
+            }
+        }, 2000);
+
+        setInterval(() => {
+            if (Math.random() > 0.5) {
+                createStar();
+            }
+        }, 3000);
+
+        // Initial creatures
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => createButterfly(), i * 500);
+        }
+        setTimeout(() => createStar(), 1000);
+    </script>
+</body>
+</html>
