@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peaceful Sounds for drishti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Georgia", serif;
+            background: linear-gradient(to bottom, #1a4d6d 0%, #0d2f47 30%, #061a2b 60%, #020a15 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+            padding: 12px 24px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 30px rgba(100, 200, 255, 0.4);
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin-top: 80px;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #b8e6ff;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px rgba(100, 200, 255, 0.3);
+        }
+
+        .sounds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .sound-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sound-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .sound-card:hover::before {
+            transform: rotate(45deg);
+        }
+
+        .sound-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(100, 200, 255, 0.3);
+        }
+
+        .sound-card.active {
+            background: rgba(100, 200, 255, 0.2);
+            border-color: rgba(100, 200, 255, 0.5);
+            box-shadow: 0 0 30px rgba(100, 200, 255, 0.4);
+        }
+
+        .sound-card.loading {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .sound-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+        }
+
+        .sound-name {
+            font-size: 1.4em;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .sound-description {
+            font-size: 0.95em;
+            color: #b8e6ff;
+            opacity: 0.8;
+        }
+
+        .volume-control {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .volume-label {
+            color: #ffffff;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .volume-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+        }
+
+        .note {
+            text-align: center;
+            color: #b8e6ff;
+            font-size: 1.1em;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .error-message {
+            background: rgba(255, 100, 100, 0.15);
+            border: 1px solid rgba(255, 100, 100, 0.3);
+            color: #ffb8b8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .sounds-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Back to Home</a>
+
+    <div class="container">
+        <h1>Handpicked the besttt quality sounds, just for you</h1>
+        <div class="note">
+            Here, you can be creativeee.
+            Mix multiple sounds together to create your perfect peaceful atmosphere :)
+        </div>
+        <br>
+
+        <div class="sounds-grid">
+            <div class="sound-card" data-audio="ambiance/rain.mp3">
+                <div class="sound-icon">🌧️</div>
+                <div class="sound-name">Rain</div>
+                <div class="sound-description">Gentle rainfall with a little thunder hehe</div>
+            </div>
+
+            <div class="sound-card" data-audio="ambiance/ocean.mp3">
+                <div class="sound-icon">🌊</div>
+                <div class="sound-name">Ocean Waves</div>
+                <div class="sound-description">Calming waves by the shore</div>
+            </div>
+
+            <div class="sound-card" data-audio="ambiance/forest.mp3">
+                <div class="sound-icon">🌲</div>
+                <div class="sound-name">Forest</div>
+                <div class="sound-description">Birds chirping in nature</div>
+            </div>  
+
+            <div class="sound-card" data-audio="ambiance/fireplace.mp3">
+                <div class="sound-icon">🔥</div>
+                <div class="sound-name">Fireplace</div>
+                <div class="sound-description">Crackling fire warmth</div>
+            </div>
+
+            <div class="sound-card" data-audio="ambiance/wind.mp3">
+                <div class="sound-icon">💨</div>
+                <div class="sound-name">Wind Chimes</div>
+                <div class="sound-description">Gentle breeze with rustling rustling leaves</div>
+            </div>
+
+            <div class="sound-card" data-audio="ambiance/night.mp3">
+                <div class="sound-icon">🌙</div>
+                <div class="sound-name">Night Sounds</div>
+                <div class="sound-description">Peaceful night sounds, perfect for stargazing...sigh</div>
+            </div>
+        </div>
+
+        <div class="volume-control">
+            <div class="volume-label">Volume Control</div>
+            <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider">
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+        <div class="note">
+            you're perfect
+        </div>
+
+    <script>
+        const activeSounds = {};
+        const soundCards = document.querySelectorAll('.sound-card');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const errorMessage = document.getElementById('errorMessage');
+        let masterVolume = 0.5;
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        volumeSlider.addEventListener('input', (e) => {
+            masterVolume = e.target.value / 100;
+            Object.values(activeSounds).forEach((audio) => {
+                if (audio) {
+                    audio.volume = masterVolume;
+                }
+            });
+        });
+
+        soundCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const audioPath = card.getAttribute('data-audio');
+
+                if (activeSounds[audioPath]) {
+                    // Stop the sound
+                    activeSounds[audioPath].pause();
+                    activeSounds[audioPath].currentTime = 0;
+                    delete activeSounds[audioPath];
+                    card.classList.remove('active');
+                } else {
+                    // Start the sound
+                    try {
+                        const audio = new Audio(audioPath);
+                        audio.loop = true;
+                        audio.volume = masterVolume;
+                        
+                        audio.addEventListener('error', () => {
+                            showError(`Could not load audio file: ${audioPath}`);
+                            card.classList.remove('active');
+                            delete activeSounds[audioPath];
+                        });
+
+                        audio.play().then(() => {
+                            activeSounds[audioPath] = audio;
+                            card.classList.add('active');
+                        }).catch((error) => {
+                            showError(`Error playing audio: ${error.message}`);
+                            card.classList.remove('active');
+                        });
+                    } catch (error) {
+                        showError(`Error: ${error.message}`);
+                        card.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
