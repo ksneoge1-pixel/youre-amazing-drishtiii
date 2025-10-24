@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Progress Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Georgia", serif;
+            background: linear-gradient(
+                to bottom,
+                #1a4d6d 0%,
+                #0d2f47 30%,
+                #061a2b 60%,
+                #020a15 100%
+            );
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 12px 25px;
+            color: #ffffff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(-5px);
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #b8e6ff;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(100, 200, 255, 0.3);
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .overall-progress {
+            margin-bottom: 40px;
+        }
+
+        .overall-progress h2 {
+            color: #ffffff;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50px;
+            height: 40px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #0fbcf9, #05c46b, #ffa502);
+            border-radius: 50px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .motivation-message {
+            text-align: center;
+            color: #b8e6ff;
+            font-size: 1.3em;
+            margin-top: 20px;
+            font-style: italic;
+            min-height: 30px;
+            transition: all 0.5s ease;
+        }
+
+        .subjects-section h2 {
+            color: #ffffff;
+            font-size: 1.5em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .subject-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .subject-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .subject-name {
+            color: #ffffff;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .subject-percentage {
+            color: #0fbcf9;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .subject-progress-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            height: 25px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 15px;
+        }
+
+        .subject-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0fbcf9, #4bcffa);
+            border-radius: 20px;
+            transition: width 0.6s ease;
+        }
+
+        .sessions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+            gap: 8px;
+        }
+
+        .session-checkbox {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .session-checkbox:hover {
+            transform: scale(1.1);
+            border-color: rgba(100, 200, 255, 0.6);
+        }
+
+        .session-checkbox.completed {
+            background: linear-gradient(135deg, #05c46b, #0fbcf9);
+            border-color: #05c46b;
+        }
+
+        .session-checkbox.completed::after {
+            content: '✓';
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .options-menu-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .options-menu-btn:hover {
+            color: #ffffff;
+        }
+
+        .options-overlay {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 15px;
+            background: rgba(10, 30, 50, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            overflow: hidden;
+            width: 120px;
+        }
+
+        .options-overlay.show {
+            display: block;
+        }
+
+        .option-item {
+            padding: 12px 15px;
+            color: #b8e6ff;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .option-item.danger:hover {
+            background: rgba(255, 70, 70, 0.2);
+            color: #ff8a8a;
+        }
+
+        .add-subject-btn {
+            background: rgba(45, 85, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 100, 200, 0.4);
+            border-radius: 50px;
+            padding: 15px 35px;
+            color: #ffffff;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .add-subject-btn:hover {
+            background: rgba(255, 100, 200, 0.3);
+            transform: scale(1.02);
+            box-shadow: 0 8px 35px rgba(255, 100, 200, 0.5);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(10, 30, 50, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content h2 {
+            color: #ffffff;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #b8e6ff;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0fbcf9;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, #0fbcf9, #05c46b);
+            color: white;
+            border-color: #0fbcf9;
+        }
+
+        .modal-btn.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(15, 188, 249, 0.5);
+        }
+
+        .modal-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .modal-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 5em;
+            z-index: 9999;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .celebration.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .progress-container {
+                padding: 25px;
+            }
+
+            .subject-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .options-menu-btn {
+                top: 5px;
+                right: 5px;
+            }
+
+            .options-overlay {
+                top: 40px;
+                right: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <a href="index.html" class="back-button">
+            ← Back to Home
+        </a>
+
+        <h1>Study Progress Tracker</h1>
+        <p class="subtitle">You're doing amazingggg! Keep goinggg hehe! 💫</p>
+        <div class="progress-container">
+            <div class="overall-progress">
+                <h2>Overall Progress</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="overallProgressBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <div class="motivation-message" id="motivationMessage"></div>
+            </div>
+
+            <div class="subjects-section">
+                <h2>Your Subjects</h2>
+                <div id="subjectsList"></div>
+                <button class="add-subject-btn" onclick="openAddSubjectModal()">
+                    + Add New Subject
+                </button>
+            </div>
+        </div>
+    </div>
+    <p class="subtitle">I just wanted to motivate you, even when we're not talking : )
+        <br><br>(uhmm I'm not sure which subjects you have,
+             so i just googled it and mentioned those that showed up...😬 <br/> so you can edit, add or delete the subjectss)
+
+
+    </p>
+    
+
+
+    <div class="modal" id="addSubjectModal">
+        <div class="modal-content">
+            <h2>Add New Subject</h2>
+            <div class="form-group">
+                <label for="subjectName">Subject Name</label>
+                <input type="text" id="subjectName" placeholder="e.g., Mathematics">
+            </div>
+            <div class="form-group">
+                <label for="sessionCount">Number of topics</label>
+                <input type="number" id="sessionCount" min="1" max="50" value="10" placeholder="e.g., 10">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn secondary" onclick="closeAddSubjectModal()">Cancel</button>
+                <button class="modal-btn primary" onclick="addSubject()">Add Subject</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="editSubjectModal">
+        <div class="modal-content">
+            <h2>Edit Subject</h2>
+            <input type="hidden" id="editSubjectId">
+            <div class="form-group">
+                <label for="editSubjectName">Subject Name</label>
+                <input type="text" id="editSubjectName" placeholder="e.g., Mathematics">
+            </div>
+            <div class="form-group">
+                <label for="editSessionCount">Number of topics</label>
+                <input type="number" id="editSessionCount" min="1" max="50" placeholder="e.g., 10">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn secondary" onclick="closeEditSubjectModal()">Cancel</button>
+                <button class="modal-btn primary" onclick="updateSubject()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+</p>
+
+    <script>
+        // Create stars background
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Motivation messages based on progress
+        const motivationMessages = {
+            0: "Let's start this journey together! 🌟",
+            10: "Great start! Every step counts! 🎯",
+            25: "You're making real progress! Keep it up! 💪",
+            50: "Halfway there! You're doing amazing! 🌈",
+            75: "Almost there! You're so close! ⭐",
+            90: "Final push! You've got this! 🔥",
+            100: "🎉 INCREDIBLE! You completed everything! SO PROUD OF YOU! 🎊"
+        };
+
+        // Storage functions
+        function loadData() {
+            const data = localStorage.getItem('studyProgress');
+            return data ? JSON.parse(data) : { subjects: [] };
+        }
+
+        function saveData(data) {
+            localStorage.setItem('studyProgress', JSON.stringify(data));
+        }
+
+        // Calculate overall progress
+        function calculateOverallProgress() {
+            const data = loadData();
+            if (data.subjects.length === 0) return 0;
+
+            let totalSessions = 0;
+            let completedSessions = 0;
+
+            data.subjects.forEach(subject => {
+                totalSessions += subject.sessions.length;
+                completedSessions += subject.sessions.filter(s => s).length;
+            });
+
+            return totalSessions > 0 ? Math.round((completedSessions / totalSessions) * 100) : 0;
+        }
+
+        // Update overall progress bar
+        function updateOverallProgress() {
+            const progress = calculateOverallProgress();
+            const progressBar = document.getElementById('overallProgressBar');
+            const progressText = document.getElementById('progressText');
+            const motivationMessage = document.getElementById('motivationMessage');
+
+            progressBar.style.width = progress + '%';
+            progressText.textContent = progress + '%';
+
+            // Find appropriate motivation message
+            let message = motivationMessages[0];
+            Object.keys(motivationMessages).forEach(threshold => {
+                if (progress >= parseInt(threshold)) {
+                    message = motivationMessages[threshold];
+                }
+            });
+
+            motivationMessage.textContent = message;
+
+            if (progress === 100) {
+                triggerMajorCelebration();
+            }
+        }
+
+        // Render subjects
+        function renderSubjects() {
+            const data = loadData();
+            const subjectsList = document.getElementById('subjectsList');
+            subjectsList.innerHTML = '';
+
+            data.subjects.forEach((subject, subjectIndex) => {
+                const completedCount = subject.sessions.filter(s => s).length;
+                const totalSessions = subject.sessions.length;
+                const percentage = totalSessions > 0 ? Math.round((completedCount / totalSessions) * 100) : 0;
+
+                const subjectDiv = document.createElement('div');
+                subjectDiv.className = 'subject-item';
+                subjectDiv.innerHTML = `
+                    <button class="options-menu-btn" onclick="toggleOptionsMenu(event, ${subjectIndex})">&#9998;</button>
+                    <div class="options-overlay" id="options-overlay-${subjectIndex}">
+                        <div class="option-item" onclick="editSubject(${subjectIndex})">Edit</div>
+                        <div class="option-item danger" onclick="deleteSubject(${subjectIndex})">Delete</div>
+                    </div>
+                    <div class="subject-header">
+                        <div class="subject-name">${subject.name}</div>
+                        <div class="subject-percentage">${percentage}%</div>
+                    </div>
+                    <div class="subject-progress-bar">
+                        <div class="subject-progress-fill" style="width: ${percentage}%"></div>
+                    </div>
+                    <div class="sessions-container" id="sessions-${subjectIndex}"></div>
+                `;
+                subjectsList.appendChild(subjectDiv);
+
+                const sessionsContainer = document.getElementById(`sessions-${subjectIndex}`);
+                subject.sessions.forEach((completed, sessionIndex) => {
+                    const checkbox = document.createElement('div');
+                    checkbox.className = 'session-checkbox' + (completed ? ' completed' : '');
+                    checkbox.onclick = () => toggleSession(subjectIndex, sessionIndex);
+                    sessionsContainer.appendChild(checkbox);
+                });
+            });
+
+            updateOverallProgress();
+        }
+
+        // Toggle session completion
+        function toggleSession(subjectIndex, sessionIndex) {
+            const data = loadData();
+            const wasCompleted = data.subjects[subjectIndex].sessions[sessionIndex];
+            data.subjects[subjectIndex].sessions[sessionIndex] = !wasCompleted;
+            saveData(data);
+            renderSubjects();
+
+            if (!wasCompleted) {
+                triggerCelebration();
+            }
+        }
+
+        // Add Modal functions
+        function openAddSubjectModal() {
+            document.getElementById('addSubjectModal').classList.add('active');
+            document.getElementById('subjectName').focus();
+        }
+
+        function closeAddSubjectModal() {
+            document.getElementById('addSubjectModal').classList.remove('active');
+            document.getElementById('subjectName').value = '';
+            document.getElementById('sessionCount').value = '10';
+        }
+
+        function addSubject() {
+            const name = document.getElementById('subjectName').value.trim();
+            const count = parseInt(document.getElementById('sessionCount').value);
+
+            if (!name) {
+                alert('Please enter a subject name!');
+                return;
+            }
+
+            if (isNaN(count) || count < 1 || count > 50) {
+                alert('Please enter a number between 1 and 50!');
+                return;
+            }
+
+            const data = loadData();
+            data.subjects.push({
+                name: name,
+                sessions: new Array(count).fill(false)
+            });
+            saveData(data);
+            renderSubjects();
+            closeAddSubjectModal();
+            triggerCelebration();
+        }
+
+        // Options Menu functions
+        window.addEventListener('click', function(e) {
+            document.querySelectorAll('.options-overlay.show').forEach(function(menu) {
+                if (!menu.previousElementSibling.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.remove('show');
+                }
+            });
+        });
+
+        function toggleOptionsMenu(event, subjectIndex) {
+            event.stopPropagation();
+            const currentMenu = document.getElementById(`options-overlay-${subjectIndex}`);
+            const isShown = currentMenu.classList.contains('show');
+
+            document.querySelectorAll('.options-overlay').forEach(menu => {
+                menu.classList.remove('show');
+            });
+
+            if (!isShown) {
+                currentMenu.classList.add('show');
+            }
+        }
+
+        function deleteSubject(subjectIndex) {
+            if (confirm(`Are you sure you want to delete this subject? This action cannot be undone.`)) {
+                const data = loadData();
+                data.subjects.splice(subjectIndex, 1);
+                saveData(data);
+                renderSubjects();
+            }
+        }
+        
+        // --- EDIT SUBJECT FUNCTIONS (UPDATED & NEW) ---
+
+        function editSubject(subjectIndex) {
+            // Close the options menu first
+            const menu = document.getElementById(`options-overlay-${subjectIndex}`);
+            if (menu) menu.classList.remove('show');
+
+            const data = loadData();
+            const subject = data.subjects[subjectIndex];
+            
+            // Populate the edit modal
+            document.getElementById('editSubjectId').value = subjectIndex;
+            document.getElementById('editSubjectName').value = subject.name;
+            document.getElementById('editSessionCount').value = subject.sessions.length;
+
+            // Open the edit modal
+            document.getElementById('editSubjectModal').classList.add('active');
+            document.getElementById('editSubjectName').focus();
+        }
+
+        function closeEditSubjectModal() {
+            document.getElementById('editSubjectModal').classList.remove('active');
+        }
+
+        function updateSubject() {
+            const subjectIndex = parseInt(document.getElementById('editSubjectId').value);
+            const newName = document.getElementById('editSubjectName').value.trim();
+            const newCount = parseInt(document.getElementById('editSessionCount').value);
+
+            // Validation
+            if (!newName) {
+                alert('Please enter a subject name!');
+                return;
+            }
+            if (isNaN(newCount) || newCount < 1 || newCount > 50) {
+                alert('Please enter a number of sessions between 1 and 50!');
+                return;
+            }
+
+            const data = loadData();
+            const subject = data.subjects[subjectIndex];
+            const oldSessionCount = subject.sessions.length;
+
+            // Update name
+            subject.name = newName;
+
+            // Adjust sessions array if count changed
+            if (newCount !== oldSessionCount) {
+                if (newCount < oldSessionCount) {
+                    // Truncate the array
+                    subject.sessions = subject.sessions.slice(0, newCount);
+                } else {
+                    // Extend the array, filling new slots with 'false'
+                    const additionalSessions = new Array(newCount - oldSessionCount).fill(false);
+                    subject.sessions = subject.sessions.concat(additionalSessions);
+                }
+            }
+
+            saveData(data);
+            renderSubjects();
+            closeEditSubjectModal();
+        }
+        
+        // --- END OF EDIT FUNCTIONS ---
+
+
+        // Celebration animations
+        function triggerCelebration() {
+            const celebration = document.getElementById('celebration');
+            const emojis = ['🎉', '⭐', '✨', '💫', '🌟', '🎊'];
+            celebration.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            celebration.classList.add('active');
+
+            setTimeout(() => {
+                celebration.classList.remove('active');
+            }, 1000);
+
+            createConfetti(20);
+        }
+
+        function triggerMajorCelebration() {
+            createConfetti(100);
+            const celebration = document.getElementById('celebration');
+            celebration.textContent = '🎊';
+            celebration.classList.add('active');
+
+            setTimeout(() => {
+                celebration.classList.remove('active');
+            }, 2000);
+        }
+
+        function createConfetti(count) {
+            const colors = ['#ff6b9d', '#ffa502', '#05c46b', '#0fbcf9', '#a55eea', '#ffd32a'];
+            
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    document.body.appendChild(confetti);
+
+                    const angle = Math.random() * Math.PI / 2 + Math.PI / 4;
+                    const velocity = Math.random() * 8 + 5;
+                    let posX = parseFloat(confetti.style.left);
+                    let posY = -10;
+                    let velocityX = Math.cos(angle) * velocity * (Math.random() > 0.5 ? 1 : -1);
+                    let velocityY = Math.sin(angle) * velocity;
+                    let rotation = 0;
+                    let rotationSpeed = (Math.random() - 0.5) * 20;
+
+                    function animate() {
+                        velocityY += 0.5;
+                        posX += velocityX;
+                        posY += velocityY;
+                        rotation += rotationSpeed;
+
+                        confetti.style.left = posX + '%';
+                        confetti.style.top = posY + 'px';
+                        confetti.style.transform = `rotate(${rotation}deg)`;
+
+                        if (posY < window.innerHeight) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            confetti.remove();
+                        }
+                    }
+
+                    animate();
+                }, i * 30);
+            }
+        }
+
+        // Initialize
+        renderSubjects();
+
+        // Add some default subjects if none exist
+        const data = loadData();
+        if (data.subjects.length === 0) {
+            data.subjects = [
+                { name: "English", sessions: new Array(10).fill(false) },
+                { name: "Legal Reasoning", sessions: new Array(10).fill(false) },
+                { name: "Logical Reasoning", sessions: new Array(10).fill(false) },
+                { name: "Quantitative Techniques", sessions: new Array(10).fill(false) }
+            ];
+            saveData(data);
+            renderSubjects();
+        }
+    </script>
+</body>
+</html>
