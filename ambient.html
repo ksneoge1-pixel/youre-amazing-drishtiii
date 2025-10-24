@@ -84,25 +84,10 @@
             border-radius: 20px;
             padding: 30px;
             text-align: center;
-            cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-        }
-
-        .sound-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: all 0.5s ease;
-        }
-
-        .sound-card:hover::before {
-            transform: rotate(45deg);
+            cursor: pointer;
         }
 
         .sound-card:hover {
@@ -115,11 +100,6 @@
             background: rgba(100, 200, 255, 0.2);
             border-color: rgba(100, 200, 255, 0.5);
             box-shadow: 0 0 30px rgba(100, 200, 255, 0.4);
-        }
-
-        .sound-card.loading {
-            opacity: 0.6;
-            cursor: wait;
         }
 
         .sound-icon {
@@ -139,6 +119,51 @@
             font-size: 0.95em;
             color: #b8e6ff;
             opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .card-volume-control {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sound-card.active .card-volume-control {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        .card-volume-label {
+            color: #b8e6ff;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .card-volume-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .card-volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0fbcf9, #05c46b);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(15, 188, 249, 0.6);
+            transition: all 0.2s ease;
         }
 
         .volume-control {
@@ -178,16 +203,6 @@
             box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
         }
 
-        .volume-slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
-        }
-
         .note {
             text-align: center;
             color: #b8e6ff;
@@ -215,10 +230,6 @@
                 font-size: 2.2em;
             }
 
-            .subtitle {
-                font-size: 1.1em;
-            }
-
             .sounds-grid {
                 grid-template-columns: 1fr;
             }
@@ -241,49 +252,72 @@
                 <div class="sound-icon">🌧️</div>
                 <div class="sound-name">Rain</div>
                 <div class="sound-description">Gentle rainfall with a little thunder hehe</div>
+                <div class="card-volume-control">
+                    <div class="card-volume-label">Volume</div>
+                    <input type="range" min="0" max="100" value="50" class="card-volume-slider">
+                </div>
             </div>
 
             <div class="sound-card" data-audio="ambiance/ocean.mp3">
                 <div class="sound-icon">🌊</div>
                 <div class="sound-name">Ocean Waves</div>
                 <div class="sound-description">Calming waves by the shore</div>
+                <div class="card-volume-control">
+                    <div class="card-volume-label">Volume</div>
+                    <input type="range" min="0" max="100" value="50" class="card-volume-slider">
+                </div>
             </div>
 
             <div class="sound-card" data-audio="ambiance/forest.mp3">
                 <div class="sound-icon">🌲</div>
                 <div class="sound-name">Forest</div>
                 <div class="sound-description">Birds chirping in nature</div>
+                <div class="card-volume-control">
+                    <div class="card-volume-label">Volume</div>
+                    <input type="range" min="0" max="100" value="50" class="card-volume-slider">
+                </div>
             </div>  
 
             <div class="sound-card" data-audio="ambiance/fireplace.mp3">
                 <div class="sound-icon">🔥</div>
                 <div class="sound-name">Fireplace</div>
                 <div class="sound-description">Crackling fire warmth</div>
+                <div class="card-volume-control">
+                    <div class="card-volume-label">Volume</div>
+                    <input type="range" min="0" max="100" value="50" class="card-volume-slider">
+                </div>
             </div>
 
             <div class="sound-card" data-audio="ambiance/wind.mp3">
                 <div class="sound-icon">💨</div>
                 <div class="sound-name">Wind Chimes</div>
-                <div class="sound-description">Gentle breeze with rustling rustling leaves</div>
+                <div class="sound-description">Gentle breeze with rustling leaves</div>
+                <div class="card-volume-control">
+                    <div class="card-volume-label">Volume</div>
+                    <input type="range" min="0" max="100" value="50" class="card-volume-slider">
+                </div>
             </div>
 
             <div class="sound-card" data-audio="ambiance/night.mp3">
                 <div class="sound-icon">🌙</div>
                 <div class="sound-name">Night Sounds</div>
-                <div class="sound-description">Peaceful night sounds, perfect for stargazing...sigh</div>
+                <div class="sound-description">Peaceful night sounds, perfect for stargazing... sigh</div>
+                <div class="card-volume-control">
+                    <div class="card-volume-label">Volume</div>
+                    <input type="range" min="0" max="100" value="50" class="card-volume-slider">
+                </div>
             </div>
         </div>
 
         <div class="volume-control">
-            <div class="volume-label">Volume Control</div>
+            <div class="volume-label">Master Volume Control</div>
             <input type="range" min="0" max="100" value="50" class="volume-slider" id="volumeSlider">
         </div>
 
         <div class="error-message" id="errorMessage"></div>
     </div>
-        <div class="note">
-            you're perfect
-        </div>
+
+    <div class="note">you're perfect</div>
 
     <script>
         const activeSounds = {};
@@ -295,37 +329,38 @@
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 5000);
+            setTimeout(() => errorMessage.style.display = 'none', 5000);
         }
 
+        // Master volume control
         volumeSlider.addEventListener('input', (e) => {
             masterVolume = e.target.value / 100;
-            Object.values(activeSounds).forEach((audio) => {
-                if (audio) {
-                    audio.volume = masterVolume;
-                }
+            Object.keys(activeSounds).forEach((audioPath) => {
+                const { audio, volume } = activeSounds[audioPath];
+                if (audio) audio.volume = masterVolume * volume;
             });
         });
 
         soundCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const audioPath = card.getAttribute('data-audio');
+            const cardVolumeSlider = card.querySelector('.card-volume-slider');
+            const audioPath = card.getAttribute('data-audio');
+            let audio = null;
+
+            card.addEventListener('click', (e) => {
+                if (e.target.classList.contains('card-volume-slider')) return;
 
                 if (activeSounds[audioPath]) {
-                    // Stop the sound
-                    activeSounds[audioPath].pause();
-                    activeSounds[audioPath].currentTime = 0;
+                    activeSounds[audioPath].audio.pause();
+                    activeSounds[audioPath].audio.currentTime = 0;
                     delete activeSounds[audioPath];
                     card.classList.remove('active');
                 } else {
-                    // Start the sound
                     try {
-                        const audio = new Audio(audioPath);
+                        audio = new Audio(audioPath);
                         audio.loop = true;
-                        audio.volume = masterVolume;
-                        
+                        const cardVolume = cardVolumeSlider.value / 100;
+                        audio.volume = masterVolume * cardVolume;
+
                         audio.addEventListener('error', () => {
                             showError(`Could not load audio file: ${audioPath}`);
                             card.classList.remove('active');
@@ -333,7 +368,7 @@
                         });
 
                         audio.play().then(() => {
-                            activeSounds[audioPath] = audio;
+                            activeSounds[audioPath] = { audio, volume: cardVolume };
                             card.classList.add('active');
                         }).catch((error) => {
                             showError(`Error playing audio: ${error.message}`);
@@ -343,6 +378,14 @@
                         showError(`Error: ${error.message}`);
                         card.classList.remove('active');
                     }
+                }
+            });
+
+            cardVolumeSlider.addEventListener('input', (e) => {
+                const cardVolume = e.target.value / 100;
+                if (activeSounds[audioPath]) {
+                    activeSounds[audioPath].volume = cardVolume;
+                    activeSounds[audioPath].audio.volume = masterVolume * cardVolume;
                 }
             });
         });
