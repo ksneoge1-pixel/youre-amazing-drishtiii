@@ -10,7 +10,61 @@
         padding: 0;
         box-sizing: border-box;
       }
+      .countdown-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(25px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 30px;
+        padding: 30px 50px;
+        text-align: center;
+        box-shadow: 0 15px 50px rgba(100, 200, 255, 0.4);
+        max-width: 600px;
+        width: 90%;
+        transition: all 0.5s ease;
+      }
 
+      .countdown-message {
+        color: #ffffff;
+        font-size: 1.3em;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        text-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+      }
+
+      .countdown-timer {
+        font-size: 4em;
+        font-weight: bold;
+        color: #ffd700;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        margin: 15px 0;
+        font-family: "Georgia", serif;
+      }
+
+      .countdown-label {
+        color: #b8e6ff;
+        font-size: 1.2em;
+        margin-top: 10px;
+        opacity: 0.9;
+      }
+
+      .exam-day-message {
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
       body {
         font-family: "Georgia", serif;
         overflow-x: hidden;
@@ -75,7 +129,7 @@
       }
 
       .shooting-star::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -520,7 +574,22 @@
           top: 15px;
           left: 15px;
         }
+        .countdown-container {
+          padding: 25px 35px;
+          max-width: 90%;
+        }
 
+        .countdown-message {
+          font-size: 1.1em;
+        }
+
+        .countdown-timer {
+          font-size: 3em;
+        }
+
+        .countdown-label {
+          font-size: 1em;
+        }
         .nav-toggle {
           width: 50px;
           height: 50px;
@@ -581,6 +650,11 @@
     </style>
   </head>
   <body>
+    <div class="countdown-container" id="countdownContainer">
+      <div class="countdown-message" id="countdownMessage"></div>
+      <div class="countdown-timer" id="countdownTimer"></div>
+      <div class="countdown-label" id="countdownLabel"></div>
+    </div>
     <div class="nav-container">
       <button class="nav-toggle" id="navToggle">☰</button>
       <div class="nav-menu" id="navMenu">
@@ -589,7 +663,6 @@
         <a href="butterflies.html" class="nav-item">🦋 Catch Butterflies</a>
         <a href="quotes.html" class="nav-item">💭 Daily Motivation</a>
         <a href="motivation.html" class="nav-item">📚 Progress Tracker</a>
-
       </div>
     </div>
 
@@ -604,17 +677,18 @@
 
       <div class="message" id="message">
         <p>
-          Edittttttt : ))))))))))<br/><br/>
-          Just so you know, you're missing from me each moment we're not talking...sigh.
-          Be focused. Exams are closing in. And you're doinggg great, keep it up. I love your dedication.
-          I know you're going to do great in your exams. Please stay focused, and be back next weekend.
-          Althought I WILL MISS YOU SO MUCH. I ALREADY AM. So if you're reading this, you're....
-          entirely missing from me. drishti. Also hehe Cry has been addedddd Study well, YOU GOT THIS ❤️<br/><br/>WE GOT THISS!!
-          <br/><br/>24 Oct, 19:39 :))))) Ahemmm.... justtt a litttleee feature added in the peaceful sounds page :)))
-          <br/>20:17 Just a bit moreeee hehe
-          <br/><br/>im still ready to be murdered when you'll be back XDDD hehe :)))
-        
-          <br /><br /> <b>All The Best, drishti : )))</b><br /><br />
+          Edittttttt : ))))))))))<br /><br />
+          Just so you know, you're missing from me each moment we're not
+          talking...sigh. Be focused. Exams are closing in. And you're doinggg
+          great, keep it up. I love your dedication. I know you're going to do
+          great in your exams. Please stay focused, and be back next weekend.
+          Althought I WILL MISS YOU SO MUCH. I ALREADY AM. So if you're reading
+          this, you're.... entirely missing from me. drishti. Also hehe Cry has
+          been addedddd Study well, YOU GOT THIS ❤️<br /><br />WE GOT THISS!!
+          <br /><br />24 Oct, 19:39 :))))) Ahemmm.... justtt a litttleee feature
+          added in the peaceful sounds page :))) <br /><br />im still ready to
+          be murdered when you'll be back XDDD hehe :))) <br /><br />
+          <b>All The Best, drishti : )))</b><br /><br />
           I just want to remind you how <b>amazing</b>, <b>kind</b>,
           <b>sweet</b>, <b>cute</b>, <b>endearing</b>, and <b>comforting</b> you
           are, with your absolutely <b>beautiful</b>, <b>soothing</b> voice and
@@ -707,6 +781,58 @@
     </div>
 
     <script>
+      // Countdown Timer
+      const examDate = new Date("2025-12-07T00:00:00");
+      const countdownContainer = document.getElementById("countdownContainer");
+      const countdownMessage = document.getElementById("countdownMessage");
+      const countdownTimer = document.getElementById("countdownTimer");
+      const countdownLabel = document.getElementById("countdownLabel");
+
+      function updateCountdown() {
+        const now = new Date();
+        const examDayStart = new Date("2025-12-07T00:00:00");
+        const examDayEnd = new Date("2025-12-07T23:59:59");
+
+        if (now >= examDayStart && now <= examDayEnd) {
+          countdownMessage.innerHTML = "🌟 Today is THE DAY! 🌟";
+          countdownTimer.innerHTML = "YOU GOT THIS!";
+          countdownLabel.innerHTML =
+            "Show them what you're made of! ✨<br>All your hard work has led to this moment.<br>Breathe, believe, and shine bright! 💫";
+          countdownLabel.style.fontSize = "1.1em";
+          countdownTimer.classList.add("exam-day-message");
+          return;
+        }
+
+        if (now > examDayEnd) {
+          countdownMessage.innerHTML = "🎉 Exam Done! 🎉";
+          countdownTimer.innerHTML = "AMAZING!";
+          countdownLabel.innerHTML =
+            "Awesome work, drishti. You did greatt!!! 🌟<br>Now please take some time out for yourself,<br>sleep well, eat well, and just enjoy yourself! 💝";
+          countdownLabel.style.fontSize = "1.1em";
+          countdownTimer.classList.add("exam-day-message");
+          return;
+        }
+
+        const timeDiff = examDate - now;
+        const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+        countdownMessage.innerHTML =
+          "✨ Days remaining until you put your<br>superpowers and practice into action ✨";
+        countdownTimer.textContent = daysRemaining;
+        countdownLabel.textContent =
+          daysRemaining === 1 ? "day left" : "days left(reload to see againnn hehe)";
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 60000);
+
+      setTimeout(() => {
+        countdownContainer.style.opacity = "0";
+        countdownContainer.style.transform = "translate(-50%, -50%) scale(0.9)";
+        setTimeout(() => {
+          countdownContainer.style.display = "none";
+        }, 500);
+      }, 3000);
       // Create bubbles
       const bubblesContainer = document.getElementById("bubbles");
       for (let i = 0; i < 15; i++) {
@@ -715,52 +841,52 @@
         bubble.style.left = Math.random() * 100 + "%";
         bubble.style.width = Math.random() * 30 + 20 + "px";
         bubble.style.height = bubble.style.width;
-        bubble.style.animationDuration = Math.random() * 10 + 10 + "s";
-        bubble.style.animationDelay = Math.random() * 5 + "s";
+        bubble.style.animationDuration = Math.random() * 10 + "s";
+        bubble.style.animationDelay = Math.random() * 3 + "s";
         bubblesContainer.appendChild(bubble);
       }
 
       // Create shooting stars
       function createShootingStar() {
-        const star = document.createElement('div');
-        star.className = 'shooting-star';
-        
+        const star = document.createElement("div");
+        star.className = "shooting-star";
+
         const startX = Math.random() * window.innerWidth;
         const startY = Math.random() * window.innerHeight * 0.5;
-        
-        star.style.left = startX + 'px';
-        star.style.top = startY + 'px';
-        
+
+        star.style.left = startX + "px";
+        star.style.top = startY + "px";
+
         document.body.appendChild(star);
-        
+
         const angle = Math.random() * 30 + 30;
         const distance = Math.random() * 300 + 200;
         const duration = Math.random() * 1000 + 1500;
-        
-        const endX = startX + Math.cos(angle * Math.PI / 180) * distance;
-        const endY = startY + Math.sin(angle * Math.PI / 180) * distance;
-        
+
+        const endX = startX + Math.cos((angle * Math.PI) / 180) * distance;
+        const endY = startY + Math.sin((angle * Math.PI) / 180) * distance;
+
         let startTime = null;
-        
+
         function animate(currentTime) {
           if (!startTime) startTime = currentTime;
           const elapsed = currentTime - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          
+
           const currentX = startX + (endX - startX) * progress;
           const currentY = startY + (endY - startY) * progress;
-          
-          star.style.left = currentX + 'px';
-          star.style.top = currentY + 'px';
+
+          star.style.left = currentX + "px";
+          star.style.top = currentY + "px";
           star.style.opacity = 1 - progress;
-          
+
           if (progress < 1) {
             requestAnimationFrame(animate);
           } else {
             star.remove();
           }
         }
-        
+
         requestAnimationFrame(animate);
       }
 
@@ -772,27 +898,27 @@
       }, 3000);
 
       // Navigation menu toggle
-      const navToggle = document.getElementById('navToggle');
-      const navMenu = document.getElementById('navMenu');
+      const navToggle = document.getElementById("navToggle");
+      const navMenu = document.getElementById("navMenu");
       let navOpen = false;
 
-      navToggle.addEventListener('click', (e) => {
+      navToggle.addEventListener("click", (e) => {
         e.stopPropagation();
         navOpen = !navOpen;
         if (navOpen) {
-          navMenu.classList.add('open');
-          navToggle.textContent = '✕';
+          navMenu.classList.add("open");
+          navToggle.textContent = "✕";
         } else {
-          navMenu.classList.remove('open');
-          navToggle.textContent = '☰';
+          navMenu.classList.remove("open");
+          navToggle.textContent = "☰";
         }
       });
 
       // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
+      document.addEventListener("click", (e) => {
         if (navOpen && !navMenu.contains(e.target) && e.target !== navToggle) {
-          navMenu.classList.remove('open');
-          navToggle.textContent = '☰';
+          navMenu.classList.remove("open");
+          navToggle.textContent = "☰";
           navOpen = false;
         }
       });
