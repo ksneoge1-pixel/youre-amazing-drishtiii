@@ -10,6 +10,80 @@
         padding: 0;
         box-sizing: border-box;
       }
+      #personal {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(168, 94, 234, 0.4);
+  border-radius: 20px;
+  padding: 25px 35px;
+  box-shadow: 
+    0 8px 32px rgba(100, 200, 255, 0.3),
+    0 0 40px rgba(168, 94, 234, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: gentle-glow 3s ease-in-out infinite;
+}
+
+#personal::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(168, 94, 234, 0.15),
+    transparent
+  );
+  animation: shimmer-personal 4s infinite;
+}
+
+#personal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 94, 234, 0.6),
+    rgba(100, 200, 255, 0.4),
+    rgba(168, 94, 234, 0.6)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.7;
+}
+
+@keyframes gentle-glow {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(100, 200, 255, 0.3),
+      0 0 40px rgba(168, 94, 234, 0.3),
+      inset 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 8px 40px rgba(100, 200, 255, 0.4),
+      0 0 60px rgba(168, 94, 234, 0.5),
+      inset 0 0 30px rgba(255, 255, 255, 0.15);
+  }
+}
+
+@keyframes shimmer-personal {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+      
       .countdown-container {
         position: fixed;
         top: 50%;
@@ -677,26 +751,38 @@
 
       <div class="message" id="message">
         <p>
-          Your majestyy, : ) this site is yours, and yours aloneee, FOREVER.<br /><br />
-          Just so you know, you're missing from me each moment we're not
-          talking...sigh. Be focused. Exams are closing in. And you're doinggg
-          great, keep it up. I love your dedication. I know you're going to do
-          great in your exams. Please stay focused, and be back next weekend.
-          Althought I WILL MISS YOU SO MUCH. I ALREADY AM. So if you're reading
-          this, you're.... entirely missing from me. drishti. Also hehe Cry has
-          been addedddd Study well, YOU GOT THIS ❤️<br /><br />WE GOT THISS!!
-          <br /><br />27/10/25 07:34 okay, I'm just going to try and edit the code on my phone hoping i won't mess up anything else.<be/><be/>
-i hope your days will be in your favour, i hope it rains so that you can study betterrr, and I hope they are more productive than ever. Until we talk again...
- <br/> yours sincerely, <br/>kaustubh : )
-<br/>17:08 Heyyyy, so I just left college and now waiting for the AC trainnnn. So I just wanted to tell you something, since you'll be back after a couple of days, perhaps. I'll just paste it hereee.<br/>
-Also, a suggestionnn hehe. If you ever need to understand a topic in a better way, you can use Google LLM notebook. 
-There, you can upload a file like pdf and all, can paste a text or anything, really. And you can listen to the host talking about it. You can select upto 2 hosts, that'll have a conversation about it, discussing about the topic in depth. Only this much is possible on the LLM notebook app.
-If want to have an actual conversation you can use the website, Google LLM notebook. There, the host will talk on, and if you have ANY question you can just say hey, and then asl your question
-Hehe i hope that'll help
+          <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.</p><br />
+          27/10/25 07:34 okay, I'm just going to try and edit the code on my
+          phone hoping i won't mess up anything else. i hope your days will be
+          in your favour, i hope it rains so that you can study betterrr, and I
+          hope they are more productive than ever. Until we talk again...
+          <br />
+          yours sincerely, <br />kaustubh : ) <br />17:08 Heyyyy, so I just left
+          college and now waiting for the AC trainnnn. So I just wanted to tell
+          you something, since you'll be back after a couple of days, perhaps.
+          I'll just paste it hereee.<br />
+          Also, a suggestionnn hehe. If you ever need to understand a topic in a
+          better way, you can use Google LLM notebook. There, you can upload a
+          file like pdf and all, can paste a text or anything, really. And you
+          can listen to the host talking about it. You can select upto 2 hosts,
+          that'll have a conversation about it, discussing about the topic in
+          depth. Only this much is possible on the LLM notebook app. If want to
+          have an actual conversation you can use the website, Google LLM
+          notebook. There, the host will talk on, and if you have ANY question
+          you can just say hey, and then ask your question Hehe i hope that'll
+          help.<br />
+          (no changes after thisss, but you can read it if you want to hehe)<br /><br />  
+          
+          <br /><br />
+          You're missing from me each moment we're not talking...sigh.Be
+          focused. Exams are closing in. And you're doinggg great, keep it up. I
+          love your dedication. I know you're going to do great in your exams.
+          Please stay focused. Althought I WILL MISS YOU SO MUCH. I ALREADY AM.
+          So if you're reading this, you're.... entirely missing from me.
+          drishti. Study well, YOU GOT THIS ❤️<br />WE GOT THISS!! <br /><br />
 
-
-<br /><br />im still ready to
-          be murdered when you'll be back XDDD hehe :))) <br /><br />
+          <br /><br />im still ready to be murdered when you'll be back XDDD
+          hehe :))) <br /><br />
           <b>All The Best, drishti : )))</b><br /><br />
           I just want to remind you how <b>amazing</b>, <b>kind</b>,
           <b>sweet</b>, <b>cute</b>, <b>endearing</b>, and <b>comforting</b> you
@@ -843,7 +929,9 @@ Hehe i hope that'll help
           "✨ Days remaining until you put your<br>superpowers and practice into action ✨";
         countdownTimer.textContent = daysRemaining;
         countdownLabel.textContent =
-          daysRemaining === 1 ? "day left" : "days left(reload to see againnn hehe)";
+          daysRemaining === 1
+            ? "day left"
+            : "days left(reload to see againnn hehe)";
       }
 
       updateCountdown();
@@ -1278,4 +1366,3 @@ Hehe i hope that'll help
     </script>
   </body>
 </html>
-            
