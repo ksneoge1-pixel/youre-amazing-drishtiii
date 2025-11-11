@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,6 +11,59 @@
         padding: 0;
         box-sizing: border-box;
       }
+      .theme-link-button {
+        display: inline-block;
+        margin-top: 15px;
+        background: rgba(100, 200, 255, 0.15);
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(100, 200, 255, 0.5);
+        border-radius: 50px;
+        padding: 12px 25px;
+        color: #ffffff;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(100, 200, 255, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      .theme-link-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 30px rgba(100, 200, 255, 0.5);
+        background: rgba(100, 200, 255, 0.25);
+      }
+      .theme-link-button::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+animation: shimmer-link 2s infinite;
+opacity: 0; 
+      }
+      .theme-link-button:hover::after {
+        opacity: 1;
+      }
+      @keyframes shimmer-link {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }}
+      .button-content {
+  position: relative;
+  z-index: 1
+}
       #personal {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(25px);
@@ -751,13 +805,14 @@
 
       <div class="message" id="message">
         <p>
-          <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.<br/>Please click on the link below: 
-          </p><br />
-          https://ksneoge1-pixel.github.io/testing/ Or open it by copying it for now... i will create a button later i wanted to do this asap 
-            because of whats going on in DElhi. Please be safe. please
-        10 Nov drishti i just came to know about the explosion in Delhi. it's really bad... the cause behind this isn't confirmed yet.
-        i dont know how far you live from the incident. but can you please please not go to your classes for some days please. please 
-        be safe drish please...i hope the victim's souls rest in peace... just please be safe. please..ask your dad not to go to work
+          <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.<br/>Please click on the link below: 
+</p><br />
+<a href="https://ksneoge1-pixel.github.io/testing/" class="theme-link-button" target="_blank" rel="noopener noreferrer">
+    <span class="button-content">Please click here, drishti</span>
+</a>
+<br />
+<span style="display: none;">https://ksneoge1-pixel.github.io/testing/ </span>
+        because of whats going on in DElhi. Please be safe. please..ask your dad not to go to work
         for some days too...please take care drishti.<br/>
         please come back tonight please me you're okay. please... please stay home and stay safe. 
         <br/> you also please keep a watch on the news and updates too...
@@ -986,52 +1041,38 @@
       function createShootingStar() {
         const star = document.createElement("div");
         star.className = "shooting-star";
-
-        const startX = Math.random() * window.innerWidth;
-        const startY = Math.random() * window.innerHeight * 0.5;
-
-        star.style.left = startX + "px";
-        star.style.top = startY + "px";
-
+        star.style.left = Math.random() * window.innerWidth + "px";
+        star.style.top = Math.random() * (window.innerHeight / 2) + "px";
         document.body.appendChild(star);
 
         const angle = Math.random() * 30 + 30;
-        const distance = Math.random() * 300 + 200;
-        const duration = Math.random() * 1000 + 1500;
+        const duration = Math.random() * 1000 + 1000;
 
-        const endX = startX + Math.cos((angle * Math.PI) / 180) * distance;
-        const endY = startY + Math.sin((angle * Math.PI) / 180) * distance;
-
-        let startTime = null;
-
-        function animate(currentTime) {
-          if (!startTime) startTime = currentTime;
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-
-          const currentX = startX + (endX - startX) * progress;
-          const currentY = startY + (endY - startY) * progress;
-
-          star.style.left = currentX + "px";
-          star.style.top = currentY + "px";
-          star.style.opacity = 1 - progress;
-
-          if (progress < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            star.remove();
+        star.animate(
+          [
+            { transform: "translate(0, 0) rotate(" + angle + "deg)" },
+            {
+              transform:
+                "translate(" +
+                window.innerWidth +
+                "px, " +
+                window.innerHeight +
+                "px) rotate(" +
+                angle +
+                "deg)",
+            },
+          ],
+          {
+            duration: duration,
+            easing: "linear",
           }
-        }
+        );
 
-        requestAnimationFrame(animate);
+        setTimeout(() => star.remove(), duration);
       }
 
-      // Create shooting stars periodically
-      setInterval(() => {
-        if (Math.random() > 0.7) {
-          createShootingStar();
-        }
-      }, 3000);
+      setInterval(createShootingStar, 3000);
+
 
       // Navigation menu toggle
       const navToggle = document.getElementById("navToggle");
@@ -1388,6 +1429,8 @@
           danceBtn.querySelector("span").textContent = "make em' danceeee hehe";
         }
       });
+
+      
     </script>
   </body>
 </html>
