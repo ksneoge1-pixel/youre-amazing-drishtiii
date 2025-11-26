@@ -775,9 +775,169 @@ opacity: 0;
           font-size: 0.9em;
         }
       }
+      /* Password Modal Styles */
+.password-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.password-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.password-modal-content {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(168, 94, 234, 0.4);
+  border-radius: 20px;
+  padding: 40px 50px;
+  box-shadow: 
+    0 8px 32px rgba(100, 200, 255, 0.3),
+    0 0 40px rgba(168, 94, 234, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  position: relative;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: modalSlideIn 0.4s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.password-modal h3 {
+  color: #ffffff;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  text-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+}
+
+.password-modal p {
+  color: #b8e6ff;
+  font-size: 1.1em;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.password-input {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.1em;
+  border: 2px solid rgba(100, 200, 255, 0.3);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  text-align: center;
+  font-family: "Georgia", serif;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.password-input:focus {
+  border-color: rgba(100, 200, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
+}
+
+.password-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.password-error {
+  color: #ff6b9d;
+  font-size: 0.95em;
+  margin-bottom: 15px;
+  min-height: 20px;
+  text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.password-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.password-btn {
+  flex: 1;
+  padding: 12px 25px;
+  border: 2px solid rgba(100, 200, 255, 0.4);
+  border-radius: 50px;
+  background: rgba(100, 200, 255, 0.15);
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Georgia", serif;
+  box-shadow: 0 4px 20px rgba(100, 200, 255, 0.2);
+}
+
+.password-btn:hover {
+  background: rgba(100, 200, 255, 0.25);
+  box-shadow: 0 6px 30px rgba(100, 200, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.password-btn.cancel {
+  border-color: rgba(255, 107, 157, 0.4);
+  background: rgba(255, 107, 157, 0.15);
+}
+.password-btn.cancel:hover {
+  background: rgba(255, 107, 157, 0.25);
+  box-shadow: 0 6px 30px rgba(255, 107, 157, 0.4);
+}
+
     </style>
   </head>
   <body>
+    <!-- Password Modal -->
+<div class="password-modal" id="passwordModal">
+  <div class="password-modal-content">
+    <h3>🔒 Enter Password</h3>
+    <p>This galaxy is protected ✨</p>
+    <input 
+      type="password" 
+      class="password-input" 
+      id="passwordInput" 
+      placeholder="our fav song"
+      autocomplete="off"
+    />
+    <div class="password-error" id="passwordError"></div>
+    <div class="password-buttons">
+      <button class="password-btn cancel" id="cancelBtn">Cancel</button>
+      <button class="password-btn" id="submitBtn">Enter</button>
+    </div>
+  </div>
+</div>
     <div class="countdown-container" id="countdownContainer">
       <div class="countdown-message" id="countdownMessage"></div>
       <div class="countdown-timer" id="countdownTimer"></div>
@@ -805,11 +965,10 @@ opacity: 0;
 
       <div class="message" id="message">
         <p>
-          <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.<br/> 
-</p><br />
-<a href="https://ksneoge1-pixel.github.io/testing/" class="theme-link-button" target="_blank" rel="noopener noreferrer">
+          <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.</p>
+<button class="theme-link-button" id="galaxyBtn">
     <span class="button-content">our little galaxy</span>
-</a>
+</button>
 <br />
 <span style="display: none;">https://ksneoge1-pixel.github.io/testing/ </span>
         Nov 19th : ) i hope you're doing amazingggghhh, drishti!! I hope your days went stress-free, peacefully and were productive : ) can't wait to hear from you again..<br/>
@@ -1418,8 +1577,68 @@ opacity: 0;
           danceBtn.querySelector("span").textContent = "make em' danceeee hehe";
         }
       });
+      // Password Modal Functionality
+const galaxyBtn = document.getElementById('galaxyBtn');
+const passwordModal = document.getElementById('passwordModal');
+const passwordInput = document.getElementById('passwordInput');
+const passwordError = document.getElementById('passwordError');
+const submitBtn = document.getElementById('submitBtn');
+const cancelBtn = document.getElementById('cancelBtn');
 
-      
+const CORRECT_PASSWORD = 'cry';
+const GALAXY_LINK = 'https://ksneoge1-pixel.github.io/testing/';
+
+galaxyBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  passwordModal.classList.add('active');
+  passwordInput.value = '';
+  passwordError.textContent = '';
+  setTimeout(() => passwordInput.focus(), 100);
+});
+
+function checkPassword() {
+  const enteredPassword = passwordInput.value.trim();
+  
+  if (enteredPassword === CORRECT_PASSWORD) {
+    passwordModal.classList.remove('active');
+    window.open(GALAXY_LINK, '_blank', 'noopener,noreferrer');
+    passwordInput.value = '';
+    passwordError.textContent = '';
+  } else {
+    passwordError.textContent = '❌ Incorrect password. Try again...';
+    passwordInput.value = '';
+    passwordInput.focus();
+    
+    // Add shake animation to input
+    passwordInput.style.animation = 'none';
+    setTimeout(() => {
+      passwordInput.style.animation = 'shake 0.5s ease';
+    }, 10);
+  }
+}
+
+submitBtn.addEventListener('click', checkPassword);
+
+passwordInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    checkPassword();
+  }
+});
+
+cancelBtn.addEventListener('click', () => {
+  passwordModal.classList.remove('active');
+  passwordInput.value = '';
+  passwordError.textContent = '';
+});
+
+// Close modal when clicking outside
+passwordModal.addEventListener('click', (e) => {
+  if (e.target === passwordModal) {
+    passwordModal.classList.remove('active');
+    passwordInput.value = '';
+    passwordError.textContent = '';
+  }
+});
     </script>
   </body>
 </html>
