@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,6 +10,44 @@
         padding: 0;
         box-sizing: border-box;
       }
+      .lyrics-container {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-height: 400px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.lyrics-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lyric-line {
+  color: rgba(184, 230, 255, 0.5);
+  font-size: 1.3em;
+  padding: 12px 0;
+  transition: all 0.4s ease;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.lyric-line.active {
+  color: #ffffff;
+  font-size: 1.5em;
+  text-shadow: 0 0 20px rgba(100, 200, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.lyric-line.past {
+  color: rgba(184, 230, 255, 0.3);
+}
       .theme-link-button {
         display: inline-block;
         margin-top: 15px;
@@ -42,11 +79,11 @@
         width: 200%;
         height: 200%;
         background: linear-gradient(
-          45deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
 animation: shimmer-link 2s infinite;
 opacity: 0; 
       }
@@ -60,7 +97,7 @@ opacity: 0;
         100% {
           transform: translateX(100%) translateY(100%) rotate(45deg);
         }}
-      .button-content {
+      .button-content {
   position: relative;
   z-index: 1
 }
@@ -913,10 +950,9 @@ opacity: 0;
 }
 .password-btn.cancel:hover {
   background: rgba(255, 107, 157, 0.25);
-  box-shadow: 0 6px 30px rgba(255, 107, 157, 0.4);
+  box-shadow: 0 6px 30px rgba(255,107, 157, 0.4);
 }
-
-    </style>
+</style>
   </head>
   <body>
     <!-- Password Modal -->
@@ -953,19 +989,18 @@ opacity: 0;
         <a href="motivation.html" class="nav-item">📚 Progress Tracker</a>
       </div>
     </div>
+<button class="surprise-button" id="surpriseBtn">
+  <span class="button-text">✨ Click here for a surprise</span>
+</button>
 
-    <button class="surprise-button" id="surpriseBtn">
-      <span class="button-text">✨ Click here for a surprise</span>
-    </button>
+<div class="bubbles" id="bubbles"></div>
 
-    <div class="bubbles" id="bubbles"></div>
+<div class="container">
+  <h1 id="title">Heyyy There, My Shooting Star!</h1>
 
-    <div class="container">
-      <h1 id="title">Heyyy There, My Shooting Star!</h1>
-
-      <div class="message" id="message">
-        <p>
-          <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.</p>
+  <div class="message" id="message">
+    <p>
+      <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.</p>
 <button class="theme-link-button" id="galaxyBtn">
     <span class="button-content">our little galaxy</span>
 </button>
@@ -978,600 +1013,681 @@ opacity: 0;
         4th Nov, 20:49 Study wellll, drishtiiii. Take careeee, take some breaks as well, occassionally in your study hours. 
         Do some stretching to avoid getting a sore backk, walk for some time. Stay focuseddd like Alwaaayyss hehehe : )
         <br />
-
-        <br/>
-        02/11/25 15:07 Just in case, if youuu... "stumble X)" upon this site, i uhh... just wanted you to know,
-           that you're missing from me... Study welll, drishtiii, you're doing awesomeeeeeee hehehe : ))
-             <br/>
-             <br/>
-        
-        1st Oct heeyy i hope your day was awesomeee, drishti. and productive as always hehe. just wanted to share something. I've been listening to some focus frequencies. and they kinda helppp. you can give it a try. https://open.spotify.com/playlist/2F6LyTRo99Hy7ayFFLso9t?si=-lqW3l8cT5OEv0gDhgGlVQ <br/> you're missing from meeeeeee for your kindestttt and sweetest informationnnn : )) good nighttt in advance, shooting starrr. get some restttt. 
-
+    <br/>
+    02/11/25 15:07 Just in case, if youuu... "stumble X)" upon this site, i uhh... just wanted you to know,
+       that you're missing from me... Study welll, drishtiii, you're doing awesomeeeeeee hehehe : ))
+         <br/>
+         <br/>
+    
+    1st Oct heeyy i hope your day was awesomeee, drishti. and productive as always hehe. just wanted to share something. I've been listening to some focus frequencies. and they kinda helppp. you can give it a try. https://open.spotify.com/playlist/2F6LyTRo99Hy7ayFFLso9t?si=-lqW3l8cT5OEv0gDhgGlVQ <br/> you're missing from meeeeeee for your kindestttt and sweetest informationnnn : )) good nighttt in advance, shooting starrr. get some restttt.
 <br/><br/>
-                  
-          31/10/25 22:04 I hope your day was and is going amazingggg, and hopefully was productive and fruitfulllll 
-          hehe. you're missing from me... a lot, drish. a long, deep sighhh..... I cant wait to talk to you again : (
-        
-          30/10/25 gosh i miss u already i dont know whyyyyy ?!! aahhh. :( Gooood nighttt drishti!! 
-          I hope you'll sleeep early tonight as wellll hehe. Good morninggg in advanceee.
-        I hope your day goesss musically (i dont know what im sayinggysfbybh), productive, fruitful and beautiful :))
-          Anddd hhehehe i printed itt. And omg it looks so lovely istg I Am In Love...  
-          <br/>Alsoooo, if you ever feel sad... or just not good, you are always welcome here. Feel like home :)
-        Just the way you make me feel whenever we talk...        
-        <br/><br/>
-          (no changes after thisss, but you can read it if you want to hehe)<br /><br />  
-          
-          <br /><br />
-          You're missing from me each moment we're not talking...sigh.Be
-          focused. Exams are closing in. And you're doinggg great, keep it up. I
-          love your dedication. I know you're going to do great in your exams.
-          Please stay focused. Althought I WILL MISS YOU SO MUCH. I ALREADY AM.
-          So if you're reading this, you're.... entirely missing from me.
-          drishti. Study well, YOU GOT THIS ❤️<br />WE GOT THISS!! <br /><br />
+31/10/25 22:04 I hope your day was and is going amazingggg, and hopefully was productive and fruitfulllll 
+      hehe. you're missing from me... a lot, drish. a long, deep sighhh..... I cant wait to talk to you again : (
+    
+      30/10/25 gosh i miss u already i dont know whyyyyy ?!! aahhh. :( Gooood nighttt drishti!! 
+      I hope you'll sleeep early tonight as wellll hehe. Good morninggg in advanceee.
+    I hope your day goesss musically (i dont know what im sayinggysfbybh), productive, fruitful and beautiful :))
+      Anddd hhehehe i printed itt. And omg it looks so lovely istg I Am In Love...  
+      <br/>Alsoooo, if you ever feel sad... or just not good, you are always welcome here. Feel like home :)
+    Just the way you make me feel whenever we talk...        
+    <br/><br/>
+      (no changes after thisss, but you can read it if you want to hehe)<br /><br />  
+      
+      <br /><br />
+      You're missing from me each moment we're not talking...sigh.Be
+      focused. Exams are closing in. And you're doinggg great, keep it up. I
+      love your dedication. I know you're going to do great in your exams.
+      Please stay focused. Althought I WILL MISS YOU SO MUCH. I ALREADY AM.
+      So if you're reading this, you're.... entirely missing from me.
+      drishti. Study well, YOU GOT THIS ❤️<br />WE GOT THISS!! <br /><br />
 
-          <br /><br />im still ready to be murdered when you'll be back XDDD
-          hehe :))) <br /><br />
-          <b>All The Best, drishti : )))</b><br /><br />
-          I just want to remind you how <b>amazing</b>, <b>kind</b>,
-          <b>sweet</b>, <b>cute</b>, <b>endearing</b>, and <b>comforting</b> you
-          are, with your absolutely <b>beautiful</b>, <b>soothing</b> voice and
-          your incredibly <b>beautiful</b>caring nature, which always makes me
-          feel like <b>home</b>. <br /><br />
-          You'll be really successful someday, with all the hardwork and
-          dedication you put into everything you do. I'm so proud(or happy for
-          you, in your words :D), impressed and inspired by everything you've
-          done, including the masterpieces, painting, poems, proses,
-          yourself,and I can't wait to see all the great things you'll achieve
-          in the future. <br /><br />
+      <br /><br />im still ready to be murdered when you'll be back XDDD
+      hehe :))) <br /><br />
+      <b>All The Best, drishti : )))</b><br /><br />
+      I just want to remind you how <b>amazing</b>, <b>kind</b>,
+      <b>sweet</b>, <b>cute</b>, <b>endearing</b>, and <b>comforting</b> you
+      are, with your absolutely <b>beautiful</b>, <b>soothing</b> voice and
+      your incredibly <b>beautiful</b>caring nature, which always makes me
+      feel like <b>home</b>. <br /><br />
+      You'll be really successful someday, with all the hardwork and
+      dedication you put into everything you do. I'm so proud(or happy for
+      you, in your words :D), impressed and inspired by everything you've
+      done, including the masterpieces, painting, poems, proses,
+      yourself,and I can't wait to see all the great things you'll achieve
+      in the future. <br /><br />
 
-          Just keep being yourself, the wonderful person you are, and never
-          forget, how much you are valued. <br /><br />
-          I abso-f*ing-lutely loved the way you were listening to me, so
-          attentively, with so much interest and care, when I was telling you
-          about the NSG operation exhibition. <br /><br />
+      Just keep being yourself, the wonderful person you are, and never
+      forget, how much you are valued. <br /><br />
+      I abso-f*ing-lutely loved the way you were listening to me, so
+      attentively, with so much interest and care, when I was telling you
+      about the NSG operation exhibition. <br /><br />
 
-          I'm really grateful to have crossed paths with you, and I cherish
-          every laugh, every joke, every little, deep and fun conversation we've
-          had, memeories we've shared and every upcoming ones.. <br /><br />
+      I'm really grateful to have crossed paths with you, and I cherish
+      every laugh, every joke, every little, deep and fun conversation we've
+      had, memeories we've shared and every upcoming ones.. <br /><br />
 
-          and how could i forgettt, may this Diwali light up your inner self,
-          bring you endless joy,<b>beeeeauuutiful</b> smilesss,
-          <b>prosperityyyy</b>, and <b>successssss</b>.
-          <b>Happy Diwaliii drishti ;)</b> <br />Like those animations??
-          :)))))))) <br />try clicking on the words and seeeee heheheheh
+      and how could i forgettt, may this Diwali light up your inner self,
+      bring you endless joy,<b>beeeeauuutiful</b> smilesss,
+      <b>prosperityyyy</b>, and <b>successssss</b>.
+      <b>Happy Diwaliii drishti ;)</b> <br />Like those animations??
+      :)))))))) <br />try clicking on the words and seeeee heheheheh
 
-          <br />You're an angel, drishti. Never forget that : )
-        </p>
+      <br />You're an angel, drishti. Never forget that : )
+    </p>
+  </div>
+
+  <div class="playlist" id="playlist">
+    <h2>Your (& my) Fav Songss (remind me of you)</h2>
+    <div class="song-item" data-src="./src/Cry.mp3">
+      <div class="song-info">
+        <div class="song-title">Cry (please don't cry)</div>
+        <div class="song-artist">CAS :)</div>
       </div>
-
-      <div class="playlist" id="playlist">
-        <h2>Your (& my) Fav Songss (remind me of you)</h2>
-        <div class="song-item" data-src="./src/Cry.mp3">
-          <div class="song-info">
-            <div class="song-title">Cry (please don't cry)</div>
-            <div class="song-artist">CAS :)</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-
-        <div class="song-item" data-src="./src/ihateuiloveyou.mp3">
-          <div class="song-info">
-            <div class="song-title">i hate you, i love you</div>
-            <div class="song-artist">Olivia O'brien anddd gnashhh</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/Yellow.mp3">
-          <div class="song-info">
-            <div class="song-title">Yellow</div>
-            <div class="song-artist">Coldplayy</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/Judaai.mp3">
-          <div class="song-info">
-            <div class="song-title">Judaai</div>
-            <div class="song-artist">lots of emmm'</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/Somebodysme.mp3">
-          <div class="song-info">
-            <div class="song-title">Somebody's meee</div>
-            <div class="song-artist">Enrique Iglesiaaas</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/whereweregoingggg.mp3">
-          <div class="song-info">
-            <div class="song-title">where we're going</div>
-            <div class="song-artist">Elijah Wooods</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/24sevennnnn.mp3">
-          <div class="song-info">
-            <div class="song-title">24/sevennnnn, 365 :)</div>
-            <div class="song-artist">Elijah wooods</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/home.mp3">
-          <div class="song-info">
-            <div class="song-title">Home</div>
-            <div class="song-artist">Edith Whiskerss</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-        <div class="song-item" data-src="./src/church.mp3">
-          <div class="song-info">
-            <div class="song-title">Take meeee to Church</div>
-            <div class="song-artist">Hozierrr</div>
-          </div>
-          <div class="play-icon">▶</div>
-        </div>
-
-        <button class="dance-button" id="danceBtn">
-          <span>make em' danceeee hehe</span>
-        </button>
-      </div>
+      <div class="play-icon">▶</div>
     </div>
 
-    <script>
-      // Countdown Timer
-      const examDate = new Date("2025-12-07T00:00:00");
-      const countdownContainer = document.getElementById("countdownContainer");
-      const countdownMessage = document.getElementById("countdownMessage");
-      const countdownTimer = document.getElementById("countdownTimer");
-      const countdownLabel = document.getElementById("countdownLabel");
+    <div class="song-item" data-src="./src/ihateuiloveyou.mp3">
+      <div class="song-info">
+        <div class="song-title">i hate you, i love you</div>
+        <div class="song-artist">Olivia O'brien anddd gnashhh</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/Yellow.mp3">
+      <div class="song-info">
+        <div class="song-title">Yellow</div>
+        <div class="song-artist">Coldplayy</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/Judaai.mp3">
+      <div class="song-info">
+        <div class="song-title">Judaai</div>
+        <div class="song-artist">lots of emmm'</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/Somebodysme.mp3">
+      <div class="song-info">
+        <div class="song-title">Somebody's meee</div>
+        <div class="song-artist">Enrique Iglesiaaas</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/whereweregoingggg.mp3">
+      <div class="song-info">
+        <div class="song-title">where we're going</div>
+        <div class="song-artist">Elijah Wooods</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/24sevennnnn.mp3">
+      <div class="song-info">
+        <div class="song-title">24/sevennnnn, 365 :)</div>
+        <div class="song-artist">Elijah wooods</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/home.mp3">
+      <div class="song-info">
+        <div class="song-title">Home</div>
+        <div class="song-artist">Edith Whiskerss</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="song-item" data-src="./src/church.mp3">
+      <div class="song-info">
+        <div class="song-title">Take meeee to Church</div>
+        <div class="song-artist">Hozierrr</div>
+      </div>
+      <div class="play-icon">▶</div>
+    </div>
+    <div class="lyrics-container" id="lyricsContainer">
+      <div id="lyricsDisplay"></div>
+    </div>
+    <button class="dance-button" id="danceBtn">
+      <span>make em' danceeee hehe</span>
+    </button>
+  </div>
+</div>
 
-      function updateCountdown() {
-        const now = new Date();
-        const examDayStart = new Date("2025-12-07T00:00:00");
-        const examDayEnd = new Date("2025-12-07T23:59:59");
+<script>
+  // Countdown Timer
+  const examDate = new Date("2025-12-07T00:00:00");
+  const countdownContainer = document.getElementById("countdownContainer");
+  const countdownMessage = document.getElementById("countdownMessage");
+  const countdownTimer = document.getElementById("countdownTimer");
+  const countdownLabel = document.getElementById("countdownLabel");
 
-        if (now >= examDayStart && now <= examDayEnd) {
-          countdownMessage.innerHTML = "🌟 Today is THE DAY! 🌟";
-          countdownTimer.innerHTML = "YOU GOT THIS!";
-          countdownLabel.innerHTML =
-            "Show them what you're made of! ✨<br>All your hard work has led to this moment.<br>Breathe, believe, and shine bright! 💫";
-          countdownLabel.style.fontSize = "1.1em";
-          countdownTimer.classList.add("exam-day-message");
-          return;
-        }
+  function updateCountdown() {
+    const now = new Date();
+    const examDayStart = new Date("2025-12-07T00:00:00");
+    const examDayEnd = new Date("2025-12-07T23:59:59");
 
-        if (now > examDayEnd) {
-          countdownMessage.innerHTML = "🎉 Exam Done! 🎉";
-          countdownTimer.innerHTML = "AMAZING!";
-          countdownLabel.innerHTML =
-            "Awesome work, drishti. You did greatt!!! 🌟<br>Now please take some time out for yourself,<br>sleep well, eat well, and just enjoy yourself! 💝";
-          countdownLabel.style.fontSize = "1.1em";
-          countdownTimer.classList.add("exam-day-message");
-          return;
-        }
+    if (now >= examDayStart && now <= examDayEnd) {
+      countdownMessage.innerHTML = "🌟 Today is THE DAY! 🌟";
+      countdownTimer.innerHTML = "YOU GOT THIS!";
+      countdownLabel.innerHTML =
+        "Show them what you're made of! ✨<br>All your hard work has led to this moment.<br>Breathe, believe, and shine bright! 💫";
+      countdownLabel.style.fontSize = "1.1em";
+      countdownTimer.classList.add("exam-day-message");
+      return;
+    }
 
-        const timeDiff = examDate - now;
-        const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    if (now > examDayEnd) {
+      countdownMessage.innerHTML = "🎉 Exam Done! 🎉";
+      countdownTimer.innerHTML = "AMAZING!";
+      countdownLabel.innerHTML =
+        "Awesome work, drishti. You did greatt!!! 🌟<br>Now please take some time out for yourself,<br>sleep well, eat well, and just enjoy yourself! 💝";
+      countdownLabel.style.fontSize = "1.1em";
+      countdownTimer.classList.add("exam-day-message");
+      return;
+    }
 
-        countdownMessage.innerHTML =
-          "✨ Days remaining until you put your<br>superpowers and practice into action ✨";
-        countdownTimer.textContent = daysRemaining;
-        countdownLabel.textContent =
-          daysRemaining === 1
-            ? "day left"
-            : "days left(reload to see againnn hehe)";
+    const timeDiff = examDate - now;
+    const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+    countdownMessage.innerHTML =
+      "✨ Days remaining until you put your<br>superpowers and practice into action ✨";
+    countdownTimer.textContent = daysRemaining;
+    countdownLabel.textContent =
+      daysRemaining === 1
+        ? "day left"
+        : "days left(reload to see againnn hehe)";
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  setTimeout(() => {
+    countdownContainer.style.opacity = "0";
+    countdownContainer.style.transform = "translate(-50%, -50%) scale(0.9)";
+    setTimeout(() => {
+      countdownContainer.style.display = "none";
+    }, 500);
+  }, 3000);
+  // Create bubbles
+  const bubblesContainer = document.getElementById("bubbles");
+  for (let i = 0; i < 15; i++) {
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.style.left = Math.random() * 100 + "%";
+    bubble.style.width = Math.random() * 30 + 20 + "px";
+    bubble.style.height = bubble.style.width;
+    bubble.style.animationDuration = Math.random() * 10 + "s";
+    bubble.style.animationDelay = Math.random() * 3 + "s";
+    bubblesContainer.appendChild(bubble);
+  }
+
+  // Create shooting stars
+  function createShootingStar() {
+    const star = document.createElement("div");
+    star.className = "shooting-star";
+    star.style.left = Math.random() * window.innerWidth + "px";
+    star.style.top = Math.random() * (window.innerHeight / 2) + "px";
+    document.body.appendChild(star);
+
+    const angle = Math.random() * 30 + 30;
+    const duration = Math.random() * 1000 + 1000;
+
+    star.animate(
+      [
+        { transform: "translate(0, 0) rotate(" + angle + "deg)" },
+        {
+          transform:
+            "translate(" +
+            window.innerWidth +
+            "px, " +
+            window.innerHeight +
+            "px) rotate(" +
+            angle +
+            "deg)",
+        },
+      ],
+      {
+        duration: duration,
+        easing: "linear",
       }
+    );
 
-      updateCountdown();
-      setInterval(updateCountdown, 60000);
+    setTimeout(() => star.remove(), duration);
+  }
 
-      setTimeout(() => {
-        countdownContainer.style.opacity = "0";
-        countdownContainer.style.transform = "translate(-50%, -50%) scale(0.9)";
-        setTimeout(() => {
-          countdownContainer.style.display = "none";
-        }, 500);
-      }, 3000);
-      // Create bubbles
-      const bubblesContainer = document.getElementById("bubbles");
-      for (let i = 0; i < 15; i++) {
-        const bubble = document.createElement("div");
-        bubble.className = "bubble";
-        bubble.style.left = Math.random() * 100 + "%";
-        bubble.style.width = Math.random() * 30 + 20 + "px";
-        bubble.style.height = bubble.style.width;
-        bubble.style.animationDuration = Math.random() * 10 + "s";
-        bubble.style.animationDelay = Math.random() * 3 + "s";
-        bubblesContainer.appendChild(bubble);
+  setInterval(createShootingStar, 3000);
+
+
+  // Navigation menu toggle
+  const navToggle = document.getElementById("navToggle");
+  const navMenu = document.getElementById("navMenu");
+  let navOpen = false;
+
+  navToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    navOpen = !navOpen;
+    if (navOpen) {
+      navMenu.classList.add("open");
+      navToggle.textContent = "✕";
+    } else {
+      navMenu.classList.remove("open");
+      navToggle.textContent = "☰";
+    }
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (navOpen && !navMenu.contains(e.target) && e.target !== navToggle) {
+      navMenu.classList.remove("open");
+      navToggle.textContent = "☰";
+      navOpen = false;
+    }
+  });
+
+  // Make ALL text into hoverable words
+  function wrapWordsInElement(element) {
+    const walker = document.createTreeWalker(
+      element,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    const textNodes = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.textContent.trim()) {
+        textNodes.push(node);
       }
+    }
 
-      // Create shooting stars
-      function createShootingStar() {
-        const star = document.createElement("div");
-        star.className = "shooting-star";
-        star.style.left = Math.random() * window.innerWidth + "px";
-        star.style.top = Math.random() * (window.innerHeight / 2) + "px";
-        document.body.appendChild(star);
+    textNodes.forEach((textNode) => {
+      const text = textNode.textContent;
+      const words = text.split(/(\s+)/);
+      const span = document.createElement("span");
 
-        const angle = Math.random() * 30 + 30;
-        const duration = Math.random() * 1000 + 1000;
-
-        star.animate(
-          [
-            { transform: "translate(0, 0) rotate(" + angle + "deg)" },
-            {
-              transform:
-                "translate(" +
-                window.innerWidth +
-                "px, " +
-                window.innerHeight +
-                "px) rotate(" +
-                angle +
-                "deg)",
-            },
-          ],
-          {
-            duration: duration,
-            easing: "linear",
-          }
-        );
-
-        setTimeout(() => star.remove(), duration);
-      }
-
-      setInterval(createShootingStar, 3000);
-
-
-      // Navigation menu toggle
-      const navToggle = document.getElementById("navToggle");
-      const navMenu = document.getElementById("navMenu");
-      let navOpen = false;
-
-      navToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        navOpen = !navOpen;
-        if (navOpen) {
-          navMenu.classList.add("open");
-          navToggle.textContent = "✕";
+      words.forEach((word) => {
+        if (word.trim()) {
+          const wordSpan = document.createElement("span");
+          wordSpan.className = "word";
+          wordSpan.textContent = word;
+          span.appendChild(wordSpan);
         } else {
-          navMenu.classList.remove("open");
-          navToggle.textContent = "☰";
+          span.appendChild(document.createTextNode(word));
         }
       });
 
-      // Close menu when clicking outside
-      document.addEventListener("click", (e) => {
-        if (navOpen && !navMenu.contains(e.target) && e.target !== navToggle) {
-          navMenu.classList.remove("open");
-          navToggle.textContent = "☰";
-          navOpen = false;
+      textNode.parentNode.replaceChild(span, textNode);
+    });
+  }
+
+  // Apply to all elements with text
+  wrapWordsInElement(document.getElementById("title"));
+  wrapWordsInElement(document.getElementById("message"));
+  wrapWordsInElement(document.getElementById("playlist"));
+
+  // Sparkle system with optimization
+  let sparkleIntervals = new Map();
+  let activeSparkles = new Map();
+  const MAX_SPARKLES_PER_WORD = 50;
+
+  function attachEventsToAllWords() {
+    const words = document.querySelectorAll(".word");
+
+    words.forEach((word) => {
+      word.replaceWith(word.cloneNode(true));
+    });
+
+    document.querySelectorAll(".word").forEach((word) => {
+      word.addEventListener("mouseenter", function (e) {
+        activeSparkles.set(e.target, []);
+        const interval = setInterval(() => {
+          createSparkle(e.target);
+        }, 100);
+        sparkleIntervals.set(e.target, interval);
+      });
+
+      word.addEventListener("mouseleave", function (e) {
+        const interval = sparkleIntervals.get(e.target);
+        if (interval) {
+          clearInterval(interval);
+          sparkleIntervals.delete(e.target);
+        }
+
+        const sparkles = activeSparkles.get(e.target);
+        if (sparkles) {
+          sparkles.forEach((sparkle) => {
+            if (sparkle && sparkle.parentNode) {
+              sparkle.remove();
+            }
+          });
+          activeSparkles.delete(e.target);
         }
       });
 
-      // Make ALL text into hoverable words
-      function wrapWordsInElement(element) {
-        const walker = document.createTreeWalker(
-          element,
-          NodeFilter.SHOW_TEXT,
-          null,
-          false
-        );
+      word.addEventListener("click", function (e) {
+        e.stopPropagation();
+        createFirework(e);
+      });
+    });
+  }
 
-        const textNodes = [];
-        let node;
-        while ((node = walker.nextNode())) {
-          if (node.textContent.trim()) {
-            textNodes.push(node);
+  attachEventsToAllWords();
+
+  function createSparkle(element) {
+    const sparkles = activeSparkles.get(element) || [];
+    if (sparkles.length >= MAX_SPARKLES_PER_WORD) return;
+
+    const rect = element.getBoundingClientRect();
+    const sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+
+    const x = rect.left + Math.random() * rect.width;
+    const y = rect.top + Math.random() * rect.height;
+
+    sparkle.style.left = x + "px";
+    sparkle.style.top = y + "px";
+
+    document.body.appendChild(sparkle);
+
+    sparkles.push(sparkle);
+    activeSparkles.set(element, sparkles);
+
+    const angle = Math.random() * Math.PI * 2;
+    const velocity = Math.random() * 3 + 2;
+    const dx = Math.cos(angle) * velocity;
+    const dy = Math.sin(angle) * velocity;
+
+    let opacity = 1;
+    let posX = 0;
+    let posY = 0;
+
+    const animate = () => {
+      if (!activeSparkles.has(element) || !sparkle.parentNode) {
+        sparkle.remove();
+        return;
+      }
+
+      opacity -= 0.025;
+      posX += dx;
+      posY += dy;
+
+      sparkle.style.transform = `translate(${posX}px, ${posY}px)`;
+      sparkle.style.opacity = opacity;
+
+      if (opacity > 0 && sparkle.parentNode) {
+        requestAnimationFrame(animate);
+      } else {
+        sparkle.remove();
+        const currentSparkles = activeSparkles.get(element);
+        if (currentSparkles) {
+          const index = currentSparkles.indexOf(sparkle);
+          if (index > -1) currentSparkles.splice(index, 1);
+        }
+      }
+    };
+
+    animate();
+  }
+
+  function createFirework(e) {
+    const colors = [
+      "#ff6b9d",
+      "#c44569",
+      "#ffa502",
+      "#ffd32a",
+      "#05c46b",
+      "#0fbcf9",
+      "#4bcffa",
+      "#a55eea",
+    ];
+    const particleCount = 30;
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const targetY = startY - 200;
+
+    const rocket = document.createElement("div");
+    rocket.className = "firework-particle";
+    rocket.style.left = startX + "px";
+    rocket.style.top = startY + "px";
+    rocket.style.background = "#ffffff";
+    rocket.style.boxShadow = "0 0 8px white";
+    document.body.appendChild(rocket);
+
+    let currentY = startY;
+    const rocketSpeed = 10;
+
+    const rocketInterval = setInterval(() => {
+      currentY -= rocketSpeed;
+      rocket.style.transform = `translateY(${currentY - startY}px)`;
+
+      if (currentY <= targetY) {
+        clearInterval(rocketInterval);
+        rocket.remove();
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "firework-particle";
+          particle.style.left = startX + "px";
+          particle.style.top = targetY + "px";
+          particle.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+          particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+
+          document.body.appendChild(particle);
+
+          const angle = (Math.PI * 2 * i) / particleCount;
+          const velocity = Math.random() * 4 + 3;
+          const dx = Math.cos(angle) * velocity;
+          const dy = Math.sin(angle) * velocity;
+
+          animateParticle(particle, dx, dy);
+        }
+      }
+    }, 16);
+  }
+
+  function animateParticle(particle, dx, dy) {
+    let posX = 0;
+    let posY = 0;
+    let opacity = 1;
+    let gravity = 0.15;
+    let velocityY = dy;
+
+    const animate = () => {
+      velocityY += gravity;
+      posX += dx;
+      posY += velocityY;
+      opacity -= 0.02;
+
+      particle.style.transform = `translate(${posX}px, ${posY}px)`;
+      particle.style.opacity = opacity;
+
+      if (opacity > 0) {
+        requestAnimationFrame(animate);
+      } else {
+        particle.remove();
+      }
+    };
+
+    animate();
+  }
+
+  // Parallax effect
+  let parallaxFrame;
+  document.addEventListener("mousemove", (e) => {
+    if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
+
+    parallaxFrame = requestAnimationFrame(() => {
+      const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+      const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+
+      document.querySelector(
+        ".container"
+      ).style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+  });
+
+  // Lyrics data
+  const lyricsData = {
+    cry: [
+      { time: 55, text: "It's making you cry every time" },
+      { time: 62, text: "You give your love to me this way" },
+      { time: 68, text: "Saying you'd wait for me to stay" },
+      { time: 76, text: "I know it hurts you" },
+      { time: 79, text: "But I need to tell you something" },
+      { time: 89, text: "My heart just can't be faithful for long" },
+      { time: 101, text: "I swear I'll only make you cry" },
+      { time: 108, text: "Maybe I'd change for you someday" },
+      { time: 115, text: "But I can't help the way I feel" },  
+      { time: 122, text: "Wish I was good, wish that I could" },
+      { time: 129, text: "Give you my love now" },
+      { time: 132, text: "But I need to tell you something" },
+      { time: 143, text: "My heart just can't be faithful for long" },
+      { time: 153, text: "I swear I'll only make you cry" },
+      { time: 187, text: "I need to tell you something" },
+      { time: 197, text: "My heart just can't be faithful for long" },
+      { time: 207, text: "I swear I'll only make you cry" }
+    ]
+  };
+
+  // Lyrics display functionality
+  function displayLyrics(songKey) {
+    const lyricsContainer = document.getElementById('lyricsContainer');
+    const lyricsDisplay = document.getElementById('lyricsDisplay');
+    
+    if (!lyricsData[songKey]) {
+      lyricsContainer.classList.remove('visible');
+      return;
+    }
+    
+    lyricsDisplay.innerHTML = lyricsData[songKey]
+      .map((line, index) => `<div class="lyric-line" data-index="${index}">${line.text}</div>`)
+      .join('');
+    
+    lyricsContainer.classList.add('visible');
+    
+    // Scroll lyrics container into view
+    setTimeout(() => {
+      lyricsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+
+  function updateLyrics(songKey, currentTime) {
+    if (!lyricsData[songKey]) return;
+    
+    const lyrics = lyricsData[songKey];
+    let currentIndex = -1;
+    
+    for (let i = 0; i < lyrics.length; i++) {
+      if (currentTime >= lyrics[i].time) {
+        currentIndex = i;
+      } else {
+        break;
+      }
+    }
+    
+    document.querySelectorAll('.lyric-line').forEach((line, index) => {
+      line.classList.remove('active', 'past');
+      if (index === currentIndex) {
+        line.classList.add('active');
+        line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else if (index < currentIndex) {
+        line.classList.add('past');
+      }
+    });
+  }
+
+  // Audio player functionality
+  let currentAudio = null;
+  let currentPlayingItem = null;
+
+  document.querySelectorAll(".song-item[data-src]").forEach((item) => {
+    item.addEventListener("click", function (e) {
+      e.stopPropagation();
+      const src = this.getAttribute("data-src");
+      const icon = this.querySelector(".play-icon");
+      
+      // Extract song key from src (e.g., "./src/Cry.mp3" -> "cry")
+      const songKey = src.split('/').pop().split('.')[0].toLowerCase();
+
+      if (currentPlayingItem === this) {
+        if (currentAudio.paused) {
+          currentAudio.play();
+          this.classList.add("playing");
+          icon.textContent = "⏸";
+        } else {
+          currentAudio.pause();
+          this.classList.remove("playing");
+          icon.textContent = "▶";
+        }
+      } else {
+        if (currentAudio) {
+          currentAudio.pause();
+          if (currentPlayingItem) {
+            currentPlayingItem.classList.remove("playing");
+            currentPlayingItem.querySelector(".play-icon").textContent =
+              "▶";
           }
         }
 
-        textNodes.forEach((textNode) => {
-          const text = textNode.textContent;
-          const words = text.split(/(\s+)/);
-          const span = document.createElement("span");
+        currentAudio = new Audio(src);
+        currentPlayingItem = this;
+        currentAudio.play();
+        this.classList.add("playing");
+        icon.textContent = "⏸";
+        
+        // Display lyrics
+        displayLyrics(songKey);
+        
+        // Update lyrics as song plays
+        currentAudio.addEventListener("timeupdate", () => {
+          updateLyrics(songKey, currentAudio.currentTime);
+        });
 
-          words.forEach((word) => {
-            if (word.trim()) {
-              const wordSpan = document.createElement("span");
-              wordSpan.className = "word";
-              wordSpan.textContent = word;
-              span.appendChild(wordSpan);
-            } else {
-              span.appendChild(document.createTextNode(word));
-            }
-          });
-
-          textNode.parentNode.replaceChild(span, textNode);
+        currentAudio.addEventListener("ended", () => {
+          this.classList.remove("playing");
+          icon.textContent = "▶";
+          document.getElementById('lyricsContainer').classList.remove('visible');
+          currentAudio = null;
+          currentPlayingItem = null;
         });
       }
+    });
+  });
 
-      // Apply to all elements with text
-      wrapWordsInElement(document.getElementById("title"));
-      wrapWordsInElement(document.getElementById("message"));
-      wrapWordsInElement(document.getElementById("playlist"));
+  // Surprise button functionality
+  const surpriseBtn = document.getElementById("surpriseBtn");
+  const playlist = document.getElementById("playlist");
 
-      // Sparkle system with optimization
-      let sparkleIntervals = new Map();
-      let activeSparkles = new Map();
-      const MAX_SPARKLES_PER_WORD = 50;
+  surpriseBtn.addEventListener("click", function () {
+    playlist.scrollIntoView({ behavior: "smooth", block: "center" });
 
-      function attachEventsToAllWords() {
-        const words = document.querySelectorAll(".word");
-
-        words.forEach((word) => {
-          word.replaceWith(word.cloneNode(true));
-        });
-
-        document.querySelectorAll(".word").forEach((word) => {
-          word.addEventListener("mouseenter", function (e) {
-            activeSparkles.set(e.target, []);
-            const interval = setInterval(() => {
-              createSparkle(e.target);
-            }, 100);
-            sparkleIntervals.set(e.target, interval);
-          });
-
-          word.addEventListener("mouseleave", function (e) {
-            const interval = sparkleIntervals.get(e.target);
-            if (interval) {
-              clearInterval(interval);
-              sparkleIntervals.delete(e.target);
-            }
-
-            const sparkles = activeSparkles.get(e.target);
-            if (sparkles) {
-              sparkles.forEach((sparkle) => {
-                if (sparkle && sparkle.parentNode) {
-                  sparkle.remove();
-                }
-              });
-              activeSparkles.delete(e.target);
-            }
-          });
-
-          word.addEventListener("click", function (e) {
-            e.stopPropagation();
-            createFirework(e);
-          });
-        });
-      }
-
+    setTimeout(() => {
+      playlist.classList.add("revealed");
       attachEventsToAllWords();
 
-      function createSparkle(element) {
-        const sparkles = activeSparkles.get(element) || [];
-        if (sparkles.length >= MAX_SPARKLES_PER_WORD) return;
+      surpriseBtn.style.opacity = "0";
+      setTimeout(() => {
+        surpriseBtn.style.display = "none";
+      }, 300);
+    }, 800);
+  });
 
-        const rect = element.getBoundingClientRect();
-        const sparkle = document.createElement("div");
-        sparkle.className = "sparkle";
+  // Dance button functionality
+  const danceBtn = document.getElementById("danceBtn");
+  let isDancing = false;
 
-        const x = rect.left + Math.random() * rect.width;
-        const y = rect.top + Math.random() * rect.height;
+  danceBtn.addEventListener("click", function () {
+    const songItems = document.querySelectorAll(".song-item[data-src]");
+    isDancing = !isDancing;
 
-        sparkle.style.left = x + "px";
-        sparkle.style.top = y + "px";
-
-        document.body.appendChild(sparkle);
-
-        sparkles.push(sparkle);
-        activeSparkles.set(element, sparkles);
-
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 3 + 2;
-        const dx = Math.cos(angle) * velocity;
-        const dy = Math.sin(angle) * velocity;
-
-        let opacity = 1;
-        let posX = 0;
-        let posY = 0;
-
-        const animate = () => {
-          if (!activeSparkles.has(element) || !sparkle.parentNode) {
-            sparkle.remove();
-            return;
-          }
-
-          opacity -= 0.025;
-          posX += dx;
-          posY += dy;
-
-          sparkle.style.transform = `translate(${posX}px, ${posY}px)`;
-          sparkle.style.opacity = opacity;
-
-          if (opacity > 0 && sparkle.parentNode) {
-            requestAnimationFrame(animate);
-          } else {
-            sparkle.remove();
-            const currentSparkles = activeSparkles.get(element);
-            if (currentSparkles) {
-              const index = currentSparkles.indexOf(sparkle);
-              if (index > -1) currentSparkles.splice(index, 1);
-            }
-          }
-        };
-
-        animate();
-      }
-
-      function createFirework(e) {
-        const colors = [
-          "#ff6b9d",
-          "#c44569",
-          "#ffa502",
-          "#ffd32a",
-          "#05c46b",
-          "#0fbcf9",
-          "#4bcffa",
-          "#a55eea",
-        ];
-        const particleCount = 30;
-
-        const startX = e.clientX;
-        const startY = e.clientY;
-        const targetY = startY - 200;
-
-        const rocket = document.createElement("div");
-        rocket.className = "firework-particle";
-        rocket.style.left = startX + "px";
-        rocket.style.top = startY + "px";
-        rocket.style.background = "#ffffff";
-        rocket.style.boxShadow = "0 0 8px white";
-        document.body.appendChild(rocket);
-
-        let currentY = startY;
-        const rocketSpeed = 10;
-
-        const rocketInterval = setInterval(() => {
-          currentY -= rocketSpeed;
-          rocket.style.transform = `translateY(${currentY - startY}px)`;
-
-          if (currentY <= targetY) {
-            clearInterval(rocketInterval);
-            rocket.remove();
-
-            for (let i = 0; i < particleCount; i++) {
-              const particle = document.createElement("div");
-              particle.className = "firework-particle";
-              particle.style.left = startX + "px";
-              particle.style.top = targetY + "px";
-              particle.style.background =
-                colors[Math.floor(Math.random() * colors.length)];
-              particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
-
-              document.body.appendChild(particle);
-
-              const angle = (Math.PI * 2 * i) / particleCount;
-              const velocity = Math.random() * 4 + 3;
-              const dx = Math.cos(angle) * velocity;
-              const dy = Math.sin(angle) * velocity;
-
-              animateParticle(particle, dx, dy);
-            }
-          }
-        }, 16);
-      }
-
-      function animateParticle(particle, dx, dy) {
-        let posX = 0;
-        let posY = 0;
-        let opacity = 1;
-        let gravity = 0.15;
-        let velocityY = dy;
-
-        const animate = () => {
-          velocityY += gravity;
-          posX += dx;
-          posY += velocityY;
-          opacity -= 0.02;
-
-          particle.style.transform = `translate(${posX}px, ${posY}px)`;
-          particle.style.opacity = opacity;
-
-          if (opacity > 0) {
-            requestAnimationFrame(animate);
-          } else {
-            particle.remove();
-          }
-        };
-
-        animate();
-      }
-
-      // Parallax effect
-      let parallaxFrame;
-      document.addEventListener("mousemove", (e) => {
-        if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
-
-        parallaxFrame = requestAnimationFrame(() => {
-          const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
-          const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
-
-          document.querySelector(
-            ".container"
-          ).style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
+    if (isDancing) {
+      songItems.forEach((item) => {
+        item.classList.add("dancing");
       });
-
-      // Audio player functionality
-      let currentAudio = null;
-      let currentPlayingItem = null;
-
-      document.querySelectorAll(".song-item[data-src]").forEach((item) => {
-        item.addEventListener("click", function (e) {
-          e.stopPropagation();
-          const src = this.getAttribute("data-src");
-          const icon = this.querySelector(".play-icon");
-
-          if (currentPlayingItem === this) {
-            if (currentAudio.paused) {
-              currentAudio.play();
-              this.classList.add("playing");
-              icon.textContent = "⏸";
-            } else {
-              currentAudio.pause();
-              this.classList.remove("playing");
-              icon.textContent = "▶";
-            }
-          } else {
-            if (currentAudio) {
-              currentAudio.pause();
-              if (currentPlayingItem) {
-                currentPlayingItem.classList.remove("playing");
-                currentPlayingItem.querySelector(".play-icon").textContent =
-                  "▶";
-              }
-            }
-
-            currentAudio = new Audio(src);
-            currentPlayingItem = this;
-            currentAudio.play();
-            this.classList.add("playing");
-            icon.textContent = "⏸";
-
-            currentAudio.addEventListener("ended", () => {
-              this.classList.remove("playing");
-              icon.textContent = "▶";
-              currentAudio = null;
-              currentPlayingItem = null;
-            });
-          }
-        });
-      });
-
-      // Surprise button functionality
-      const surpriseBtn = document.getElementById("surpriseBtn");
-      const playlist = document.getElementById("playlist");
-
-      surpriseBtn.addEventListener("click", function () {
-        playlist.scrollIntoView({ behavior: "smooth", block: "center" });
-
-        setTimeout(() => {
-          playlist.classList.add("revealed");
-          attachEventsToAllWords();
-
-          surpriseBtn.style.opacity = "0";
-          setTimeout(() => {
-            surpriseBtn.style.display = "none";
-          }, 300);
-        }, 800);
-      });
-
-      // Dance button functionality
-      const danceBtn = document.getElementById("danceBtn");
-      let isDancing = false;
-
-      danceBtn.addEventListener("click", function () {
-        const songItems = document.querySelectorAll(".song-item[data-src]");
-        isDancing = !isDancing;
-
-        if (isDancing) {
-          songItems.forEach((item) => {
-            item.classList.add("dancing");
-          });
-          danceBtn.querySelector("span").textContent = "Stawwwppp XDDD";
-        } else {
-          songItems.forEach((item) => {
+      danceBtn.querySelector("span").textContent = "Stawwwppp XDDD";
+    } else {
+      songItems.forEach((item) => {
             item.classList.remove("dancing");
           });
           danceBtn.querySelector("span").textContent = "make em' danceeee hehe";
@@ -1642,4 +1758,4 @@ passwordModal.addEventListener('click', (e) => {
     </script>
   </body>
 </html>
-  
+    
