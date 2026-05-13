@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youuhhh diddd ittt, drishtiiii 🌠</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0c0906;
+        --gold: #c9973a;
+        --gold-light: #e8c068;
+        --cream: #f0e4cc;
+        --cream-dim: rgba(240, 228, 204, 0.58);
+        --rose: #b87868;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--cream);
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-weight: 300;
+        font-style: italic;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+        opacity: 0.4;
+        pointer-events: none;
+        z-index: 999;
+        mix-blend-mode: overlay;
+      }
+
+      canvas#burst {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        padding: 2rem;
+        z-index: 2;
+      }
+
+      .hero-pre {
+        font-family: "DM Mono", monospace;
+        font-style: normal;
+        font-weight: 300;
+        font-size: clamp(0.6rem, 1.5vw, 0.8rem);
+        letter-spacing: 0.45em;
+        color: var(--gold);
+        text-transform: uppercase;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 0.5s;
+        margin-bottom: 1.8rem;
+      }
+
+      .hero-number {
+        font-size: clamp(8rem, 25vw, 19rem);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 0.85;
+        color: var(--gold-light);
+        opacity: 0;
+        animation: revealNum 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.9s;
+        position: relative;
+        letter-spacing: -0.02em;
+        text-shadow:
+          0 0 60px rgba(201, 151, 58, 0.3),
+          0 0 120px rgba(201, 151, 58, 0.15);
+      }
+
+      .hero-number::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 150%;
+        background: radial-gradient(
+          ellipse,
+          rgba(201, 151, 58, 0.12) 0%,
+          rgba(201, 151, 58, 0.04) 40%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        animation: glowPulse 3s ease-in-out infinite 2.2s;
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .hero-number::after {
+        content: "";
+        position: absolute;
+        bottom: -0.08em;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 55%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+      }
+
+      .hero-label {
+        font-family: "DM Mono", monospace;
+        font-style: normal;
+        font-weight: 300;
+        font-size: clamp(0.65rem, 1.8vw, 0.9rem);
+        letter-spacing: 0.55em;
+        color: var(--cream-dim);
+        text-transform: lowercase;
+        margin-top: 1.4rem;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1.9s;
+      }
+
+      .hero-sub {
+        font-size: clamp(1rem, 2.4vw, 1.35rem);
+        font-style: italic;
+        color: var(--cream-dim);
+        max-width: 480px;
+        line-height: 1.85;
+        margin-top: 2.8rem;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 2.4s;
+      }
+
+      .hero-sub em {
+        color: var(--cream);
+        font-style: italic;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.5rem;
+        font-family: "DM Mono", monospace;
+        font-style: normal;
+        font-size: 0.6rem;
+        letter-spacing: 0.35em;
+        color: rgba(201, 151, 58, 0.35);
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 3.2s;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes revealNum {
+        from {
+          opacity: 0;
+          transform: scale(0.82) translateY(36px);
+          filter: blur(8px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes glowPulse {
+        0%,
+        100% {
+          opacity: 0.6;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.1);
+        }
+      }
+
+      /* ── shooting stars ── */
+      .shooting-star {
+        position: fixed;
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(232, 192, 104, 0.8),
+          transparent
+        );
+        opacity: 0;
+        z-index: 1;
+        pointer-events: none;
+        animation: shootStar 1.2s ease-in forwards;
+        filter: blur(0.3px);
+      }
+
+      .shooting-star::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: -1px;
+        width: 4px;
+        height: 3px;
+        background: rgba(248, 224, 160, 0.9);
+        border-radius: 50%;
+        box-shadow: 0 0 6px 2px rgba(232, 192, 104, 0.4);
+      }
+
+      @keyframes shootStar {
+        0% {
+          opacity: 0;
+          transform: translateX(0) translateY(0);
+        }
+        10% {
+          opacity: 1;
+        }
+        70% {
+          opacity: 0.6;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(300px) translateY(180px);
+        }
+      }
+
+      .content {
+        max-width: 660px;
+        margin: 0 auto;
+        padding: 2rem 2rem 10rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .section {
+        margin-bottom: 5.5rem;
+        opacity: 0;
+        transform: translateY(36px);
+        transition:
+          opacity 0.95s ease,
+          transform 0.95s ease;
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section-label {
+        font-family: "DM Mono", monospace;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 0.6rem;
+        letter-spacing: 0.45em;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 1.2rem;
+        display: block;
+      }
+
+      h2 {
+        font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.25;
+        margin-bottom: 1.6rem;
+        color: var(--cream);
+      }
+
+      p {
+        font-size: clamp(1rem, 2vw, 1.18rem);
+        line-height: 1.95;
+        color: var(--cream-dim);
+        margin-bottom: 1.1rem;
+      }
+
+      .hl {
+        color: var(--gold-light);
+        font-style: italic;
+      }
+      .rose {
+        color: var(--rose);
+      }
+
+      .divider {
+        width: 1px;
+        height: 55px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(201, 151, 58, 0.5),
+          transparent
+        );
+        margin: 0 auto 5.5rem;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      .divider.visible {
+        opacity: 1;
+      }
+
+      .subjects {
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+        margin-top: 0.5rem;
+      }
+
+      .subject-card {
+        padding: 1.1rem 1.4rem;
+        border-left: 1px solid rgba(201, 151, 58, 0.6);
+        background: rgba(201, 151, 58, 0.03);
+        opacity: 0;
+        transform: translateX(-18px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease,
+          background 0.3s ease;
+      }
+
+      .subject-card:hover {
+        background: rgba(201, 151, 58, 0.065);
+      }
+
+      .subject-card.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .subject-name {
+        font-family: "DM Mono", monospace;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.62rem;
+        letter-spacing: 0.35em;
+        color: rgba(201, 151, 58, 0.75);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .subject-note {
+        font-size: 1.02rem;
+        font-style: italic;
+        color: var(--cream-dim);
+        line-height: 1.8;
+        margin: 0;
+      }
+
+      .letter-body {
+        border-top: 1px solid rgba(201, 151, 58, 0.15);
+        padding-top: 2.2rem;
+      }
+
+      .signoff {
+        margin-top: 3.5rem;
+        text-align: right;
+        font-size: 1.08rem;
+        font-style: italic;
+        color: var(--rose);
+        line-height: 2.1;
+      }
+
+      .signoff em {
+        display: block;
+        font-family: "DM Mono", monospace;
+        font-style: normal;
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        color: rgba(201, 151, 58, 0.4);
+        margin-bottom: 0.4rem;
+      }
+
+      @media (max-width: 768px) {
+        .hero {
+          padding: 1.5rem 1rem;
+          min-height: 100svh;
+        }
+        .hero-pre {
+          font-size: 0.55rem;
+          letter-spacing: 0.35em;
+          margin-bottom: 1.2rem;
+        }
+        .hero-number {
+          font-size: clamp(5rem, 22vw, 10rem);
+        }
+        .hero-number::before {
+          width: 140%;
+          height: 180%;
+        }
+        .hero-label {
+          font-size: 0.6rem;
+          letter-spacing: 0.4em;
+          margin-top: 1rem;
+        }
+        .hero-sub {
+          font-size: 0.95rem;
+          margin-top: 1.8rem;
+          max-width: 95vw;
+          line-height: 1.7;
+        }
+        .content {
+          padding: 1.5rem 1.2rem 6rem;
+        }
+        .section {
+          margin-bottom: 3.5rem;
+        }
+        h2 {
+          font-size: clamp(1.5rem, 6vw, 2.2rem);
+          margin-bottom: 1.2rem;
+        }
+        p {
+          font-size: 0.95rem;
+          line-height: 1.8;
+        }
+        .section-label {
+          font-size: 0.5rem;
+          letter-spacing: 0.35em;
+        }
+        .subject-card {
+          padding: 0.9rem 1rem;
+        }
+        .subject-name {
+          font-size: 0.55rem;
+          letter-spacing: 0.3em;
+        }
+        .subject-note {
+          font-size: 0.92rem;
+          line-height: 1.7;
+        }
+        .divider {
+          height: 40px;
+          margin-bottom: 3.5rem;
+        }
+        .signoff {
+          font-size: 0.98rem;
+          margin-top: 2.5rem;
+        }
+        .signoff em {
+          font-size: 0.5rem;
+        }
+        .shooting-star {
+          width: 50px;
+        }
+        @keyframes shootStar {
+          0% {
+            opacity: 0;
+            transform: translateX(0) translateY(0);
+          }
+          10% {
+            opacity: 1;
+          }
+          70% {
+            opacity: 0.6;
+          }
+          100% {
+            opacity: 0;
+            transform: translateX(150px) translateY(90px);
+          }
+        }
+      }
+
+      @media (max-width: 400px) {
+        .hero-number {
+          font-size: clamp(4rem, 20vw, 7rem);
+        }
+        .content {
+          padding: 1rem 0.9rem 5rem;
+        }
+        h2 {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="burst"></canvas>
+
+    <section class="hero">
+      <p class="hero-pre">12th boards &nbsp;·&nbsp; 202666666</p>
+      <div class="hero-number">98</div>
+      <p class="hero-label">percentile :)</p>
+      <p class="hero-sub">
+        out of <strong>ALL</strong> THE STUDENTS in the COUNTRY.<br />
+        out of <strong>EVERYONE</strong> who sat for those exams.<br />
+      </p>
+    </section>
+
+    <div class="content">
+      <div class="section">
+        <span class="section-label">You are wonderful</span>
+        <h2>
+          You did it,<br />you actually did ittttt
+          urkxynjdfniuyxersekjgfyucrxjfhvdg
+        </h2>
+        <p>
+          I wrote you a letter on March 3rd in which i had toold you you'd
+          <span class="hl">CRUSH IT</span>. And you diddddddd 🥳🥳🥳🥳
+        </p>
+        <p>
+          Look at you now, <span class="rose">drishtiiii</span>.
+          <span class="hl">98 percentile.</span>
+          i genuinely don't have
+          <span class="hl">words`</span>
+          for this, and you know that doesn't happen with me often ; )I somehow
+          try to express pseudo-everything anywayyy
+        </p>
+      </div>
+
+      <div class="divider section"></div>
+
+      <div class="section">
+        <span class="section-label">subject by subject</span>
+        <h2>Every. Single. One Of Them.</h2>
+        <div class="subjects">
+          <div class="subject-card">
+            <div class="subject-name">Psychology &nbsp;·&nbsp; 5th March</div>
+            <p class="subject-note">
+              the first one. i remember telling youuhh thattt this is YOUR
+              subjecttt. Philosophy se related naaa heheheh. and I was
+              righttttt. you walked in on day one and just... set the tone,
+              drish ^^^^^^^^
+            </p>
+          </div>
+          <div class="subject-card">
+            <div class="subject-name">Mathematics &nbsp;·&nbsp; 9th March</div>
+            <p class="subject-note">
+              trigo ho ya probability you absolutely killeddddd it. numbers
+              never really stood a chance against you honestly...except for
+              age...🥺🥺 Afterall..age..is..(not so much, i knoww) pseudo-just a
+              numberrr, I hopee you'll be purrfectly alrighttt with it somedayy
+              ^^
+            </p>
+          </div>
+          <div class="subject-card">
+            <div class="subject-name">English &nbsp;·&nbsp; 12th March</div>
+            <p class="subject-note">
+              Maine bola tha naaaa hehehe tere baay haath ka khell haiii. I know
+              what you can do with words.
+            </p>
+          </div>
+          <div class="subject-card">
+            <div class="subject-name">Economics &nbsp;·&nbsp; 18th March</div>
+            <p class="subject-note">
+              I'mmm soooo sleeepyyyy.. I'm writing this ekdam last meiii after
+              everyting on this websitee. 22:42 rnnn
+            </p>
+          </div>
+          <div class="subject-card">
+            <div class="subject-name">
+              Political Science &nbsp;·&nbsp; 23rd March
+            </div>
+            <p class="subject-note">
+              your favouriteeeee. i already knew how this one was going to go
+              ^^.
+            </p>
+          </div>
+          <div class="subject-card">
+            <div class="subject-name">Sociology &nbsp;·&nbsp; 4th April</div>
+            <p class="subject-note">
+              the last one. finish line. and you crosseddddd it the same way you
+              started : ))))) full effortss ekdammm. i'm SO happy for you,
+              drish.. so happy...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider section"></div>
+
+      <div class="section letter-body">
+        <span class="section-label"
+          >i did get tears of happiness when i read our chats again at
+          home</span
+        >
+        <p>
+          You worked hard for this. Absolutely grindddded. Quietly.. Patiently.
+          Consistently. that's the most
+          <span class="hl">you</span> thing ever.. doing something SO
+          extraordinary.. : ))) You, are exceptionally amazing.. so attractive.
+        </p>
+        <p>
+          meri letter buddy who absolutely destroyed her boards. look at that.
+          ^^
+        </p>
+
+        <div class="signoff">
+          <em>with SO much of hmmm... and pride(happy for u feeling)</em>
+          <u>forever</u> yours, <br />kaustubh
+        </div>
+      </div>
+
+      <div class="divider section"></div>
+
+      <div class="section" style="text-align: center; padding-bottom: 4rem">
+        <h2>one last thing, drish.</h2>
+        <p style="max-width: 480px; margin: 0 auto">
+          don't ever doubt yourself. not after this. not after anything.<br />
+          you are capable of doing <span class="hl">anything</span> and
+          <span class="hl">everything</span>.<br />
+          literally.
+          <br />
+          <br />
+          <br />
+          <br />
+          I couldn'ttt doo muchhh, neeeend aa rahii haaaiii aaahhh. Had to
+          completeee thiss by 11:11 ^^ <br />
+          hehehehe andddd 11:11 kooo bhejungaaa yeee abb. <br />
+          Whichhh songgg shoulddd iiii keeeeep in thiss oneeeeeeeeee I'm so
+          confuseddd.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("burst");
+      const ctx = canvas.getContext("2d");
+      let W, H;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      const CONFETTI_COLORS = [
+        "#ffd700",
+        "#e8c068",
+        "#c9973a",
+        "#f5d36e",
+        "#daa520",
+        "#b8860b",
+        "#f0c040",
+        "#e6b422",
+        "#f8e0a0",
+        "#f5e6c8",
+        "#f0e4cc",
+        "#fff5dd",
+        "#d4a843",
+        "#c8a84e",
+        "#e0c878",
+        "#fff1b8",
+      ];
+
+      class Confetti {
+        constructor(originX, originY, spread) {
+          this.x = originX + (Math.random() - 0.5) * (spread || 20);
+          this.y = originY + (Math.random() - 0.5) * 20;
+          const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 0.9;
+          const speed = Math.random() * 18 + 7;
+          this.vx = Math.cos(angle) * speed * (Math.random() > 0.5 ? 1 : -1);
+          this.vy = Math.sin(angle) * speed - Math.random() * 5;
+          this.w = Math.random() * 10 + 5;
+          this.h = Math.random() * 6 + 3;
+          this.color =
+            CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+          this.rotation = Math.random() * Math.PI * 2;
+          this.rotSpeed = (Math.random() - 0.5) * 0.35;
+          this.tilt = Math.random() * Math.PI * 2;
+          this.tiltSpeed = Math.random() * 0.08 + 0.03;
+          this.gravity = 0.18 + Math.random() * 0.08;
+          this.drag = 0.98 + Math.random() * 0.015;
+          this.wobble = Math.random() * 2;
+          this.wobbleSpeed = Math.random() * 0.1 + 0.03;
+          this.opacity = 1;
+          this.fadeRate = Math.random() * 0.002 + 0.0008;
+          this.shape =
+            Math.random() > 0.3
+              ? "rect"
+              : Math.random() > 0.5
+                ? "circle"
+                : "strip";
+        }
+
+        update() {
+          this.vy += this.gravity;
+          this.vx *= this.drag;
+          this.vy *= this.drag;
+          this.x += this.vx + Math.sin(this.tilt) * this.wobble;
+          this.y += this.vy;
+          this.rotation += this.rotSpeed;
+          this.tilt += this.tiltSpeed;
+          this.wobble *= 0.999;
+
+          if (this.y > H + 50) this.opacity = 0;
+          else if (this.y > H * 0.7) this.opacity -= this.fadeRate * 3;
+          else this.opacity -= this.fadeRate;
+        }
+
+        draw() {
+          if (this.opacity <= 0) return;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, this.opacity);
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.rotation);
+
+          const scaleX = Math.abs(Math.cos(this.tilt));
+
+          ctx.fillStyle = this.color;
+
+          if (this.shape === "rect") {
+            ctx.fillRect(
+              (-this.w / 2) * scaleX,
+              -this.h / 2,
+              this.w * scaleX,
+              this.h,
+            );
+          } else if (this.shape === "circle") {
+            ctx.beginPath();
+            ctx.ellipse(
+              0,
+              0,
+              (this.w / 2) * scaleX,
+              this.h / 2,
+              0,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+          } else {
+            ctx.fillRect(-this.w * scaleX, -1.5, this.w * 2 * scaleX, 3);
+          }
+
+          ctx.restore();
+        }
+
+        get alive() {
+          return this.opacity > 0;
+        }
+      }
+
+      const SPARK_COLORS = [
+        "rgba(232,192,104,",
+        "rgba(201,151,58,",
+        "rgba(248,224,160,",
+        "rgba(184,120,104,",
+      ];
+
+      class Sparkle {
+        constructor() {
+          this.x = Math.random() * W;
+          this.y = H + 10;
+          this.vx = (Math.random() - 0.5) * 0.45;
+          this.vy = -(Math.random() * 0.65 + 0.2);
+          this.life = 1;
+          this.decay = Math.random() * 0.0025 + 0.001;
+          this.size = Math.random() * 2 + 0.5;
+          this.color =
+            SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.life -= this.decay;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + Math.max(0, this.life) + ")";
+          ctx.fill();
+        }
+        get alive() {
+          return this.life > 0;
+        }
+      }
+
+      let confettiPieces = [];
+      let sparkles = [];
+      let confettiDone = false;
+      const isMobile = W < 768;
+
+      function fireConfetti(count, originX, originY, spread) {
+        const n = isMobile ? Math.floor(count * 0.45) : count;
+        for (let i = 0; i < n; i++) {
+          confettiPieces.push(new Confetti(originX, originY, spread));
+        }
+      }
+
+      setTimeout(() => {
+        fireConfetti(350, W / 2, H * 0.45, W * 0.15);
+        fireConfetti(120, W * 0.15, H * 0.5, 60);
+        fireConfetti(120, W * 0.85, H * 0.5, 60);
+      }, 300);
+
+      setTimeout(() => {
+        fireConfetti(180, W * 0.2, H * 0.2, 80);
+        fireConfetti(180, W * 0.8, H * 0.2, 80);
+      }, 900);
+
+      setTimeout(() => {
+        fireConfetti(200, W / 2, H * 0.35, W * 0.25);
+        confettiDone = true;
+      }, 1600);
+
+      (function countUp() {
+        const el = document.querySelector(".hero-number");
+        const target = 98;
+        const duration = 2200;
+        const startDelay = 1000;
+        let startTime = null;
+
+        function easeOutExpo(t) {
+          return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+        }
+
+        setTimeout(() => {
+          function tick(now) {
+            if (!startTime) startTime = now;
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const current = Math.round(easeOutExpo(progress) * target);
+            el.textContent = current;
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        }, startDelay);
+      })();
+
+      /* ── shooting stars ── */
+      function spawnShootingStar() {
+        const star = document.createElement("div");
+        star.className = "shooting-star";
+        star.style.left = Math.random() * W * 0.6 + "px";
+        star.style.top = Math.random() * H * 0.5 + "px";
+        star.style.transform = `rotate(${25 + Math.random() * 20}deg)`;
+        document.body.appendChild(star);
+        star.addEventListener("animationend", () => star.remove());
+      }
+
+      function scheduleStars() {
+        const delay = 2000 + Math.random() * 4000;
+        setTimeout(() => {
+          spawnShootingStar();
+          if (Math.random() > 0.6) {
+            setTimeout(spawnShootingStar, 200 + Math.random() * 400);
+          }
+          scheduleStars();
+        }, delay);
+      }
+      setTimeout(scheduleStars, 3500);
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+
+        confettiPieces = confettiPieces.filter((c) => c.alive);
+        confettiPieces.forEach((c) => {
+          c.update();
+          c.draw();
+        });
+
+        if (confettiDone) {
+          const maxSparkles = isMobile ? 30 : 65;
+          const sparkleCount = sparkles.filter((s) => s.alive).length;
+          if (sparkleCount < maxSparkles) sparkles.push(new Sparkle());
+        }
+        sparkles = sparkles.filter((s) => s.alive);
+        sparkles.forEach((s) => {
+          s.update();
+          s.draw();
+        });
+
+        requestAnimationFrame(loop);
+      }
+      loop();
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.12 },
+      );
+
+      document
+        .querySelectorAll(".section, .divider")
+        .forEach((el) => io.observe(el));
+
+      const cardIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.querySelectorAll(".subject-card").forEach((card, i) => {
+                setTimeout(() => card.classList.add("visible"), i * 130);
+              });
+              cardIO.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+
+      document
+        .querySelectorAll(".subjects")
+        .forEach((el) => cardIO.observe(el));
+    </script>
+  </body>
+</html>
