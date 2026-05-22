@@ -1,0 +1,3139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>what if we hadn't</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300&family=Caveat:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #080808;
+      font-family: "Cormorant Garamond", serif;
+      overflow-x: hidden;
+      transition: background 1.8s ease;
+    }
+
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    #cheerful-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 3s ease;
+    }
+
+    #cheerful-canvas.active {
+      opacity: 1;
+    }
+
+    #galaxy-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2.5s ease;
+    }
+
+    #galaxy-canvas.active {
+      opacity: 1;
+    }
+
+    #firefly-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    #firefly-canvas.active {
+      opacity: 1;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 800;
+      pointer-events: none;
+    }
+
+    #mountains-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2.4s ease;
+    }
+
+    #mountains-bg.active {
+      opacity: 1;
+    }
+
+    #mountains-bg svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #starfield-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2.4s ease;
+      background:
+        radial-gradient(circle at 20% 30%,
+          rgba(80, 90, 140, 0.18),
+          transparent 60%),
+        radial-gradient(circle at 75% 60%,
+          rgba(120, 80, 140, 0.14),
+          transparent 65%);
+    }
+
+    #starfield-bg.active {
+      opacity: 1;
+    }
+
+    .twinkle {
+      position: absolute;
+      border-radius: 50%;
+      background: #f4f0e6;
+      box-shadow: 0 0 6px rgba(255, 240, 200, 0.7);
+      animation: twinkle var(--dur, 3s) ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.15;
+        transform: scale(0.8);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    #lively-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 3.5s ease;
+    }
+
+    #lively-bg.active {
+      opacity: 1;
+    }
+
+    .warm-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at 50% 50%,
+          rgba(220, 160, 70, 0.18) 0%,
+          rgba(200, 120, 50, 0.09) 45%,
+          transparent 72%);
+      animation: breathGlow 5s ease-in-out infinite;
+    }
+
+    @keyframes breathGlow {
+
+      0%,
+      100% {
+        opacity: 0.55;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.22);
+      }
+    }
+
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(55px);
+      opacity: 0;
+      transition: opacity 3.5s ease;
+    }
+
+    #lively-bg.active .aurora-blob {
+      opacity: 1;
+    }
+
+    .aurora-blob:nth-child(2) {
+      width: 55vw;
+      height: 55vw;
+      top: 8%;
+      left: -6%;
+      background: radial-gradient(circle,
+          rgba(230, 170, 90, 0.32) 0%,
+          rgba(210, 150, 80, 0.1) 50%,
+          transparent 76%);
+      animation: auroraFloat1 13s ease-in-out infinite;
+    }
+
+    .aurora-blob:nth-child(3) {
+      width: 50vw;
+      height: 50vw;
+      top: 48%;
+      right: -9%;
+      background: radial-gradient(circle,
+          rgba(220, 140, 100, 0.28) 0%,
+          rgba(200, 120, 90, 0.09) 50%,
+          transparent 76%);
+      animation: auroraFloat2 15s ease-in-out infinite;
+    }
+
+    .aurora-blob:nth-child(4) {
+      width: 45vw;
+      height: 45vw;
+      bottom: 4%;
+      left: 28%;
+      background: radial-gradient(circle,
+          rgba(245, 200, 120, 0.25) 0%,
+          rgba(230, 180, 100, 0.09) 50%,
+          transparent 76%);
+      animation: auroraFloat3 11s ease-in-out infinite;
+    }
+
+    @keyframes auroraFloat1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(12vw, 8vh) scale(1.1);
+      }
+
+      50% {
+        transform: translate(5vw, 18vh) scale(0.95);
+      }
+
+      75% {
+        transform: translate(-8vw, 5vh) scale(1.05);
+      }
+    }
+
+    @keyframes auroraFloat2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      30% {
+        transform: translate(-10vw, -12vh) scale(1.08);
+      }
+
+      60% {
+        transform: translate(-18vw, 5vh) scale(0.92);
+      }
+
+      85% {
+        transform: translate(-5vw, -8vh) scale(1.04);
+      }
+    }
+
+    @keyframes auroraFloat3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      35% {
+        transform: translate(10vw, -10vh) scale(1.12);
+      }
+
+      65% {
+        transform: translate(-8vw, -5vh) scale(0.9);
+      }
+
+      90% {
+        transform: translate(5vw, 8vh) scale(1.06);
+      }
+    }
+
+    .grain {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.45;
+      animation: grain 8s steps(10) infinite;
+    }
+
+    @keyframes grain {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      10% {
+        transform: translate(-2%, -3%);
+      }
+
+      20% {
+        transform: translate(3%, 2%);
+      }
+
+      30% {
+        transform: translate(-1%, 4%);
+      }
+
+      40% {
+        transform: translate(2%, -2%);
+      }
+
+      50% {
+        transform: translate(-3%, 1%);
+      }
+
+      60% {
+        transform: translate(1%, 3%);
+      }
+
+      70% {
+        transform: translate(-2%, -1%);
+      }
+
+      80% {
+        transform: translate(3%, -3%);
+      }
+
+      90% {
+        transform: translate(-1%, 2%);
+      }
+    }
+
+    #flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center,
+          rgba(240, 200, 110, 0.55) 0%,
+          rgba(210, 160, 70, 0.28) 38%,
+          transparent 70%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      transition: opacity 0.25s ease-in;
+    }
+
+    #flash.on {
+      opacity: 1;
+    }
+
+    #flash.off {
+      opacity: 0;
+      transition: opacity 2s ease-out;
+    }
+
+    #entrance {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #080808;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 1.8s ease;
+    }
+
+    #entrance.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #entrance-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #entrance h1 {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #b0a898;
+      text-align: center;
+      padding: 0 2rem;
+      margin-bottom: 3rem;
+      line-height: 1.2;
+    }
+
+    #entrance p {
+      position: relative;
+      z-index: 1;
+      font-family: "DM Mono", monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      color: #8a8078;
+      text-transform: uppercase;
+      animation: pulse 2.5s ease infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .dark-section .label {
+      font-family: "DM Mono", monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      color: #d0ccc6;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transform: translateY(12px);
+      transition:
+        opacity 1.2s ease,
+        transform 1.2s ease;
+    }
+
+    .dark-section .headline {
+      font-size: clamp(2rem, 5.5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #ede6dc;
+      line-height: 1.35;
+      max-width: 660px;
+      text-shadow:
+        0 2px 16px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(160, 160, 160, 0.12);
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 1.4s ease 0.2s,
+        transform 1.4s ease 0.2s;
+    }
+
+    .dark-section .body-text {
+      font-size: clamp(0.92rem, 2vw, 1.1rem);
+      font-weight: 300;
+      color: #d0c8be;
+      line-height: 2.2;
+      max-width: 480px;
+      margin-top: 2rem;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+      opacity: 0;
+      transform: translateY(12px);
+      transition:
+        opacity 1.2s ease 0.5s,
+        transform 1.2s ease 0.5s;
+    }
+
+    .dark-section .body-text em {
+      color: #e8ddd0;
+      font-style: italic;
+    }
+
+    .dark-section.visible .label,
+    .dark-section.visible .headline,
+    .dark-section.visible .body-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #opening .headline {
+      font-size: clamp(3rem, 9vw, 7rem);
+      color: #ddd6cc;
+      line-height: 1.1;
+    }
+
+    #opening .subtitle {
+      font-family: "DM Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      color: #b8b0a6;
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition:
+        opacity 1.5s ease 0.8s,
+        transform 1.5s ease 0.8s;
+    }
+
+    #opening.visible .subtitle {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #threshold {
+      min-height: 80vh;
+    }
+
+    .threshold-text {
+      font-size: clamp(3rem, 11vw, 9rem);
+      font-style: italic;
+      font-weight: 300;
+      color: #9a8570;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 60px rgba(200, 150, 100, 0.3);
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+
+    #threshold.visible .threshold-text {
+      opacity: 1;
+    }
+
+    .light-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition:
+        opacity 1.8s ease,
+        transform 1.8s ease;
+    }
+
+    .light-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .light-section .label {
+      font-family: "DM Mono", monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      color: #d4a878;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    .light-section .headline {
+      font-size: clamp(2rem, 5.5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #eece9e;
+      line-height: 1.35;
+      max-width: 660px;
+      text-shadow: 0 0 50px rgba(230, 190, 130, 0.22);
+    }
+
+    .light-section .body-text {
+      font-size: clamp(0.92rem, 2vw, 1.1rem);
+      font-weight: 300;
+      color: #d0b498;
+      line-height: 2.2;
+      max-width: 500px;
+      margin-top: 2rem;
+    }
+
+    .light-section .body-text em {
+      color: #e8c0a0;
+      font-style: italic;
+    }
+
+    #breathing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #breathing .br-label {
+      font-family: "DM Mono", monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: #b89878;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+    }
+
+    .breath-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+          rgba(250, 210, 160, 0.55),
+          rgba(220, 160, 90, 0.18) 60%,
+          transparent 80%);
+      box-shadow: 0 0 80px rgba(250, 200, 140, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(0.8);
+      opacity: 0.6;
+      transition:
+        transform 4s ease-in-out,
+        opacity 4s ease-in-out;
+    }
+
+    .breath-circle.inhale {
+      transform: scale(1.6);
+      opacity: 1;
+      transition-duration: 4s;
+    }
+
+    .breath-circle.hold {
+      transform: scale(1.6);
+      opacity: 1;
+      transition-duration: 7s;
+    }
+
+    .breath-circle.exhale {
+      transform: scale(0.8);
+      opacity: 0.6;
+      transition-duration: 8s;
+    }
+
+    .breath-word {
+      font-style: italic;
+      color: #fff3dd;
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 20px rgba(255, 220, 160, 0.6);
+    }
+
+    #breathing .br-caption {
+      margin-top: 3rem;
+      max-width: 460px;
+      font-style: italic;
+      color: #c0a888;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    #galaxy-section {
+      min-height: 100vh;
+      position: relative;
+    }
+
+    #galaxy-section .headline {
+      font-size: clamp(2rem, 5.5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #e6d6ff;
+      line-height: 1.35;
+      max-width: 720px;
+      text-shadow: 0 0 60px rgba(180, 140, 255, 0.4);
+    }
+
+    #galaxy-section .body-text {
+      font-size: clamp(0.92rem, 2vw, 1.1rem);
+      color: #c8b8e6;
+      line-height: 2.1;
+      max-width: 500px;
+      margin-top: 2rem;
+      font-style: italic;
+    }
+
+    #galaxy-section .label {
+      font-family: "DM Mono", monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      color: #b09cd8;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    .teddy-wrap {
+      margin-top: 3rem;
+      position: relative;
+      width: 140px;
+      height: 160px;
+      animation: teddyFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes teddyFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-2deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(2deg);
+      }
+    }
+
+    .teddy-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .teddy-eye {
+      animation: blink 4.5s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes blink {
+
+      0%,
+      92%,
+      100% {
+        transform: scaleY(1);
+      }
+
+      94%,
+      98% {
+        transform: scaleY(0.1);
+      }
+    }
+
+    .teddy-arm-wave {
+      transform-origin: 60px 95px;
+      animation: wave 2.4s ease-in-out infinite;
+    }
+
+    @keyframes wave {
+
+      0%,
+      100% {
+        transform: rotate(-12deg);
+      }
+
+      50% {
+        transform: rotate(18deg);
+      }
+    }
+
+    .teddy-bubble {
+      position: absolute;
+      top: -10px;
+      left: 130px;
+      background: #fff3dd;
+      color: #6b4f2a;
+      font-family: "Caveat", cursive;
+      font-size: 1.1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 16px;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transform: translateX(-10px);
+      animation: bubbleIn 1s ease 0.8s forwards;
+    }
+
+    .teddy-bubble::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 18px;
+      border: 8px solid transparent;
+      border-right-color: #fff3dd;
+    }
+
+    @keyframes bubbleIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    #she-noticed {
+      min-height: 100vh;
+      padding: 6rem 2rem;
+    }
+
+    .noticed-label {
+      font-family: "DM Mono", monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.45em;
+      color: #9a7850;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    .noticed-headline {
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #eece9e;
+      line-height: 1.3;
+      max-width: 700px;
+      text-shadow: 0 0 60px rgba(230, 190, 130, 0.25);
+      margin-bottom: 3rem;
+    }
+
+    .her-words {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #c8a880;
+      line-height: 2.4;
+      max-width: 580px;
+      border-left: 1px solid rgba(200, 160, 100, 0.25);
+      padding-left: 2rem;
+      text-align: left;
+      margin: 0 auto 3rem;
+    }
+
+    .noticed-body {
+      font-size: clamp(0.92rem, 2vw, 1.05rem);
+      font-weight: 300;
+      color: #b89878;
+      line-height: 2.3;
+      max-width: 500px;
+    }
+
+    .noticed-body em {
+      color: #ddb890;
+      font-style: italic;
+    }
+
+    .memory-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      max-width: 600px;
+      margin: 2.5rem auto 0;
+    }
+
+    .memory-tag {
+      font-family: "DM Mono", monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: #8a6840;
+      border: 1px solid rgba(180, 130, 70, 0.25);
+      padding: 0.5rem 1rem;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    #she-noticed.visible .memory-tag {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(2) {
+      transition-delay: 0.22s;
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(3) {
+      transition-delay: 0.34s;
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(4) {
+      transition-delay: 0.46s;
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(5) {
+      transition-delay: 0.58s;
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(6) {
+      transition-delay: 0.7s;
+    }
+
+    #she-noticed.visible .memory-tag:nth-child(7) {
+      transition-delay: 0.82s;
+    }
+
+    #letter-section {
+      min-height: 100vh;
+    }
+
+    .letter-prompt {
+      font-style: italic;
+      color: #d8b890;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      margin-bottom: 2rem;
+      max-width: 560px;
+      line-height: 1.5;
+    }
+
+    .letter-input-wrap {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+      perspective: 800px;
+    }
+
+    .letter-input {
+      background: rgba(255, 230, 200, 0.05);
+      border: 1px solid rgba(220, 180, 130, 0.4);
+      color: #f4dcb5;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      padding: 0.8rem 1.4rem;
+      border-radius: 6px;
+      outline: none;
+      min-width: 220px;
+      transition:
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+    }
+
+    .letter-input:focus {
+      border-color: #e8c08a;
+      box-shadow: 0 0 24px rgba(232, 192, 138, 0.35);
+    }
+
+    .letter-btn {
+      background: linear-gradient(135deg, #e8c08a, #c89868);
+      color: #2a1a0a;
+      border: none;
+      font-family: "DM Mono", monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0 1.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+    }
+
+    .letter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(232, 192, 138, 0.45);
+    }
+
+    .letter-paper {
+      max-width: 560px;
+      width: 100%;
+      background: linear-gradient(180deg, #f8ebcf 0%, #f0dcb0 100%);
+      color: #4a3520;
+      padding: 2.4rem 2rem;
+      border-radius: 8px;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.5),
+        inset 0 0 60px rgba(180, 130, 70, 0.08);
+      font-family: "Caveat", cursive;
+      font-size: 1.35rem;
+      line-height: 1.7;
+      text-align: left;
+      transform-origin: top center;
+      transform: rotateX(-90deg) translateY(-30px) scale(0.85);
+      opacity: 0;
+      transition:
+        transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+        opacity 1.2s ease;
+      white-space: pre-wrap;
+      min-height: 60px;
+    }
+
+    .letter-paper.open {
+      transform: rotateX(0) translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .letter-cursor {
+      display: inline-block;
+      width: 2px;
+      background: #4a3520;
+      animation: cursorBlink 1s steps(2) infinite;
+      margin-left: 1px;
+      vertical-align: text-bottom;
+      height: 1.1em;
+    }
+
+    @keyframes cursorBlink {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .click-me {
+      display: inline-block;
+      margin-top: 3rem;
+      font-style: italic;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: #ffd9a8;
+      padding: 0.8rem 2rem;
+      border: 1px solid rgba(255, 200, 140, 0.4);
+      border-radius: 999px;
+      cursor: pointer;
+      background: rgba(255, 200, 140, 0.06);
+      transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.4s ease;
+      user-select: none;
+      animation: clickPulse 3s ease-in-out infinite;
+      position: relative;
+      z-index: 10;
+    }
+
+    .click-me:hover {
+      transform: scale(1.08);
+      background: rgba(255, 200, 140, 0.14);
+      box-shadow: 0 0 40px rgba(255, 200, 140, 0.4);
+    }
+
+    @keyframes clickPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 rgba(255, 200, 140, 0);
+      }
+
+      50% {
+        box-shadow: 0 0 50px rgba(255, 200, 140, 0.35);
+      }
+    }
+
+    #finale {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .finale-glow {
+      position: absolute;
+      width: 60vw;
+      height: 60vw;
+      max-width: 600px;
+      max-height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+          rgba(255, 210, 140, 0.12) 0%,
+          rgba(230, 180, 100, 0.06) 40%,
+          transparent 70%);
+      pointer-events: none;
+      animation: finaleGlowPulse 6s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes finaleGlowPulse {
+
+      0%,
+      100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+    }
+
+    .finale-text-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+    }
+
+    .finale-text {
+      font-size: clamp(1.6rem, 4.5vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: #f0d8b0;
+      line-height: 1.7;
+      text-shadow:
+        0 0 40px rgba(255, 210, 140, 0.2),
+        0 2px 16px rgba(0, 0, 0, 0.6);
+      min-height: 4em;
+    }
+
+    .finale-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.1em;
+      background: linear-gradient(180deg, #ffd9a8, #c4956a);
+      margin-left: 3px;
+      vertical-align: text-bottom;
+      border-radius: 2px;
+      animation: finaleCursorBlink 1s steps(2) infinite;
+      box-shadow: 0 0 12px rgba(255, 210, 140, 0.6);
+    }
+
+    @keyframes finaleCursorBlink {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .finale-cursor.done {
+      animation: finaleCursorFade 2s ease forwards;
+    }
+
+    @keyframes finaleCursorFade {
+      0% {
+        opacity: 1;
+      }
+
+      60% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .finale-sparkle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255, 220, 160, 0.9), transparent 70%);
+    }
+
+    .finale-line {
+      display: block;
+      margin-bottom: 0.3em;
+    }
+
+    .finale-char {
+      opacity: 0;
+      display: inline;
+      transition: opacity 0.4s ease;
+    }
+
+    .finale-char.visible {
+      opacity: 1;
+    }
+
+    #scroll-hint {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "DM Mono", monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      z-index: 10;
+      pointer-events: none;
+      transition:
+        opacity 0.6s ease,
+        color 1.5s ease;
+    }
+
+    #scroll-hint.hidden {
+      opacity: 0;
+    }
+
+    #scroll-hint.light {
+      color: #a88060;
+    }
+
+    audio {
+      display: none;
+    }
+
+    #portrait {
+      min-height: 100vh;
+    }
+
+    .stone-scene {
+      position: relative;
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stone-svg-wrap {
+      filter: drop-shadow(0 14px 32px rgba(80, 60, 30, 0.45));
+      animation: stoneFloat 5.5s ease-in-out infinite;
+    }
+
+    @keyframes stoneFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-1.5deg);
+      }
+
+      50% {
+        transform: translateY(-9px) rotate(1.5deg);
+      }
+    }
+
+    .stone-caption {
+      font-family: "DM Mono", monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.4em;
+      color: #9a8068;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    .blue-word {
+      color: #7ab8d6;
+      font-style: italic;
+    }
+
+    #hold-onto {
+      min-height: 100vh;
+      padding: 6rem 2rem;
+    }
+
+    .m-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      max-width: 680px;
+      width: 100%;
+      margin-top: 2.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .m-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .m-card {
+      background: rgba(255, 230, 200, 0.035);
+      border: 1px solid rgba(220, 180, 120, 0.12);
+      border-left: 2px solid rgba(210, 160, 90, 0.4);
+      padding: 1.15rem 1.35rem;
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity 0.85s ease,
+        transform 0.85s ease,
+        border-left-color 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .m-card:hover {
+      background: rgba(255, 230, 200, 0.065);
+      border-left-color: rgba(230, 180, 100, 0.7);
+    }
+
+    #hold-onto.visible .m-card {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #hold-onto.visible .m-card:nth-child(1) {
+      transition-delay: 0.05s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(2) {
+      transition-delay: 0.13s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(3) {
+      transition-delay: 0.21s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(4) {
+      transition-delay: 0.29s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(5) {
+      transition-delay: 0.37s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(6) {
+      transition-delay: 0.45s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(7) {
+      transition-delay: 0.53s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(8) {
+      transition-delay: 0.61s;
+    }
+
+    #hold-onto.visible .m-card:nth-child(9) {
+      transition-delay: 0.69s;
+    }
+
+    .m-card-tag {
+      font-family: "DM Mono", monospace;
+      font-size: 0.44rem;
+      letter-spacing: 0.32em;
+      color: #a07848;
+      text-transform: uppercase;
+      margin-bottom: 0.55rem;
+    }
+
+    .m-card-text {
+      font-size: clamp(0.88rem, 1.8vw, 0.98rem);
+      font-style: italic;
+      color: #c8a878;
+      line-height: 1.8;
+    }
+
+    #distance-section {
+      min-height: 85vh;
+    }
+
+    .dist-wrap {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .dist-svg {
+      width: min(480px, 90vw);
+      opacity: 0;
+      transition: opacity 1.5s ease 0.6s;
+    }
+
+    #distance-section.visible .dist-svg {
+      opacity: 1;
+    }
+
+    .dist-info {
+      font-family: "DM Mono", monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.32em;
+      color: #c0905a;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    .dist-sub {
+      font-size: 1rem;
+      font-style: italic;
+      color: #b09070;
+      line-height: 2;
+      margin-top: 1rem;
+      max-width: 420px;
+    }
+
+    @keyframes dashMove {
+      to {
+        stroke-dashoffset: -40;
+      }
+    }
+
+
+    #busstation-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2.4s ease;
+    }
+
+    #busstation-bg.active {
+      opacity: 1;
+    }
+
+    #busstation-bg svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .busstation-photo {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      width: clamp(140px, 18vw, 260px);
+      border-radius: 6px;
+      border: 2px solid rgba(255, 220, 160, 0.15);
+      box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.6),
+        0 0 60px rgba(230, 180, 100, 0.08);
+      opacity: 0.75;
+      transform: rotate(2deg);
+      transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+      z-index: 1;
+    }
+
+    .busstation-photo:hover {
+      opacity: 1;
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    @keyframes lampFlicker {
+
+      0%,
+      100% {
+        opacity: 0.85;
+      }
+
+      10% {
+        opacity: 0.9;
+      }
+
+      20% {
+        opacity: 0.82;
+      }
+
+      50% {
+        opacity: 0.92;
+      }
+
+      70% {
+        opacity: 0.8;
+      }
+
+      90% {
+        opacity: 0.88;
+      }
+    }
+
+    @keyframes busIdle {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(3px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="dark-audio" loop>
+    <source src="src/snowfall.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="light-audio" loop>
+    <source src="src/signOfTheTimes.mp3" type="audio/mpeg" />
+  </audio>
+
+  <canvas id="canvas"></canvas>
+  <div id="starfield-bg"></div>
+  <div id="busstation-bg">
+    <svg viewBox="0 0 1440 700" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="busNightSky" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#060818" />
+          <stop offset="40%" stop-color="#0c1228" />
+          <stop offset="75%" stop-color="#141a30" />
+          <stop offset="100%" stop-color="#1a1e2e" />
+        </linearGradient>
+        <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffd98c" stop-opacity="0.45" />
+          <stop offset="40%" stop-color="#e8a84a" stop-opacity="0.18" />
+          <stop offset="100%" stop-color="#e8a84a" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="lampGlow2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffd98c" stop-opacity="0.3" />
+          <stop offset="40%" stop-color="#e8a84a" stop-opacity="0.1" />
+          <stop offset="100%" stop-color="#e8a84a" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="700" fill="url(#busNightSky)" />
+      <circle cx="120" cy="60" r="1" fill="#c8c8e0" opacity="0.5" />
+      <circle cx="340" cy="35" r="0.8" fill="#c8c8e0" opacity="0.4" />
+      <circle cx="580" cy="80" r="1.2" fill="#c8c8e0" opacity="0.6" />
+      <circle cx="820" cy="45" r="0.7" fill="#c8c8e0" opacity="0.3" />
+      <circle cx="1050" cy="70" r="1" fill="#c8c8e0" opacity="0.5" />
+      <circle cx="1280" cy="50" r="0.9" fill="#c8c8e0" opacity="0.4" />
+      <circle cx="200" cy="110" r="0.6" fill="#c8c8e0" opacity="0.3" />
+      <circle cx="700" cy="30" r="1.1" fill="#d8d0e8" opacity="0.35" />
+      <circle cx="1100" cy="95" r="0.8" fill="#c8c8e0" opacity="0.45" />
+      <circle cx="1150" cy="110" r="22" fill="#e0dcd0" opacity="0.12" />
+      <circle cx="1150" cy="110" r="14" fill="#f0ece0" opacity="0.18" />
+      <rect x="0" y="530" width="1440" height="170" fill="#0e1018" />
+      <rect x="0" y="530" width="1440" height="8" fill="#1a1c28" />
+      <rect x="100" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="260" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="420" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="580" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="740" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="900" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="1060" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="1220" y="534" width="60" height="2" rx="1" fill="#2a2c38" opacity="0.5" />
+      <rect x="520" y="420" width="200" height="110" fill="#12141e" stroke="#1e2030" stroke-width="1" />
+      <rect x="510" y="412" width="220" height="10" rx="2" fill="#1a1c2a" />
+      <rect x="530" y="432" width="50" height="86" rx="2" fill="#161a2a" stroke="#252840" stroke-width="0.8"
+        opacity="0.7" />
+      <rect x="590" y="432" width="50" height="86" rx="2" fill="#161a2a" stroke="#252840" stroke-width="0.8"
+        opacity="0.7" />
+      <rect x="650" y="432" width="60" height="86" rx="2" fill="#161a2a" stroke="#252840" stroke-width="0.8"
+        opacity="0.7" />
+      <rect x="560" y="490" width="100" height="5" rx="2" fill="#1e2030" />
+      <rect x="570" y="495" width="4" height="25" fill="#181a28" />
+      <rect x="650" y="495" width="4" height="25" fill="#181a28" />
+      <rect x="500" y="380" width="4" height="150" fill="#1e2030" />
+      <rect x="490" y="372" width="24" height="16" rx="3" fill="#2a3048" stroke="#3a4060" stroke-width="0.8" />
+      <text x="502" y="384" font-family="'DM Mono', monospace" font-size="7" fill="#6878a0" text-anchor="middle"
+        letter-spacing="1">
+        BUS
+      </text>
+      <rect x="398" y="300" width="4" height="230" fill="#1a1c28" />
+      <rect x="388" y="296" width="24" height="6" rx="3" fill="#222438" />
+      <ellipse cx="400" cy="304" rx="12" ry="4" fill="#ffd98c" opacity="0.25" />
+      <circle cx="400" cy="330" r="110" fill="url(#lampGlow)" style="animation: lampFlicker 6s ease-in-out infinite" />
+      <ellipse cx="400" cy="528" rx="90" ry="12" fill="#ffd98c" opacity="0.06" />
+      <rect x="848" y="320" width="4" height="210" fill="#1a1c28" />
+      <rect x="838" y="316" width="24" height="6" rx="3" fill="#222438" />
+      <circle cx="850" cy="350" r="90" fill="url(#lampGlow2)"
+        style="animation: lampFlicker 7s ease-in-out infinite 2s" />
+      <ellipse cx="850" cy="528" rx="70" ry="10" fill="#ffd98c" opacity="0.04" />
+      <g style="animation: busIdle 4s ease-in-out infinite">
+        <rect x="1050" y="480" width="140" height="48" rx="6" fill="#141624" />
+        <rect x="1055" y="486" width="28" height="22" rx="2" fill="#1a2040" opacity="0.7" />
+        <rect x="1088" y="486" width="28" height="22" rx="2" fill="#1a2040" opacity="0.7" />
+        <rect x="1121" y="486" width="28" height="22" rx="2" fill="#1a2040" opacity="0.7" />
+        <rect x="1154" y="486" width="28" height="22" rx="2" fill="#1a2040" opacity="0.7" />
+        <circle cx="1190" cy="510" r="4" fill="#e8c870" opacity="0.4" />
+        <circle cx="1055" cy="510" r="4" fill="#c83030" opacity="0.3" />
+        <circle cx="1080" cy="528" r="9" fill="#0a0c14" />
+        <circle cx="1080" cy="528" r="5" fill="#141624" />
+        <circle cx="1160" cy="528" r="9" fill="#0a0c14" />
+        <circle cx="1160" cy="528" r="5" fill="#141624" />
+      </g>
+      <rect x="0" y="440" width="80" height="90" fill="#0c0e18" />
+      <rect x="70" y="460" width="60" height="70" fill="#0e1020" />
+      <rect x="120" y="470" width="40" height="60" fill="#0a0c16" />
+      <rect x="1300" y="450" width="70" height="80" fill="#0c0e18" />
+      <rect x="1360" y="465" width="80" height="65" fill="#0e1020" />
+      <rect x="20" y="455" width="6" height="6" fill="#283050" opacity="0.4" />
+      <rect x="40" y="455" width="6" height="6" fill="#283050" opacity="0.25" />
+      <rect x="20" y="470" width="6" height="6" fill="#283050" opacity="0.3" />
+      <rect x="55" y="470" width="6" height="6" fill="#ffd98c" opacity="0.15" />
+      <rect x="1320" y="465" width="6" height="6" fill="#283050" opacity="0.3" />
+      <rect x="1340" y="465" width="6" height="6" fill="#ffd98c" opacity="0.12" />
+      <rect x="1380" y="480" width="6" height="6" fill="#283050" opacity="0.25" />
+      <rect x="0" y="527" width="1440" height="3" fill="#1a1c28" />
+    </svg>
+    <img class="busstation-photo" src="src/images/busStation.jpg" alt="bus station" />
+  </div>
+  <div id="mountains-bg">
+    <svg viewBox="0 0 1440 600" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#140b2e" />
+          <stop offset="35%" stop-color="#3d1445" />
+          <stop offset="65%" stop-color="#852b4a" />
+          <stop offset="100%" stop-color="#e8613c" />
+        </linearGradient>
+      </defs>
+      <rect width="1440" height="600" fill="url(#skyGrad)" opacity="0.85" />
+    </svg>
+    <div style="
+          position: absolute;
+          left: 50%;
+          top: 51.6%;
+          transform: translate(-50%, -50%);
+          width: 240px;
+          height: 240px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle,
+            #fff2c8 0%,
+            rgba(255, 183, 77, 0.9) 35%,
+            rgba(216, 58, 58, 0.4) 70%,
+            rgba(216, 58, 58, 0) 100%
+          );
+          opacity: 0.95;
+        "></div>
+    <svg viewBox="0 0 1440 600" preserveAspectRatio="none">
+      <g id="mtn-far">
+        <path d="M0,420 L160,300 L320,380 L500,250 L680,360 L860,280 L1040,370 L1220,290 L1440,360 L1440,600 L0,600 Z"
+          fill="#341c3a" opacity="0.9" />
+      </g>
+      <g id="mtn-mid">
+        <path d="M0,480 L180,380 L340,440 L520,340 L700,430 L880,360 L1080,440 L1260,370 L1440,430 L1440,600 L0,600 Z"
+          fill="#1c0f24" opacity="0.95" />
+      </g>
+      <g id="mtn-front">
+        <path d="M0,540 L200,440 L360,500 L560,420 L760,490 L960,430 L1180,500 L1340,440 L1440,490 L1440,600 L0,600 Z"
+          fill="#0a050e" />
+      </g>
+    </svg>
+  </div>
+  <div id="lively-bg">
+    <div class="warm-glow"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
+  <canvas id="cheerful-canvas"></canvas>
+  <canvas id="firefly-canvas"></canvas>
+  <canvas id="galaxy-canvas"></canvas>
+  <div class="grain"></div>
+  <div id="flash"></div>
+  <canvas id="confetti-canvas"></canvas>
+
+
+  <div id="entrance">
+    <canvas id="entrance-canvas"></canvas>
+    <h1>what if we<br />hadn't..?</h1>
+    <p>tap anywhere to enter</p>
+  </div>
+  <div id="scroll-hint">scroll ↓</div>
+
+  <div class="content">
+    <section class="section dark-section" id="opening" data-bg="night">
+      <h1 class="headline">what if<br />we hadn't...</h1>
+      <p class="subtitle">
+        I certainly would've been like.. <br />
+        OH FML!!!
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t1" data-bg="night">
+      <p class="label">meow 1</p>
+      <h2 class="headline">Before Sep 28th, 2025</h2>
+      <p class="body-text">
+        Everything's... going on monotonously, pretty ordinary <br />
+        You preparing for CLAT, having some nice coffee with wind and light
+        coming from your window..<br />
+        And I'm heree.. boringly preparing for exams and stuff..<br />
+        Nothing special.
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t2" data-bg="stars">
+      <p class="label">meow 2</p>
+      <h2 class="headline">
+        I was doing just fine,<br />(or so i thought ^^)
+      </h2>
+      <p class="body-text">
+        Not knowing someone like ( no one's like or better than you [ yeaaa ik
+        ikk, everyone's unique and all. But nopeeee. you're..rare..Anddd
+        wellll rn it is uhm 00:20 of 20th Mayyy 2026, anddd i reckon I'll try
+        to write a letter, about <u>how</u> you are rare.. ] though i don't
+        think I will be able to, cz.. its late already and knowing that you'd
+        want me asleep by now.. I'll just work on this a bit more then sleeep.
+        Will try doing that tomroww)<br />
+        Someone..with such beautiful thoughts.. such uhm.. beautiful brown
+        eyes..looking at(into..) which just.. gives me endless peace and
+        heartmelting and heartwarming feelings that i never experienced
+        before..and its...beautiful..indescribable.<br />
+        I never knew how much sighh.. how I'd want someone.. crave to
+        <u>be</u> with someone this much until..you happened...
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t3" data-bg="mountains">
+      <p class="label">meow 3</p>
+      <h2 class="headline">you paint, but<br />i don't get to see it : (</h2>
+      <p class="body-text">
+        Somewhereee in the same nation, you blend colourss..<br />
+        on a palettee.. those brushstrokes that you make..<br />
+        that careful, beautiful, quiet, patient attention to detail..The
+        gradients...drish<br />
+        But at that time I'm just..clueless. Sad for old version of me,
+        missing on all that aye heh..
+        <br />
+        sigh... I'll be better.
+      </p>
+    </section>
+    <section class="section dark-section" id="t4" data-bg="mountains">
+      <p class="label">Meow 4</p>
+      <h2 class="headline">you laugh.. giggle..<br />i don't hear it..</h2>
+      <p class="body-text">
+        That laugh of yours..oh God that sweet, contagious...sweetest
+        giggle ..that i have..never once heard..without smiling..without a
+        heartwarming feeling rushing through me..
+      </p>
+    </section>
+    <section class="section dark-section" id="t5" data-bg="busstation">
+      <p class="label">timeline — 05</p>
+      <h2 class="headline">the voice that<br />never reaches me.</h2>
+      <p class="body-text">
+        "ha kaustubh, ye sahi hai tumhara"...<br />
+        I...still remember hearing that...your sweet sarcastic tone...
+        <br />Sigh... i miss listening to that.. gosh it was sooo nicee let me
+        tell you,
+        <br />
+        I was at the bus stop, pretty tired, returning from college. We used
+        to text on instagram back then,, <br>
+        And if you remember.. I had stupidly uhm..assumed, based on your uhmm reel likings, that..yeaahh stupid idiot me
+        ughhh.
+        <br> yeaaaaaaaaaa..anywaaayyss, i'm sure you remember that.. Soooo hmm.. while returning home as i was on the
+        train, you sent me a few voice messages in which you.. <br>
+        told me stuff..reassured me.. Anddd then.. after some time of talking about what you had said in it, I..started
+        talking about your.. beautiful vooice.. <br>
+        To whichhhh you saiddd, X)... heh.. Ha Kaustubh. Ye sahi hai tumhara. You say something, jiske wajah se mujhe
+        voice message send karna pade. And then you say this. This is not done. <br>
+        GOSHHH YAAAAAAAAAR drishtiiiiiiiiii tuuuuuuuu gydugufkrhgesdrghtyoesfnc utghjhjhgkdirt bfsklyugfsydeilu <br>
+        faaaaaaaaaa rtbfbgs!!!!!! <CRYING EMOJISSSSSSSSSS!!!!!!!!>>
+          Sighhhhh... I literally made those..cute feelings waale high pitch sounds when you see something too kyoot
+          like a cat or something. <br>
+          This happens to me a LOTTTT when I'mm talkng to you. when you do something, or when I''m doing smth like this,
+          remembering stufff... <br>
+          Gosh you are <strong>magical</strong>.
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t5b" data-bg="stars">
+      <p class="label">Meow 5</p>
+      <h2 class="headline">you study<br />I don't get to accompany youh..</h2>
+      <p class="body-text">
+        I... remember once you had told me.. that Kishu used to rest near you whenever you used to stay up late
+        nights..studying. Sighh i don't know if you believe it when i say that every..emotional stuff between us.. or
+        about you..bring tears in my eyes.. <br>
+        it does.. a lot of times...sigh and i wish you could see it..to believe it.. but maybe the day we finally meet..
+        <br>
+        Gosh i am going to cry.. my eyes out lol.. You're beautiful.. <br>
+        And when i say that you're beautiful, i dont just meann that you have a beautiful face.. but you..are
+        beautiful..eternally too. In every single way possible..drishti.. And i <u>Love</u>....sigh.. that..lets say for
+        now.. SO MUCH..
+        <br />
+        I wish i could be there with you even before September 2025..so that i could just.. accompany you.. Boards,
+        difficult stuff.. easy stuf.. just everything. <br>
+        <em>i'm so happy for you, drishtiiii.</em>
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t5c" data-bg="mountains">
+      <p class="label">Meow 6</p>
+      <h2 class="headline">you write..<br />I don't get to read them.</h2>
+      <p class="body-text">
+        All those beautiful poems...proses<br />
+        All of the writings that.. unfortunately got lost with the deleted account... : (((<br />
+        Sighh if only we had crossed each other early.. they'd have been backed up by me..<br />
+        At that time?? Sighh this mortal doesn't get to read them<br />
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t5d" data-bg="night">
+      <p class="label">Meow 7</p>
+      <h2 class="headline">You going on morning runs..<br>I don't get to accompany you</h2>
+      <p class="body-text">
+        Ifff onlyyyy we had..crossed paths sooner.. we would've made it a routine.. going on morning runs. <br>
+        Sighh... this stupid weather wasn't so bad before, right?<br>
+        We'll finddd a wayyyy...
+      </p>
+    </section>
+
+    <section class="section dark-section" id="t6" data-bg="night">
+      <p class="label">Mmeow 8</p>
+      <h2 class="headline">: ))).. the non-eight months/years of ordinary</h2>
+      <p class="body-text">
+        Sighhh... I really wanted to pour out my heart here for you.. drishti... but not the "right" time...
+        I wish the time comes soon for you..
+      </p>
+    </section>
+
+    <section class="section" id="threshold" data-bg="night">
+      <p class="threshold-text">but then... : )))))))))</p>
+    </section>
+
+    <section class="section light-section" id="breathing" data-bg="warm">
+      <p class="br-label">breathe with me · 4 · 7 · 8</p>
+      <div class="breath-circle" id="breath-circle">
+        <span class="breath-word" id="breath-word">inhale</span>
+      </div>
+      <p class="br-caption">
+        before the bright part begins ^^ <br />
+        one slow breathhhh,,, togetherrr heheh
+        I must be in Japan rnnn, buttt, i have set an alarm on my watch for 11:11 IST ; ) <br />
+      </p>
+    </section>
+
+    <section class="section" id="galaxy-section" data-bg="galaxy">
+      <p class="label">Ourrr meooowww, finallyyy heheh</p>
+      <h2 class="headline">
+        in a universe<br />of everyyyy single possibilityy,,
+      </h2>
+      <p class="body-text">
+        all the stars kindaaa rearranged themselves (i..don't really believe in it but... hmm.. what were the
+        odds, hmm..?)<br />
+        One fine, peaceful night.. You. and me. Both completely..unknown to each other..<br> I text you, heyy, how you
+        doin'? I never knew.. never expected it to turn out like this... especiallyyy me falling..so hard.. sighh.. It
+        just happened. And when it hit me.. gosh.. okayyy..for your sake, i won't much about it..for now.
+        But yeahh... truly was in disbelief...
+      </p>
+    </section>
+
+    <section class="section light-section" id="l1" data-bg="warm">
+      <p class="label">this timeline</p>
+      <h2 class="headline">you happened... : ))</h2>
+      <p class="body-text">
+        Out of every possibility, I am glad that it had to be you...<br />
+        Sighhhhhhhhhhhhhhhhhhhhh I posssiibblyy cannotttt justtt say what I want toooo czzz its something that you
+        feeeeel.
+      </p>
+    </section>
+
+    <section class="section light-section" id="l2" data-bg="warm">
+      <h2 class="headline">i got to hear your voice</h2>
+      <p class="body-text">
+        Your..melodious voice.. your cheerful, mood uplifting voice.. a voice that immediately lands a smile on my
+        face..even when I'm feeling loww. It just..lifts me up. <br>
+        Repetitive, i know, but it's just indescribable <br>
+      </p>
+      <div class="teddy-wrap" aria-hidden="true">
+        <svg class="teddy-svg" viewBox="0 0 140 160">
+          <circle cx="38" cy="38" r="16" fill="#a87850" />
+          <circle cx="102" cy="38" r="16" fill="#a87850" />
+          <circle cx="38" cy="38" r="8" fill="#7a5638" />
+          <circle cx="102" cy="38" r="8" fill="#7a5638" />
+          <circle cx="70" cy="60" r="34" fill="#c89868" />
+          <ellipse cx="70" cy="72" rx="14" ry="10" fill="#f0d8b8" />
+          <ellipse cx="70" cy="66" rx="4" ry="3" fill="#3a2818" />
+          <path d="M64 74 Q70 80 76 74" stroke="#3a2818" stroke-width="1.5" fill="none" stroke-linec ap="round" />
+          <ellipse class="teddy-eye" cx="58" cy="58" rx="3" ry="4" fill="#1a1208" />
+          <ellipse class="teddy-eye" cx="82" cy="58" rx="3" ry="4" fill="#1a1208" />
+          <circle cx="58.8" cy="56.8" r="0.9" fill="#fff" />
+          <circle cx="82.8" cy="56.8" r="0.9" fill="#fff" />
+          <circle cx="48" cy="68" r="4" fill="#e89a8a" opacity="0.6" />
+          <circle cx="92" cy="68" r="4" fill="#e89a8a" opacity="0.6" />
+          <ellipse cx="70" cy="120" rx="30" ry="28" fill="#c89868" />
+          <ellipse cx="70" cy="124" rx="18" ry="16" fill="#f0d8b8" />
+          <ellipse cx="40" cy="118" rx="10" ry="14" fill="#c89868" />
+          <g class="teddy-arm-wave">
+            <ellipse cx="100" cy="110" rx="10" ry="14" fill="#c89868" />
+            <circle cx="105" cy="98" r="5" fill="#c89868" />
+          </g>
+          <ellipse cx="54" cy="152" rx="9" ry="6" fill="#c89868" />
+          <ellipse cx="86" cy="152" rx="9" ry="6" fill="#c89868" />
+          <ellipse cx="54" cy="153" rx="5" ry="3" fill="#f0d8b8" />
+          <ellipse cx="86" cy="153" rx="5" ry="3" fill="#f0d8b8" />
+          <path
+            d="M70 116 C 66 110, 60 112, 62 118 C 64 123, 70 127, 70 127 C 70 127, 76 123, 78 118 C 80 112, 74 110, 70 116 Z"
+            fill="#e85a6a" />
+        </svg>
+        <div class="teddy-bubble">she onceeee said that I'm kyooot (the teddyyy hehe)</div>
+      </div>
+    </section>
+
+    <section class="section light-section" id="l4" data-bg="warm">
+      <h2 class="headline">All the memories we've shared...</h2>
+      <p class="body-text">
+        : ))))... Everything that you've told me.. from the smallest things to the biggest, deepest emotions, events,
+        incidents.. I keep them close to my heart. <br>
+        The conversation that you had with a little girl, which reminded youuuhh of the little you ^^.
+        <br> and it all somehow.. makes the 1,363 kilometres feel small.
+      </p>
+    </section>
+
+    <section class="section light-section" id="hold-onto" data-bg="warm">
+      <p class="label">things i hold onto ^^</p>
+      <h2 class="headline">
+        the small things.<br />which are the big things.
+      </h2>
+      <div class="m-cards-grid">
+        <div class="m-card">
+          <p class="m-card-tag">the toy kitchen</p>
+          <p class="m-card-text">
+            The toy kitchen youuhh had, so adorably recorded, while talking about each one of them, telling me their
+            past, wo kaha se aaye the, Kanha ka kaunsa favourite, thennn paapa ne South Africa se ek laaye the ^^ <br>
+            X))).. evennn the kyooot littlee realisticc wardrobeee which youu couldn't open 😬🤐 <br>
+            The "ur precious" karkeee haii naa chhotuu saaa. woo bhiii.
+          </p>
+        </div>
+        <div class="m-card">
+          <p class="m-card-tag">your window X)))))</p>
+          <p class="m-card-text">
+            Ohhh your windowwww X)))... goshhh that video lives in my heart. I love that one so much goshhh. <br>
+            I don'ttt knowwww whyy but i love it.. i love the way youuhh have talked about everything and nothingg in
+            itt, thenn pointing at stuff like the dust with your finger X) adorable..preccious..
+          </p>
+        </div>
+        <div class="m-card">
+          <p class="m-card-tag">oyeee</p>
+          <p class="m-card-text">
+            : )))))))))))))) "Oyeeee". Evennn whennn youuhhh actually say it in your voice.. it's kindaa endearinggg and
+            kyoot..too. <br>
+            somehow gives off a sense of belongingness.. i mean, belonging to you of course.
+          </p>
+        </div>
+        <div class="m-card">
+          <p class="m-card-tag">the napkin holder</p>
+          <p class="m-card-text">
+            Theeee cuteee saa napkin holderr, which youuhh were thinking of taking with yyouuhh, andd all the soft
+            plushieees. : ))))... tu na.. sigh drishtiii.. i can't wait to say it all.
+          </p>
+        </div>
+        <div class="m-card">
+          <p class="m-card-tag">how you listen</p>
+          <p class="m-card-text">
+            The way youuh always stay and listen.. just be there. : ).... Even during the "era" of Peeku.. it helped me
+            a lot.. <br>
+            I would've been melancholic for days.. if you weren't here.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section light-section" id="distance-section" data-bg="warm">
+      <p class="label">the distance</p>
+      <h2 class="headline">Hundredsss of kilometressss.<br />yettt such a strong connection..</h2>
+      <div class="dist-wrap">
+        <svg class="dist-svg" viewBox="0 0 480 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="dotGlowHer" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f0c87a" stop-opacity="0.9" />
+              <stop offset="60%" stop-color="#d4903a" stop-opacity="0.35" />
+              <stop offset="100%" stop-color="#d4903a" stop-opacity="0" />
+            </radialGradient>
+            <radialGradient id="dotGlowHim" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f0c87a" stop-opacity="0.9" />
+              <stop offset="60%" stop-color="#d4903a" stop-opacity="0.35" />
+              <stop offset="100%" stop-color="#d4903a" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <circle cx="72" cy="55" r="28" fill="url(#dotGlowHer)" opacity="0.55" />
+          <circle cx="408" cy="55" r="28" fill="url(#dotGlowHim)" opacity="0.55" />
+          <path id="dist-path" d="M72 55 Q240 8 408 55" fill="none" stroke="rgba(210,160,80,0.28)" stroke-width="1.4"
+            stroke-dasharray="8 6" style="animation: dashMove 2s linear infinite" />
+          <path d="M72 55 Q240 8 408 55" fill="none" stroke="rgba(180,130,60,0.12)" stroke-width="0.8" />
+          <text x="240" y="22" text-anchor="middle" font-family="'DM Mono', monospace" font-size="9" letter-spacing="3"
+            fill="rgba(200,155,80,0.7)" text-transform="uppercase">
+            1,363 km
+          </text>
+          <circle cx="72" cy="55" r="5.5" fill="#e8b86a" />
+          <circle cx="72" cy="55" r="2.5" fill="#fff8e8" />
+          <circle cx="408" cy="55" r="5.5" fill="#e8b86a" />
+          <circle cx="408" cy="55" r="2.5" fill="#fff8e8" />
+          <text x="72" y="82" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="12"
+            font-style="italic" fill="rgba(220,175,110,0.85)">
+            drishti
+          </text>
+          <text x="408" y="82" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="12"
+            font-style="italic" fill="rgba(220,175,110,0.85)">
+            kaustubh
+          </text>
+          <circle r="3.2" fill="#fff8d0" opacity="0.9">
+            <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#dist-path" />
+            </animateMotion>
+          </circle>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section light-section" id="she-noticed" data-bg="warm">
+      <h2 class="noticed-headline">youuhh..notice<br />everything.</h2>
+      <p class="her-words">
+        "all of them are close to my heart.<br />
+        it's not the elements that you add into it..<br />
+        but the effort, the time,<br />
+        and the emotions behind it.<br />
+        the main thing is the intent.<br />
+        and you know the stuff behind it."
+      </p>
+      <p class="noticed-body">
+        i asked yoouhh which website is your favourite.<br />
+        you said you couldn't pick one.<br /><br />
+        you remembered the teddy bearrrr,, the mountains.<br />
+        the galaxy. the background that moved with the music.<br />
+        the two people ^^<br />
+        the confetti burst when you click on a button..n the smoke text.<br /><br />
+        <em>you remembered all of it, drishtiiii.</em><br /><br />
+        not sure what did i do to deserve someone..who paysso muchh of attention.
+      </p>
+    </section>
+
+
+    <section class="section light-section" id="closing" data-bg="warm">
+      <p style="
+            font-size: clamp(2.5rem, 7.5vw, 6rem);
+            font-style: italic;
+            font-weight: 300;
+            color: #ecc890;
+            line-height: 1.25;
+            max-width: 780px;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 60px rgba(230, 190, 130, 0.18);
+          ">
+        eight months.<br />
+        the most luminous<br />
+        eight months.
+      </p>
+      <p class="body-text" style="color: #d0b498">
+        of all the thursdays. all the september 28ths, and all other dayss,<br />
+        I ended up in the one with you. Most fortunately ^^<br /><br />
+        i would choose this timeline over <strong><u>every</u></strong> other possible one.<br />
+        <em>every. single. time.</em>
+      </p>
+      <div class="click-me" id="celebrate-btn">click for us 💛</div>
+      <p style="
+            font-family: &quot;DM Mono&quot;, monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.3em;
+            color: #b89878;
+            margin-top: 4.5rem;
+          ">
+        28.09.2025 — 28.05.2026 &nbsp;·&nbsp; eight months ^^
+      </p>
+      <p style="
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #c4a890;
+            margin-top: 1.5rem;
+            line-height: 2.3;
+          ">
+        yours, for the foreseeable future,<br />
+        kaustubh 🫂💝
+      </p>
+    </section>
+
+
+    <section class="section" id="finale" data-bg="warm">
+      <div class="finale-glow"></div>
+      <div class="finale-text-wrap">
+        <div class="finale-text" id="finale-text"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let W, H;
+    let mode = "dark";
+    let drawLines = false;
+    const particles = [];
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    class Particle {
+      constructor(isLight) {
+        this.x = rnd(0, W);
+        this.y = rnd(0, H);
+        this.reset(isLight);
+      }
+      reset(isLight) {
+        this.size = isLight ? rnd(0.8, 2.8) : rnd(0.3, 1.1);
+        this.vx = isLight ? rnd(-0.22, 0.22) : rnd(-0.1, 0.1);
+        this.vy = isLight ? rnd(-0.18, 0.18) : rnd(-0.07, 0.05);
+        this.ts = isLight ? rnd(0.007, 0.018) : rnd(0.003, 0.009);
+        this.td = Math.random() > 0.5 ? 1 : -1;
+        this.maxA = isLight ? 0.78 : 0.24;
+        this.alpha = rnd(0.05, this.maxA);
+        if (isLight) {
+          const pal = [
+            [255, 200, 150],
+            [220, 165, 115],
+            [255, 218, 178],
+            [200, 145, 100],
+            [240, 188, 138],
+            [255, 175, 128],
+          ];
+          const c = pal[Math.floor(Math.random() * pal.length)];
+          this.r = c[0];
+          this.g = c[1];
+          this.b = c[2];
+        } else {
+          const v = Math.floor(rnd(26, 50));
+          this.r = v;
+          this.g = v;
+          this.b = v;
+        }
+      }
+      toLightMode() {
+        this.reset(true);
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0) this.x = W;
+        if (this.x > W) this.x = 0;
+        if (this.y < 0) this.y = H;
+        if (this.y > H) this.y = 0;
+        this.alpha += this.ts * this.td;
+        if (this.alpha > this.maxA || this.alpha < 0.02) this.td *= -1;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.r},${this.g},${this.b},${Math.max(0, this.alpha)})`;
+        ctx.fill();
+      }
+    }
+    for (let i = 0; i < 130; i++) particles.push(new Particle(false));
+    const shootingStars = [];
+    let lastShot = 0;
+    class ShootingStar {
+      constructor() {
+        this.x = rnd(W * 0.05, W * 0.85);
+        this.y = rnd(-30, H * 0.4);
+        const angle = (rnd(28, 52) * Math.PI) / 180;
+        const speed = rnd(10, 20);
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.trail = [];
+        this.maxTrail = Math.floor(rnd(14, 24));
+        this.alive = true;
+      }
+      update() {
+        this.trail.unshift({ x: this.x, y: this.y });
+        if (this.trail.length > this.maxTrail) this.trail.pop();
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x > W + 80 || this.y > H + 80) this.alive = false;
+      }
+      draw() {
+        for (let i = 0; i < this.trail.length; i++) {
+          const t = (this.trail.length - i) / this.trail.length;
+          ctx.beginPath();
+          ctx.arc(this.trail[i].x, this.trail[i].y, t * 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(245,238,218,${t * 0.72})`;
+          ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,252,230,0.95)";
+        ctx.shadowColor = "rgba(255,250,220,0.9)";
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+    function maybeSpawnShootingStar() {
+      if (mode !== "dark") return;
+      const now = Date.now();
+      if (now - lastShot > rnd(2200, 5500)) {
+        lastShot = now;
+        shootingStars.push(new ShootingStar());
+      }
+    }
+    const glitterParticles = [];
+    const glitterPalette = [
+      [255, 215, 80],
+      [240, 190, 60],
+      [255, 200, 100],
+      [220, 160, 50],
+      [255, 230, 150],
+      [200, 140, 40],
+      [255, 180, 60],
+      [255, 240, 200],
+    ];
+    class GlitterParticle {
+      constructor() {
+        const cx = W / 2, cy = H / 2;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = rnd(1.5, 9);
+        this.x = cx + rnd(-20, 20);
+        this.y = cy + rnd(-20, 20);
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.size = rnd(1.2, 4.5);
+        this.rotation = Math.random() * Math.PI;
+        this.rotSpeed = rnd(-0.08, 0.08);
+        this.alpha = rnd(0.7, 1.0);
+        this.decay = rnd(0.006, 0.015);
+        this.friction = rnd(0.975, 0.992);
+        this.gravity = rnd(0.01, 0.04);
+        this.twinkleSpeed = rnd(0.05, 0.15);
+        this.twinklePhase = Math.random() * Math.PI * 2;
+        this.alive = true;
+        const c = glitterPalette[Math.floor(Math.random() * glitterPalette.length)];
+        this.r = c[0];
+        this.g = c[1];
+        this.b = c[2];
+      }
+      update() {
+        this.vx *= this.friction;
+        this.vy *= this.friction;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.rotSpeed;
+        this.twinklePhase += this.twinkleSpeed;
+        this.alpha -= this.decay;
+        if (this.alpha <= 0) this.alive = false;
+      }
+      draw() {
+        const tw = 0.5 + 0.5 * Math.sin(this.twinklePhase);
+        const a = Math.max(0, this.alpha * tw);
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size);
+        ctx.lineTo(this.size * 0.6, 0);
+        ctx.lineTo(0, this.size);
+        ctx.lineTo(-this.size * 0.6, 0);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(${this.r},${this.g},${this.b},${a})`;
+        ctx.shadowColor = `rgba(${this.r},${this.g},${this.b},${a * 0.6})`;
+        ctx.shadowBlur = this.size * 3;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+    function spawnGlitter() {
+      for (let i = 0; i < 160; i++)
+        glitterParticles.push(new GlitterParticle());
+      setTimeout(() => {
+        for (let i = 0; i < 70; i++)
+          glitterParticles.push(new GlitterParticle());
+      }, 220);
+      setTimeout(() => {
+        for (let i = 0; i < 40; i++)
+          glitterParticles.push(new GlitterParticle());
+      }, 520);
+    }
+    function animate() {
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, W, H);
+      maybeSpawnShootingStar();
+      for (let i = shootingStars.length - 1; i >= 0; i--) {
+        shootingStars[i].update();
+        shootingStars[i].draw();
+        if (!shootingStars[i].alive) shootingStars.splice(i, 1);
+      }
+      particles.forEach((p) => { p.update(); p.draw(); });
+      for (let i = glitterParticles.length - 1; i >= 0; i--) {
+        glitterParticles[i].update();
+        glitterParticles[i].draw();
+        if (!glitterParticles[i].alive) glitterParticles.splice(i, 1);
+      }
+      if (drawLines) {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < 75) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(210,148,88,${0.07 * (1 - d / 75)})`;
+              ctx.lineWidth = 0.4;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+    }
+    animate();
+
+    function goLight() {
+      mode = "light";
+      particles.forEach((p, i) => {
+        setTimeout(() => p.toLightMode(), i * 8);
+      });
+      for (let i = 0; i < 55; i++) {
+        setTimeout(() => { particles.push(new Particle(true)); }, 300 + i * 18);
+      }
+      setTimeout(() => { drawLines = true; }, 2200);
+    }
+
+    const entranceCanvas = document.getElementById("entrance-canvas");
+    const eCtx = entranceCanvas.getContext("2d");
+    let eW, eH;
+    const entranceMotes = [];
+    let entranceAlive = true;
+    function setupEntranceCanvas() {
+      eW = entranceCanvas.width = window.innerWidth;
+      eH = entranceCanvas.height = window.innerHeight;
+      entranceMotes.length = 0;
+      for (let i = 0; i < 45; i++) {
+        entranceMotes.push({
+          x: rnd(0, eW), y: rnd(0, eH), size: rnd(0.4, 1.6),
+          vx: rnd(-0.14, 0.14), vy: rnd(-0.1, 0.07),
+          alpha: rnd(0.04, 0.22), ts: rnd(0.002, 0.006),
+          td: Math.random() > 0.5 ? 1 : -1,
+        });
+      }
+    }
+    setupEntranceCanvas();
+    window.addEventListener("resize", setupEntranceCanvas);
+    function animateEntrance() {
+      if (!entranceAlive) return;
+      requestAnimationFrame(animateEntrance);
+      eCtx.clearRect(0, 0, eW, eH);
+      entranceMotes.forEach((m) => {
+        m.x += m.vx; m.y += m.vy;
+        if (m.x < 0) m.x = eW; if (m.x > eW) m.x = 0;
+        if (m.y < 0) m.y = eH; if (m.y > eH) m.y = 0;
+        m.alpha += m.ts * m.td;
+        if (m.alpha > 0.22 || m.alpha < 0.02) m.td *= -1;
+        eCtx.beginPath();
+        eCtx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
+        eCtx.fillStyle = `rgba(155,138,118,${m.alpha})`;
+        eCtx.fill();
+      });
+    }
+    animateEntrance();
+
+    const cheerCanvas = document.getElementById("cheerful-canvas");
+    const cheerCtx = cheerCanvas.getContext("2d");
+    let cheerW, cheerH;
+    function cheerResize() {
+      cheerW = cheerCanvas.width = window.innerWidth;
+      cheerH = cheerCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", cheerResize);
+    cheerResize();
+    const cheerOrbs = [], cheerSparkles = [];
+    let cheerActive = false;
+    const orbPalette = [
+      [255, 200, 120, 0.32], [245, 175, 100, 0.28],
+      [255, 215, 160, 0.25], [230, 150, 95, 0.3],
+      [255, 190, 140, 0.23], [210, 170, 130, 0.28],
+      [255, 225, 185, 0.2], [240, 180, 115, 0.26],
+    ];
+    class CheerOrb {
+      constructor() { this.init(); }
+      init() {
+        this.x = rnd(0, cheerW); this.y = rnd(0, cheerH);
+        this.baseR = rnd(40, 130); this.r = this.baseR;
+        this.wobbleX = rnd(0.4, 1.0); this.wobbleY = rnd(0.3, 0.8);
+        this.phaseX = rnd(0, Math.PI * 2); this.phaseY = rnd(0, Math.PI * 2);
+        this.speedX = rnd(0.008, 0.022); this.speedY = rnd(0.006, 0.018);
+        this.breathSpeed = rnd(0.012, 0.03); this.breathPhase = rnd(0, Math.PI * 2);
+        this.breathAmp = rnd(0.12, 0.3); this.driftX = rnd(-0.22, 0.22);
+        this.driftY = rnd(-0.16, 0.16); this.alphaPhase = rnd(0, Math.PI * 2);
+        this.alphaSpeed = rnd(0.005, 0.015);
+        const c = orbPalette[Math.floor(Math.random() * orbPalette.length)];
+        this.cr = c[0]; this.cg = c[1]; this.cb = c[2]; this.ca = c[3];
+      }
+      update() {
+        this.phaseX += this.speedX; this.phaseY += this.speedY;
+        this.breathPhase += this.breathSpeed; this.alphaPhase += this.alphaSpeed;
+        this.x += Math.sin(this.phaseX) * this.wobbleX + this.driftX;
+        this.y += Math.cos(this.phaseY) * this.wobbleY + this.driftY;
+        this.r = this.baseR * (1 + Math.sin(this.breathPhase) * this.breathAmp);
+        if (this.x < -this.r * 2) this.x = cheerW + this.r;
+        if (this.x > cheerW + this.r * 2) this.x = -this.r;
+        if (this.y < -this.r * 2) this.y = cheerH + this.r;
+        if (this.y > cheerH + this.r * 2) this.y = -this.r;
+      }
+      draw() {
+        const ao = 0.7 + 0.3 * Math.sin(this.alphaPhase);
+        const a = this.ca * ao;
+        const g = cheerCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r);
+        g.addColorStop(0, `rgba(${this.cr},${this.cg},${this.cb},${a})`);
+        g.addColorStop(0.5, `rgba(${this.cr},${this.cg},${this.cb},${a * 0.38})`);
+        g.addColorStop(1, `rgba(${this.cr},${this.cg},${this.cb},0)`);
+        cheerCtx.beginPath();
+        cheerCtx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        cheerCtx.fillStyle = g;
+        cheerCtx.fill();
+      }
+    }
+    class CheerSparkle {
+      constructor() { this.init(); }
+      init() {
+        this.x = rnd(0, cheerW); this.y = rnd(0, cheerH);
+        this.size = rnd(1.2, 4.0); this.phase = rnd(0, Math.PI * 2);
+        this.speed = rnd(0.03, 0.12); this.maxAlpha = rnd(0.5, 1.0);
+        this.driftX = rnd(-0.4, 0.4); this.driftY = rnd(-0.3, 0.3);
+        this.wobblePhase = rnd(0, Math.PI * 2); this.wobbleSpeed = rnd(0.02, 0.06);
+        const br = rnd(190, 255);
+        this.cr = br; this.cg = br * rnd(0.72, 0.95); this.cb = br * rnd(0.4, 0.68);
+      }
+      update() {
+        this.phase += this.speed; this.wobblePhase += this.wobbleSpeed;
+        this.x += this.driftX + Math.sin(this.wobblePhase) * 0.55;
+        this.y += this.driftY + Math.cos(this.wobblePhase) * 0.42;
+        if (this.x < 0) this.x = cheerW; if (this.x > cheerW) this.x = 0;
+        if (this.y < 0) this.y = cheerH; if (this.y > cheerH) this.y = 0;
+      }
+      draw() {
+        const tw = Math.pow(Math.sin(this.phase) * 0.5 + 0.5, 2);
+        const a = this.maxAlpha * tw;
+        if (a < 0.02) return;
+        const s = this.size;
+        cheerCtx.save(); cheerCtx.globalAlpha = a;
+        cheerCtx.beginPath();
+        cheerCtx.moveTo(this.x, this.y - s * 2);
+        cheerCtx.lineTo(this.x + s * 0.4, this.y - s * 0.4);
+        cheerCtx.lineTo(this.x + s * 2, this.y);
+        cheerCtx.lineTo(this.x + s * 0.4, this.y + s * 0.4);
+        cheerCtx.lineTo(this.x, this.y + s * 2);
+        cheerCtx.lineTo(this.x - s * 0.4, this.y + s * 0.4);
+        cheerCtx.lineTo(this.x - s * 2, this.y);
+        cheerCtx.lineTo(this.x - s * 0.4, this.y - s * 0.4);
+        cheerCtx.closePath();
+        cheerCtx.fillStyle = `rgb(${Math.round(this.cr)},${Math.round(this.cg)},${Math.round(this.cb)})`;
+        cheerCtx.shadowColor = `rgba(${Math.round(this.cr)},${Math.round(this.cg)},${Math.round(this.cb)},0.8)`;
+        cheerCtx.shadowBlur = s * 8;
+        cheerCtx.fill(); cheerCtx.restore();
+      }
+    }
+    function activateCheerfulBg() {
+      cheerActive = true;
+      document.getElementById("lively-bg").classList.add("active");
+      cheerCanvas.classList.add("active");
+      for (let i = 0; i < 28; i++) cheerOrbs.push(new CheerOrb());
+      for (let i = 0; i < 90; i++) cheerSparkles.push(new CheerSparkle());
+      animateCheer();
+    }
+    function animateCheer() {
+      if (!cheerActive) return;
+      requestAnimationFrame(animateCheer);
+      cheerCtx.clearRect(0, 0, cheerW, cheerH);
+      cheerOrbs.forEach((o) => { o.update(); o.draw(); });
+      cheerSparkles.forEach((s) => { s.update(); s.draw(); });
+    }
+
+    const galaxyCanvas = document.getElementById("galaxy-canvas");
+    const gCtx = galaxyCanvas.getContext("2d");
+    let gW, gH;
+    function galaxyResize() {
+      gW = galaxyCanvas.width = window.innerWidth;
+      gH = galaxyCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", galaxyResize);
+    galaxyResize();
+    const galaxyStars = [];
+    const GALAXY_PALETTE = [
+      [180, 150, 255], [200, 170, 255], [150, 200, 255],
+      [240, 200, 255], [255, 210, 230], [170, 140, 220],
+    ];
+    let novaStarIdx = -1, novaStartMs = 0;
+    const NOVA_DURATION = 1600;
+    class GStar {
+      constructor() {
+        this.radius = Math.pow(Math.random(), 0.6) * Math.min(gW, gH) * 0.55;
+        this.angle = Math.random() * Math.PI * 2;
+        this.speed = 0.0008 + (1 / (this.radius + 30)) * 0.6;
+        this.size = rnd(0.4, 2.0);
+        this.twPhase = Math.random() * Math.PI * 2;
+        this.twSpeed = rnd(0.02, 0.08);
+        const c = GALAXY_PALETTE[Math.floor(Math.random() * GALAXY_PALETTE.length)];
+        this.r = c[0]; this.g = c[1]; this.b = c[2];
+      }
+      update() { this.angle += this.speed; this.twPhase += this.twSpeed; }
+      draw(idx) {
+        const cx = gW / 2, cy = gH / 2;
+        const armAngle = this.angle + this.radius * 0.012;
+        const x = cx + Math.cos(armAngle) * this.radius;
+        const y = cy + Math.sin(armAngle) * this.radius * 0.55;
+        const tw = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(this.twPhase));
+        let sizeBoost = 0, alphaBoost = 0;
+        if (idx === novaStarIdx) {
+          const elapsed = Date.now() - novaStartMs;
+          const t = Math.min(elapsed / NOVA_DURATION, 1);
+          const bell = Math.sin(t * Math.PI);
+          sizeBoost = bell * 4.5; alphaBoost = bell * 0.5;
+          if (t >= 1) novaStarIdx = -1;
+        }
+        gCtx.beginPath();
+        gCtx.arc(x, y, Math.max(0.1, this.size + sizeBoost), 0, Math.PI * 2);
+        if (sizeBoost > 0) {
+          gCtx.fillStyle = `rgba(255,252,220,${Math.min(1, tw + alphaBoost)})`;
+          gCtx.shadowColor = "rgba(255,250,200,0.95)";
+          gCtx.shadowBlur = (this.size + sizeBoost) * 7;
+        } else {
+          gCtx.fillStyle = `rgba(${this.r},${this.g},${this.b},${tw})`;
+          gCtx.shadowColor = `rgba(${this.r},${this.g},${this.b},${tw * 0.6})`;
+          gCtx.shadowBlur = this.size * 4;
+        }
+        gCtx.fill(); gCtx.shadowBlur = 0;
+      }
+    }
+    function triggerNova() {
+      if (!galaxyActive || galaxyStars.length === 0) return;
+      novaStarIdx = Math.floor(Math.random() * galaxyStars.length);
+      novaStartMs = Date.now();
+    }
+    setInterval(() => { if (galaxyActive) triggerNova(); }, 8000);
+    let galaxyActive = false;
+    function activateGalaxy() {
+      if (galaxyActive) return;
+      galaxyActive = true;
+      galaxyCanvas.classList.add("active");
+      if (galaxyStars.length === 0) {
+        for (let i = 0; i < 600; i++) galaxyStars.push(new GStar());
+      }
+      animateGalaxy();
+      setTimeout(triggerNova, 3000);
+    }
+    function deactivateGalaxy() {
+      galaxyActive = false;
+      galaxyCanvas.classList.remove("active");
+    }
+    function animateGalaxy() {
+      if (!galaxyActive) return;
+      requestAnimationFrame(animateGalaxy);
+      gCtx.clearRect(0, 0, gW, gH);
+      const grad = gCtx.createRadialGradient(gW / 2, gH / 2, 10, gW / 2, gH / 2, Math.min(gW, gH) * 0.45);
+      grad.addColorStop(0, "rgba(220,190,255,0.18)");
+      grad.addColorStop(0.4, "rgba(140,100,200,0.08)");
+      grad.addColorStop(1, "rgba(0,0,0,0)");
+      gCtx.fillStyle = grad;
+      gCtx.fillRect(0, 0, gW, gH);
+      galaxyStars.forEach((s, i) => { s.update(); s.draw(i); });
+    }
+
+    (function makeStars() {
+      const sf = document.getElementById("starfield-bg");
+      for (let i = 0; i < 80; i++) {
+        const s = document.createElement("div");
+        s.className = "twinkle";
+        const size = rnd(1, 2.6);
+        s.style.width = size + "px"; s.style.height = size + "px";
+        s.style.left = rnd(0, 100) + "%"; s.style.top = rnd(0, 100) + "%";
+        s.style.setProperty("--dur", rnd(2.2, 5.5) + "s");
+        s.style.animationDelay = rnd(0, 5) + "s";
+        sf.appendChild(s);
+      }
+    })();
+
+    const fireflyCanvas = document.getElementById("firefly-canvas");
+    const ffCtx = fireflyCanvas.getContext("2d");
+    let ffW, ffH;
+    function ffResize() {
+      ffW = fireflyCanvas.width = window.innerWidth;
+      ffH = fireflyCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", ffResize);
+    ffResize();
+    const fireflies = [];
+    let fireflyActive = false;
+    class Firefly {
+      constructor() {
+        this.x = rnd(0, ffW); this.y = rnd(ffH * 0.25, ffH * 0.92);
+        this.vx = rnd(-0.25, 0.25); this.vy = rnd(-0.18, 0.08);
+        this.phase = rnd(0, Math.PI * 2); this.phaseSpeed = rnd(0.025, 0.065);
+        this.wobblePhase = rnd(0, Math.PI * 2); this.wobbleSpeed = rnd(0.012, 0.038);
+        this.wobbleX = rnd(0.5, 1.8); this.wobbleY = rnd(0.3, 0.9);
+        this.maxAlpha = rnd(0.55, 0.92);
+        this.r = Math.floor(rnd(185, 220));
+        this.g = Math.floor(rnd(215, 255));
+        this.b = Math.floor(rnd(100, 165));
+        this.size = rnd(1.5, 3.2);
+      }
+      update() {
+        this.phase += this.phaseSpeed; this.wobblePhase += this.wobbleSpeed;
+        this.x += this.vx + Math.sin(this.wobblePhase) * this.wobbleX;
+        this.y += this.vy + Math.cos(this.wobblePhase * 0.65) * this.wobbleY;
+        if (this.x < 0) this.x = ffW; if (this.x > ffW) this.x = 0;
+        if (this.y < 0) this.y = ffH; if (this.y > ffH) this.y = 0;
+      }
+      draw() {
+        const a = this.maxAlpha * Math.pow(0.5 + 0.5 * Math.sin(this.phase), 3);
+        if (a < 0.02) return;
+        ffCtx.beginPath();
+        ffCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ffCtx.fillStyle = `rgba(${this.r},${this.g},${this.b},${a})`;
+        ffCtx.shadowColor = `rgba(${this.r},${this.g},${this.b},${a * 0.7})`;
+        ffCtx.shadowBlur = this.size * 7;
+        ffCtx.fill(); ffCtx.shadowBlur = 0;
+      }
+    }
+    function activateFireflies() {
+      if (fireflyActive) return;
+      fireflyActive = true;
+      fireflyCanvas.classList.add("active");
+      if (fireflies.length === 0) {
+        for (let i = 0; i < 28; i++) fireflies.push(new Firefly());
+      }
+      animateFireflies();
+    }
+    function deactivateFireflies() {
+      fireflyActive = false;
+      fireflyCanvas.classList.remove("active");
+    }
+    function animateFireflies() {
+      if (!fireflyActive) return;
+      requestAnimationFrame(animateFireflies);
+      ffCtx.clearRect(0, 0, ffW, ffH);
+      fireflies.forEach((f) => { f.update(); f.draw(); });
+    }
+
+    // ── MOOD SWITCHER ── THE FIX IS HERE ──────────────────────────────────
+    const moodEls = {
+      stars: document.getElementById("starfield-bg"),
+      mountains: document.getElementById("mountains-bg"),
+      warm: document.getElementById("lively-bg"),
+      busstation: document.getElementById("busstation-bg"),
+    };
+    let currentMood = "night";
+
+    function setMood(mood) {
+      if (mood === currentMood) return;
+      currentMood = mood;
+      // Strip .active from every registered background layer
+      Object.values(moodEls).forEach((el) => el && el.classList.remove("active"));
+      deactivateFireflies();
+      // FIX: cheerCanvas is NOT in moodEls, so we strip it here explicitly.
+      // It will only be re-added below when mood === "warm".
+      cheerCanvas.classList.remove("active");
+
+      if (mood === "warm") {
+        document.getElementById("lively-bg").classList.add("active");
+        if (cheerActive) cheerCanvas.classList.add("active"); // only if already initialised
+        deactivateGalaxy();
+        document.body.style.background = "#0d0907";
+      } else if (mood === "galaxy") {
+        activateGalaxy();
+        document.body.style.background = "#0a0814";
+      } else if (mood === "mountains") {
+        document.getElementById("mountains-bg").classList.add("active");
+        deactivateGalaxy();
+        activateFireflies();
+        document.body.style.background = "#0a0810";
+      } else if (mood === "busstation") {
+        document.getElementById("busstation-bg").classList.add("active");
+        deactivateGalaxy();
+        document.body.style.background = "#060818";
+      } else if (mood === "stars") {
+        document.getElementById("starfield-bg").classList.add("active");
+        deactivateGalaxy();
+        document.body.style.background = "#070612";
+      } else {
+        // "night" and anything else
+        deactivateGalaxy();
+        document.body.style.background = thresholdDone ? "#0d0907" : "#080808";
+      }
+    }
+    // ──────────────────────────────────────────────────────────────────────
+
+    const entrance = document.getElementById("entrance");
+    const darkAudio = document.getElementById("dark-audio");
+    const lightAudio = document.getElementById("light-audio");
+    const flashEl = document.getElementById("flash");
+    const scrollHint = document.getElementById("scroll-hint");
+    let entered = false, thresholdDone = false;
+
+    entrance.addEventListener("click", () => {
+      if (entered) return;
+      entered = true;
+      entranceAlive = false;
+      darkAudio.volume = 1.0;
+      darkAudio.play().catch(() => { });
+      entrance.classList.add("fade-out");
+      setTimeout(() => { entrance.style.display = "none"; }, 1900);
+      document.getElementById("opening").classList.add("visible");
+    });
+
+    const visObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            const mood = e.target.getAttribute("data-bg");
+            if (mood) setMood(mood);
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    document
+      .querySelectorAll(".dark-section:not(#opening), .light-section, #galaxy-section, #she-noticed")
+      .forEach((s) => visObs.observe(s));
+
+    const openingObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) setMood("night"); });
+      },
+      { threshold: 0.3 },
+    );
+    openingObs.observe(document.getElementById("opening"));
+
+    const tObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !thresholdDone) {
+            thresholdDone = true;
+            e.target.classList.add("visible");
+            setTimeout(triggerTransition, 1400);
+          }
+        });
+      },
+      { threshold: 0.55 },
+    );
+    tObs.observe(document.getElementById("threshold"));
+
+    function triggerTransition() {
+      flashEl.classList.add("on");
+      spawnGlitter();
+      goLight();
+      document.body.style.background = "#0d0907";
+      setTimeout(() => activateCheerfulBg(), 800);
+
+      const fadeOut = setInterval(() => {
+        darkAudio.volume = Math.max(0, darkAudio.volume - 0.05);
+        if (darkAudio.volume <= 0) { clearInterval(fadeOut); darkAudio.pause(); }
+      }, 80);
+
+      lightAudio.volume = 0;
+      lightAudio.currentTime = 80;
+      lightAudio.play().catch(() => { });
+      const fadeIn = setInterval(() => {
+        lightAudio.volume = Math.min(0.65, lightAudio.volume + 0.03);
+        if (lightAudio.volume >= 0.65) clearInterval(fadeIn);
+      }, 100);
+
+      scrollHint.classList.add("light");
+      setTimeout(() => { flashEl.classList.remove("on"); flashEl.classList.add("off"); }, 350);
+    }
+
+    const mtnFar = document.getElementById("mtn-far");
+    const mtnMid = document.getElementById("mtn-mid");
+    const mtnFront = document.getElementById("mtn-front");
+    const t3el = document.getElementById("t3");
+    const t4el = document.getElementById("t4");
+    function updateMountainParallax() {
+      if (!mtnFar) return;
+      const r3 = t3el.getBoundingClientRect();
+      const r4 = t4el.getBoundingClientRect();
+      const rect = Math.abs(r3.top) < Math.abs(r4.top) ? r3 : r4;
+      const vh = window.innerHeight;
+      const progress = 1 - rect.bottom / (vh + rect.height);
+      const p = Math.max(0, Math.min(1, progress));
+      mtnFar.setAttribute("transform", `translate(0,${p * -9})`);
+      mtnMid.setAttribute("transform", `translate(0,${p * -18})`);
+      mtnFront.setAttribute("transform", `translate(0,${p * -30})`);
+    }
+    window.addEventListener("scroll", () => {
+      scrollHint.classList.toggle("hidden", window.scrollY > 90);
+      if (currentMood === "mountains") updateMountainParallax();
+    }, { passive: true });
+
+    const breathCircle = document.getElementById("breath-circle");
+    const breathWord = document.getElementById("breath-word");
+    let breathingOn = false;
+    function runBreath() {
+      if (!breathingOn) return;
+      breathWord.textContent = "inhale";
+      breathCircle.classList.remove("hold", "exhale");
+      breathCircle.classList.add("inhale");
+      setTimeout(() => {
+        if (!breathingOn) return;
+        breathWord.textContent = "hold";
+        breathCircle.classList.remove("inhale", "exhale");
+        breathCircle.classList.add("hold");
+        setTimeout(() => {
+          if (!breathingOn) return;
+          breathWord.textContent = "exhale";
+          breathCircle.classList.remove("inhale", "hold");
+          breathCircle.classList.add("exhale");
+          setTimeout(() => runBreath(), 8000);
+        }, 7000);
+      }, 4000);
+    }
+    const breathObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && !breathingOn) { breathingOn = true; runBreath(); }
+        });
+      },
+      { threshold: 0.5 },
+    );
+    breathObs.observe(document.getElementById("breathing"));
+
+    const letterInput = document.getElementById("letter-input");
+    const letterBtn = document.getElementById("letter-btn");
+    const letterPaper = document.getElementById("letter-paper");
+
+    function letterFor(word) {
+      const name = (word || "").trim() || "drishti";
+      return `dear ${name},
+
+if you're reading this, you typed something.
+which means you're still here, still curious,
+still the person who notices things —
+and that alone makes this letter worth writing.
+
+eight months ago i didn't know your laugh,
+or the way you get quiet before saying something kind,
+or that your favourite colour is blue
+and that it shows up in everything you make.
+
+now i know all of it.
+
+i know you run at 6am.
+i know you write things that deserve to be read.
+i know your voice has a specific quality —
+like a room with good light and no noise.
+
+i know you painted ginger on a stone
+and signed it d. in the corner —
+small, certain, completely yours.
+
+i know you study for hours
+with the kind of patience
+that only comes from actually caring.
+
+i know you called me cute.
+(i think about that more than i probably should.)
+
+and i know — i know the way you listened.
+not the polite kind. the real kind.
+the kind that makes a person feel
+like what they're saying is worth the air it takes.
+
+in a thousand timelines, drishtiiii,
+i would type your name into a thousand boxes
+just to open this letter once more
+and say the same thing —
+
+i'm so glad it was this one.
+every morning run, every blue stroke,
+every oyeee past midnight.
+every single one.
+
+— k. 🫶`;
+    }
+
+    let typing = false;
+    function openLetter(word) {
+      if (typing) return;
+      const msg = letterFor(word);
+      letterPaper.innerHTML = "";
+      letterPaper.classList.add("open");
+      typing = true;
+      let i = 0;
+      const cursor = document.createElement("span");
+      cursor.className = "letter-cursor";
+      letterPaper.appendChild(cursor);
+      const step = () => {
+        if (i >= msg.length) {
+          typing = false;
+          setTimeout(() => cursor.remove(), 1500);
+          burstFromElement(letterPaper, 28, ["💛", "✨", "🤍"]);
+          return;
+        }
+        const ch = msg[i++];
+        cursor.insertAdjacentText("beforebegin", ch);
+        let delay = 18;
+        if (ch === "\n") delay = 200;
+        else if (",.!?".includes(ch)) delay = 150;
+        setTimeout(step, delay);
+      };
+      setTimeout(step, 600);
+    }
+    if (letterBtn) letterBtn.addEventListener("click", () => openLetter(letterInput.value));
+    if (letterInput) letterInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") openLetter(letterInput.value);
+    });
+
+    const confettiCanvas = document.getElementById("confetti-canvas");
+    const cfCtx = confettiCanvas.getContext("2d");
+    let cfW, cfH;
+    function cfResize() {
+      cfW = confettiCanvas.width = window.innerWidth;
+      cfH = confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", cfResize);
+    cfResize();
+    const confetti = [];
+    const CF_COLORS = [
+      "#ffb86b", "#ffd76b", "#ff8c69", "#f9a8d4", "#fde68a",
+      "#ffcba4", "#ffd6a5", "#fca5a5", "#ffb347", "#ffcc80",
+      "#e8965a", "#ffd180",
+    ];
+    class Confetto {
+      constructor(x, y) {
+        const angle = rnd(-Math.PI, 0);
+        const speed = rnd(6, 14);
+        this.x = x; this.y = y;
+        this.vx = Math.cos(angle) * speed + rnd(-2, 2);
+        this.vy = Math.sin(angle) * speed;
+        this.g = rnd(0.18, 0.32);
+        this.size = rnd(5, 11);
+        this.color = CF_COLORS[Math.floor(Math.random() * CF_COLORS.length)];
+        this.rot = Math.random() * Math.PI;
+        this.rotSpeed = rnd(-0.25, 0.25);
+        this.life = 1;
+        this.decay = rnd(0.004, 0.009);
+        this.shape = Math.random() < 0.5 ? "rect" : "circle";
+      }
+      update() {
+        this.vx *= 0.99; this.vy += this.g;
+        this.x += this.vx; this.y += this.vy;
+        this.rot += this.rotSpeed; this.life -= this.decay;
+      }
+      draw() {
+        if (this.life <= 0) return;
+        cfCtx.save();
+        cfCtx.globalAlpha = Math.max(0, this.life);
+        cfCtx.translate(this.x, this.y);
+        cfCtx.rotate(this.rot);
+        cfCtx.fillStyle = this.color;
+        if (this.shape === "rect") {
+          cfCtx.fillRect(-this.size / 2, -this.size / 3, this.size, this.size * 0.6);
+        } else {
+          cfCtx.beginPath();
+          cfCtx.arc(0, 0, this.size * 0.5, 0, Math.PI * 2);
+          cfCtx.fill();
+        }
+        cfCtx.restore();
+      }
+    }
+    let cfRunning = false;
+    function cfLoop() {
+      cfCtx.clearRect(0, 0, cfW, cfH);
+      for (let i = confetti.length - 1; i >= 0; i--) {
+        confetti[i].update(); confetti[i].draw();
+        if (confetti[i].life <= 0 || confetti[i].y > cfH + 60)
+          confetti.splice(i, 1);
+      }
+      if (confetti.length === 0) { cfRunning = false; return; }
+      requestAnimationFrame(cfLoop);
+    }
+    function startCfLoop() {
+      if (cfRunning) return;
+      cfRunning = true;
+      requestAnimationFrame(cfLoop);
+    }
+    function spawnEmoji(x, y, emoji) {
+      const span = document.createElement("span");
+      span.textContent = emoji;
+      span.style.cssText = `position:fixed;left:${x}px;top:${y}px;font-size:${rnd(22, 40)}px;pointer-events:none;z-index:900;transition:transform 1.8s cubic-bezier(.2,.7,.2,1),opacity 1.8s ease;will-change:transform,opacity;`;
+      document.body.appendChild(span);
+      const dx = rnd(-180, 180), dy = rnd(-280, -120), rot = rnd(-180, 180);
+      requestAnimationFrame(() => {
+        span.style.transform = `translate(${dx}px,${dy}px) rotate(${rot}deg) scale(${rnd(1, 1.6)})`;
+        span.style.opacity = "0";
+      });
+      setTimeout(() => span.remove(), 2000);
+    }
+    function burstFromPoint(x, y, count = 80, emojis = ["💛", "✨", "🌟", "💫", "🤍", "🧸", "🎉", "🥹"]) {
+      for (let i = 0; i < count; i++)
+        confetti.push(new Confetto(x + rnd(-10, 10), y + rnd(-10, 10)));
+      startCfLoop();
+      const ec = Math.min(18, Math.floor(count * 0.25));
+      for (let i = 0; i < ec; i++) {
+        const em = emojis[Math.floor(Math.random() * emojis.length)];
+        setTimeout(() => spawnEmoji(x, y, em), i * 30);
+      }
+    }
+    function burstFromElement(el, count = 60, emojis) {
+      const r = el.getBoundingClientRect();
+      burstFromPoint(r.left + r.width / 2, r.top + r.height / 2, count, emojis);
+    }
+    document.getElementById("celebrate-btn").addEventListener("click", (e) => {
+      const x = e.clientX || e.target.getBoundingClientRect().left + e.target.offsetWidth / 2;
+      const y = e.clientY || e.target.getBoundingClientRect().top + e.target.offsetHeight / 2;
+      burstFromPoint(x, y, 140);
+      setTimeout(() => burstFromPoint(x + rnd(-80, 80), y + rnd(-40, 40), 65), 350);
+      setTimeout(() => burstFromPoint(x + rnd(-120, 120), y + rnd(-60, 60), 50), 720);
+    });
+
+    // ── Finale typewriter ──────────────────────────────────────────────
+    const finaleText = "You weren't just someone\nwho came into my life.\n\nYou were a blessing\nI never knew I needed.";
+    const finaleEl = document.getElementById("finale-text");
+    let finaleStarted = false;
+
+    function createFinaleSparkle() {
+      const finale = document.getElementById("finale");
+      const spark = document.createElement("div");
+      spark.className = "finale-sparkle";
+      const size = rnd(2, 5);
+      const x = rnd(10, 90);
+      const y = rnd(10, 90);
+      const dur = rnd(2, 4);
+      spark.style.cssText = `width:${size}px;height:${size}px;left:${x}%;top:${y}%;opacity:0;animation:finaleSparkAnim ${dur}s ease-in-out forwards;`;
+      finale.appendChild(spark);
+      setTimeout(() => spark.remove(), dur * 1000);
+    }
+
+    // Inject sparkle keyframes
+    const sparkStyle = document.createElement("style");
+    sparkStyle.textContent = `
+      @keyframes finaleSparkAnim {
+        0% { opacity: 0; transform: scale(0) translateY(0); }
+        30% { opacity: 1; transform: scale(1) translateY(-8px); }
+        70% { opacity: 0.8; transform: scale(0.8) translateY(-20px); }
+        100% { opacity: 0; transform: scale(0) translateY(-35px); }
+      }
+    `;
+    document.head.appendChild(sparkStyle);
+
+    function runFinaleTypewriter() {
+      if (finaleStarted) return;
+      finaleStarted = true;
+
+      const lines = finaleText.split("\n");
+      finaleEl.innerHTML = "";
+
+      // Build all chars as hidden spans
+      const allChars = [];
+      lines.forEach((line, li) => {
+        const lineSpan = document.createElement("span");
+        lineSpan.className = "finale-line";
+        if (line === "") {
+          lineSpan.innerHTML = "&nbsp;";
+        } else {
+          for (const ch of line) {
+            const charSpan = document.createElement("span");
+            charSpan.className = "finale-char";
+            charSpan.textContent = ch;
+            lineSpan.appendChild(charSpan);
+            allChars.push(charSpan);
+          }
+        }
+        finaleEl.appendChild(lineSpan);
+      });
+
+      // Add cursor
+      const cursor = document.createElement("span");
+      cursor.className = "finale-cursor";
+      finaleEl.appendChild(cursor);
+
+      // Sparkle interval
+      const sparkInterval = setInterval(() => createFinaleSparkle(), 300);
+
+      // Reveal chars one by one
+      let i = 0;
+      function revealNext() {
+        if (i >= allChars.length) {
+          cursor.classList.add("done");
+          setTimeout(() => clearInterval(sparkInterval), 3000);
+          // Fire a small burst
+          const rect = finaleEl.getBoundingClientRect();
+          burstFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2, 50, ["💛", "✨", "🤍"]);
+          return;
+        }
+        allChars[i].classList.add("visible");
+        i++;
+        // Place cursor after the last visible char
+        const lastVisible = allChars[i - 1];
+        lastVisible.parentNode.insertBefore(cursor, lastVisible.nextSibling);
+
+        let delay = rnd(50, 90);
+        if (i > 0 && allChars[i - 1].textContent === ".") delay = rnd(350, 500);
+        else if (i > 0 && allChars[i - 1].textContent === ",") delay = rnd(200, 300);
+        else if (i > 0 && allChars[i - 1].textContent === " ") delay = rnd(30, 60);
+        setTimeout(revealNext, delay);
+      }
+
+      setTimeout(revealNext, 800);
+    }
+
+    const finaleObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
+            runFinaleTypewriter();
+          }
+        });
+      },
+      { threshold: 0.4 },
+    );
+    finaleObs.observe(document.getElementById("finale"));
+
+
+  </script>
+</body>
+
+</html>
