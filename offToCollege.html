@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You've got this too 💪💯🔥</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&family=Caveat:wght@400;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #080b14;
+            --bg2: #0c1020;
+            --indigo: #1a1f35;
+            --gold: #c9a96e;
+            --gold-soft: #e8c98a;
+            --rose: #c4848a;
+            --fog: #e8e4dc;
+            --fog-dim: #9a9590;
+            --white: #f5f2ee;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--fog);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease, opacity 0.3s ease;
+            mix-blend-mode: screen;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease;
+        }
+
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 2rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.15s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.45s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.6s;
+        }
+
+        #hero {
+            min-height: 100vh;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: var(--fog-dim);
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.05;
+            color: var(--white);
+        }
+
+        .hero-title span {
+            color: var(--gold-soft);
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-style: italic;
+            color: var(--fog-dim);
+            max-width: 520px;
+            line-height: 1.8;
+        }
+
+        .story-block {
+            font-size: clamp(1.05rem, 2vw, 1.2rem);
+            font-style: italic;
+            color: var(--white);
+            max-width: 750px;
+            line-height: 1.9;
+            background: rgba(12, 16, 32, 0.6);
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            margin: 2rem auto 0;
+            text-align: left;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-hand {
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--rose);
+            margin-top: 0.5rem;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--fog-dim);
+            animation: pulse-hint 2.5s infinite;
+        }
+
+        @keyframes pulse-hint {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .divider {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            margin: 0 auto;
+            opacity: 0.4;
+        }
+
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--fog-dim);
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            opacity: 0.6;
+        }
+
+        #opening {
+            text-align: center;
+            gap: 1rem;
+        }
+
+        .opening-large {
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            font-style: italic;
+            line-height: 1.6;
+            max-width: 700px;
+            color: var(--fog);
+        }
+
+        .opening-large em {
+            color: var(--gold-soft);
+            font-style: italic;
+        }
+
+        .opening-note {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--rose);
+            margin-top: 1.5rem;
+        }
+
+        #home-section {
+            gap: 0;
+        }
+
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            max-width: 820px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .home-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem 2rem;
+            transition: background 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 0;
+            background: var(--gold);
+            transition: height 0.5s ease;
+        }
+
+        .home-card:hover::before {
+            height: 100%;
+        }
+
+        .home-card:hover {
+            background: rgba(201, 169, 110, 0.04);
+            border-color: rgba(201, 169, 110, 0.15);
+        }
+
+        .home-card-icon {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .home-card-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .home-card-text {
+            font-size: 1.05rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--fog);
+        }
+
+        #grief {
+            text-align: center;
+            gap: 1rem;
+            background: radial-gradient(ellipse at center, rgba(196, 132, 138, 0.04) 0%, transparent 70%);
+        }
+
+        .grief-quote {
+            font-size: clamp(1.3rem, 3vw, 2.2rem);
+            font-style: italic;
+            max-width: 680px;
+            line-height: 1.75;
+            color: var(--fog);
+        }
+
+        .grief-quote strong {
+            color: var(--rose);
+            font-weight: 300;
+        }
+
+        .grief-note {
+            font-family: 'Caveat', cursive;
+            font-size: 1.15rem;
+            color: var(--fog-dim);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-top: 1rem;
+        }
+
+        .grief-bottom {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--gold-soft);
+            margin-top: 2rem;
+            opacity: 0.8;
+        }
+
+        #ungrateful {
+            text-align: center;
+            gap: 1.5rem;
+        }
+
+        .ungrateful-word {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-style: italic;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.129);
+            letter-spacing: 0.05em;
+            position: relative;
+            line-height: 1;
+        }
+
+        .ungrateful-word::after {
+            content: 'wrong.';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: var(--gold-soft);
+            white-space: nowrap;
+        }
+
+        .ungrateful-body {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-style: italic;
+            max-width: 600px;
+            line-height: 1.9;
+            color: var(--fog-dim);
+            margin-top: 2rem;
+        }
+
+        .ungrateful-body em {
+            color: var(--fog);
+            font-style: normal;
+        }
+
+        .ungrateful-hand {
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--rose);
+            margin-top: 1rem;
+        }
+
+        #distance {
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .orb-canvas-wrap {
+            width: 100%;
+            max-width: 600px;
+            height: 200px;
+            position: relative;
+        }
+
+        #orb-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .orb-labels {
+            display: flex;
+            justify-content: space-between;
+            max-width: 600px;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .orb-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--fog-dim);
+        }
+
+        .distance-text {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-style: italic;
+            max-width: 560px;
+            line-height: 1.9;
+            color: var(--fog-dim);
+        }
+
+        .distance-text em {
+            color: var(--gold-soft);
+            font-style: italic;
+        }
+
+        #who {
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .who-title {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-style: italic;
+            color: var(--white);
+        }
+
+        .trait-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            max-width: 620px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .trait {
+            display: grid;
+            grid-template-columns: 2px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .trait-line {
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            min-height: 50px;
+        }
+
+        .trait-body {}
+
+        .trait-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .trait-text {
+            font-size: 1.05rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--fog-dim);
+        }
+
+        .trait-text em {
+            color: var(--fog);
+            font-style: normal;
+        }
+
+        #courage {
+            text-align: center;
+            gap: 1.5rem;
+            background: radial-gradient(ellipse at center, rgba(201, 169, 110, 0.05) 0%, transparent 65%);
+        }
+
+        .courage-large {
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            font-style: italic;
+            line-height: 1.4;
+            max-width: 700px;
+            color: var(--white);
+        }
+
+        .courage-large span {
+            color: var(--gold-soft);
+        }
+
+        .courage-sub {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-style: italic;
+            max-width: 560px;
+            line-height: 1.9;
+            color: var(--fog-dim);
+        }
+
+        #promises {
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .promise-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            max-width: 560px;
+            width: 100%;
+        }
+
+        .promise-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1.8rem 2rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .promise-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            width: 0;
+            background: var(--gold);
+            transition: width 0.5s ease;
+        }
+
+        .promise-card:hover::after {
+            width: 100%;
+        }
+
+        .promise-card:hover {
+            background: rgba(201, 169, 110, 0.03);
+        }
+
+        .promise-number {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.25em;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+
+        .promise-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.75;
+            color: var(--fog);
+        }
+
+        .promise-hand {
+            font-family: 'Caveat', cursive;
+            font-size: 1rem;
+            color: var(--fog-dim);
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        #ending {
+            text-align: center;
+            gap: 2rem;
+            min-height: 100vh;
+        }
+
+        .ending-large {
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            font-style: italic;
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.2;
+        }
+
+        .ending-large span {
+            color: var(--gold-soft);
+        }
+
+        .ending-sub {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-style: italic;
+            max-width: 500px;
+            line-height: 1.9;
+            color: var(--fog-dim);
+        }
+
+        .ending-hand {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--rose);
+            margin-top: 0.5rem;
+        }
+
+        .ending-sig {
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: var(--fog-dim);
+            margin-top: 3rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor,
+            .cursor-ring {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 1.2rem;
+                min-height: auto;
+            }
+
+            #hero {
+                min-height: 100vh;
+                padding: 3rem 1rem;
+            }
+
+            .hero-title {
+                font-size: clamp(2.2rem, 8vw, 3.5rem);
+            }
+
+            .story-block {
+                padding: 1.4rem 1.2rem;
+                font-size: 0.95rem;
+                line-height: 1.75;
+                margin: 1.5rem 0.5rem 0;
+            }
+
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .home-card {
+                padding: 1.8rem 1.4rem;
+            }
+
+            .opening-large {
+                font-size: clamp(1.3rem, 5vw, 1.8rem);
+            }
+
+            .grief-quote {
+                font-size: clamp(1.1rem, 4vw, 1.6rem);
+            }
+
+            .ungrateful-word {
+                font-size: clamp(2.2rem, 12vw, 4rem);
+            }
+
+            .ungrateful-word::after {
+                font-size: clamp(1.4rem, 8vw, 2.5rem);
+            }
+
+            .orb-canvas-wrap {
+                height: 140px;
+            }
+
+            .orb-labels {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .orb-label {
+                font-size: 0.55rem;
+            }
+
+            .distance-text {
+                font-size: 0.95rem;
+            }
+
+            .courage-large {
+                font-size: clamp(1.4rem, 6vw, 2.2rem);
+            }
+
+            .promise-card {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .promise-text {
+                font-size: 0.95rem;
+            }
+
+            .ending-large {
+                font-size: clamp(2rem, 9vw, 3.5rem);
+            }
+
+            .ending-sub {
+                font-size: 0.95rem;
+            }
+
+            .music-toggle {
+                top: 1rem;
+                right: 1rem;
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+
+            .home-btn {
+                top: 1rem;
+                left: 1rem;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .trait-list {
+                padding: 0 0.5rem;
+            }
+
+            .trait-text {
+                font-size: 0.95rem;
+            }
+
+            .divider {
+                height: 50px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            * {
+                animation: none !important;
+            }
+        }
+
+        .audio-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            cursor: pointer;
+            transition: opacity 0.8s ease;
+        }
+
+        .audio-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .audio-overlay-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-style: italic;
+            color: var(--gold-soft);
+            text-align: center;
+            line-height: 1.6;
+            animation: pulse-hint 2.5s infinite;
+        }
+
+        .audio-overlay-sub {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: var(--fog-dim);
+            text-transform: uppercase;
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 9990;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            background: rgba(12, 16, 32, 0.6);
+            backdrop-filter: blur(8px);
+            color: var(--gold-soft);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .music-toggle.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .music-toggle:hover {
+            border-color: var(--gold);
+            background: rgba(201, 169, 110, 0.1);
+        }
+
+        .home-btn {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 9990;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 169, 110, 0.3);
+            background: rgba(12, 16, 32, 0.6);
+            backdrop-filter: blur(8px);
+            color: var(--gold-soft);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .home-btn:hover {
+            border-color: var(--gold);
+            background: rgba(201, 169, 110, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="src/chiraiyya.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="audio-overlay" id="audioOverlay">
+        <p class="audio-overlay-text">: ))))</p>
+        <p>🫂🫂</p>
+    </div>
+
+    <button class="music-toggle" id="musicToggle" title="Play / Pause">⏸</button>
+    <a class="home-btn" href="index.html" title="Home">🏠</a>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <canvas id="starfield"></canvas>
+    <section id="hero">
+        <h1 class="hero-title reveal reveal-delay-1">
+            you're stronger than this ,<br /><span>drishti.</span>
+        </h1>
+        <p class="story-block reveal reveal-delay-2">
+            I.. haven't been away from family for long.. i haven't been in a situation like yours.. <br>
+            but from the experience i had in Japan, being away from family, parents, didi thi saath mei,so..yeah.. <br>
+            Sighhhh.. i didn't tell you one thing.. I..kinda cried. Not loudly ofc, lol, but yeah.. while going away
+            from home.. i was looking out the window and.. i remembered mom and dad waving us goodbye.. could see them
+            somehow yk.. <br>
+            It had been hardly 5-10 minutes when it hit me..sigh. Mom was holding Ginger in her arms.. both mom and dad
+            waving.. Didi didn't seem to <br>\
+            be affected much.. Before the tears actually rolled down, didi said come here, lets take a selfie before
+            leaving India. <br>
+            My eyes had water which she thankfuckingfully didn't notice.. she clicked the pic and sent it on the famly
+            group. <br>
+            and well mom saw it.. by the time she saw that and called didi, i was already crying looking out of the
+            window.. realising and <br>
+            remembering everything..not everything but as much as i could remember, what all they have done for me..
+            sacrificed for me.. <br>
+            That was really difficult..sigh.. really difficult.. I don't remember the last time i had cried for anyone
+            else..other than..ahem.. you. <br>
+            yeaah.. you're that important <br> Anyway.. yeahh i thought i would tell you about that "incident" now..
+            incident cz lol they hadn't seen me cry for a long time. <br>
+            Except for Peeku. and..that cat.. <br>
+            so yeah... it def is going to be..difficult. thanks to internet you'll be video calling them, but the
+            comfort won't be the same.
+            <br>
+            nostalgia is such a bitch at such times..sigh <br>at
+            i.. remember the reel that youh had liked about being away from your little brother sucks so much. When
+            you come back he's a grown boy. something like that.
+            <br />
+        </p>
+    </section>
+
+    <section id="opening">
+        <p class="section-label reveal">i get you</p>
+        <p class="opening-large reveal reveal-delay-1">
+            Crying.. is the only human thing to happen when such thoughts and realiasations hit.. As you said, someone
+            would kill to be at this place. And you really put everything to get at this point. Everything that you have
+            done, it all has led you to this.
+        </p>
+        <p class="opening-note reveal reveal-delay-2">
+            I'm not here to tell you that it'll be easy. It's not..<br />
+            I'm here to..accompany you on this journey..virtually..for now..
+        </p>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <section id="home-section">
+        <p class="section-label reveal">what you're "leaving"</p>
+        <div class="home-grid reveal reveal-delay-1">
+            <div class="home-card">
+                <span class="home-card-icon">🌅🚶‍♀️</span>
+                <p class="home-card-title">your mornings</p>
+                <p class="home-card-text">the routes you walk, jog and run. Luna waiting for you outside..which is
+                    so..lovely. Sigh. <br>
+                    This reminds me of a few voice notes that you had sent, on Instagram, long long back ago. Starting
+                    hi thi apni, I clearly remember listening to them on the train while coming back from college. You
+                    had talked about a cutie perro whom you used to feed, and once he or she just.. disappeared and
+                    never saw him (ig him) again..
+            </div>
+            <div class="home-card">
+                <span class="home-card-icon">🎨🖌️📚✒️</span>
+                <p class="home-card-title">Your room</p>
+                <p class="home-card-text">Your room, the table at which you..have been sitting and studying for all
+                    these years.. Painting those beautiful masterpieces and writing those precious poems.. and what
+                    not.. Sighhh..</p>
+            </div>
+            <div class="home-card">
+                <span class="home-card-icon">🏡👨‍👩‍👧‍👦</span>
+                <p class="home-card-title">your people</p>
+                <p class="home-card-text">your family, Dada Dadi ji, Nani ji.. everyone.. their voices, their habits..
+                    the nice little Ludo games, the <br> particular warmth and comfort of home and the presence of
+                    everyone.. Sigh I've experienced it, for just 11 days and.. yeahh it hits you at different times..
+                    First when you leave home..it gets uncontrollably..painful and sad.. sigh..I'm sorry. </p>
+            </div>
+            <div class="home-card">
+                <span class="home-card-icon">🌙🌃</span>
+                <p class="home-card-title">the familiarity</p>
+                <p class="home-card-text">every small thing that felt like background around you until now.. the sounds,
+                    the way home always feels like.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <section id="grief">
+        <p class="section-label reveal">on feeling guilty for feeling this</p>
+        <p class="grief-quote reveal reveal-delay-1">
+            you said <strong>"someone would kill to be at this place."</strong><br />
+            you're absiolutely right..but that someone<br />
+            would also cry, if they were you, right?
+        </p>
+        <p class="grief-note reveal reveal-delay-2">
+            grief and gratitude are not opposites<br />
+            you can hold both, and you do..drishti<br />
+            that's not being ungrateful.<br />
+            that's just being a.. person 🫂
+        </p>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <section id="ungrateful">
+        <p class="section-label reveal">what you called yourself</p>
+        <div class="ungrateful-word reveal reveal-delay-1">ungrateful</div>
+        <p class="ungrateful-body reveal reveal-delay-2">
+            you called yourself ungrateful for <em>feeling</em> the pain.. which any other person would too, drishti.
+            Mujhe hi dekh le.. like i said in the beginning.<br />
+        <p class="ungrateful-hand reveal reveal-delay-3">you're not ungrateful, drishti. you're too kind, actually.. 💝
+        </p>
+    </section>
+
+    <div class="divider reveal"></div>
+
+    <section id="distance">
+        <p class="section-label reveal">wherever you go</p>
+        <div class="orb-canvas-wrap reveal reveal-delay-1">
+            <canvas id="orb-canvas"></canvas>
+        </div>
+        <div class="orb-labels reveal reveal-delay-1">
+            <span class="orb-label">kaustubh — Mumbai</span>
+            <span class="orb-label">drishti — wherever</span>
+        </div>
+        <p class="distance-text reveal reveal-delay-2">
+            distance is.. well physical and real.<br /> <br>
+            but..the connection between us.. it doesn't stretch.<br />
+            it doesn't thin out, no matter what..<br />
+            it just <em>stays</em>... <br>
+            I'm..not being selfish and comparing this to anything..by the way.. just saying 🫂
+        </p>
+    </section>
+
+    <div class="divider reveal"></div>
+    <section id="promises">
+        <p class="section-label reveal">remember..</p>
+        <div class="promise-cards">
+            <div class="promise-card reveal reveal-delay-1">
+                <p class="promise-number">01</p>
+                <p class="promise-text">i'll be here. your same stoopid "kid", same place, same person..every time we
+                    talk, text, call, video call (I'll..always be wearing that uncontrollable smile).</p>
+            </div>
+            <div class="promise-card reveal reveal-delay-2">
+                <p class="promise-number">02</p>
+                <p class="promise-text">you don't have to be..all happy and excited when.. talking to me. you can be
+                    scared, or tired, or homesick. I'm not going to tell you to feel differently.</p>
+                <span class="promise-hand">i'll just..stay.. help you feel like home..hm? </span>
+            </div>
+            <div class="promise-card reveal reveal-delay-4">
+                <p class="promise-number">03</p>
+                <p class="promise-text">and if you're ever in a new city, feeling like a stranger, missing
+                    everything... know that i'm right there.. 1400 km away, yet completely with you, completely..yours.
+                </p>
+                <span class="promise-hand">always : )</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider reveal"></div>
+    <section id="ending">
+        <p class="ending-hand reveal reveal-delay-3">you've always been strong enough, drishti 💝🫂</p>
+        <p class="ending-sig reveal reveal-delay-4">made with.. pseudo-everything, <br>
+            yours, kaustubh <br>^^</p>
+    </section>
+
+    <script>
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        let mx = -100, my = -100, rx = -100, ry = -100;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        (function animCursor() {
+            cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+            rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+            requestAnimationFrame(animCursor);
+        })();
+
+        const sf = document.getElementById('starfield');
+        const ctx = sf.getContext('2d');
+        let stars = [], W, H;
+        function resize() {
+            W = sf.width = window.innerWidth;
+            H = sf.height = window.innerHeight;
+        }
+        resize(); window.addEventListener('resize', resize);
+        for (let i = 0; i < 180; i++) {
+            stars.push({
+                x: Math.random(), y: Math.random(),
+                r: Math.random() * 1.2 + 0.2,
+                a: Math.random(),
+                speed: Math.random() * 0.0003 + 0.0001,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+        let scrollY = 0;
+        window.addEventListener('scroll', () => { scrollY = window.scrollY; });
+        (function animStars() {
+            ctx.clearRect(0, 0, W, H);
+            const t = Date.now() * 0.001;
+            stars.forEach(s => {
+                const alpha = s.a * (0.5 + 0.5 * Math.sin(t * s.speed * 1000 + s.phase));
+                ctx.beginPath();
+                ctx.arc(s.x * W, s.y * H - (scrollY * 0.03), s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(232,201,138,${alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animStars);
+        })();
+
+        const oc = document.getElementById('orb-canvas');
+        const octx = oc.getContext('2d');
+        function resizeOrb() {
+            oc.width = oc.offsetWidth;
+            oc.height = oc.offsetHeight;
+        }
+        resizeOrb(); window.addEventListener('resize', resizeOrb);
+        (function animOrbs() {
+            const w = oc.width, h = oc.height;
+            octx.clearRect(0, 0, w, h);
+            const t = Date.now() * 0.001;
+            const pulse = 0.5 + 0.5 * Math.sin(t * 0.8);
+
+            const lx = w * 0.15, ly = h * 0.5;
+            const lgr = octx.createRadialGradient(lx, ly, 0, lx, ly, 40 + pulse * 10);
+            lgr.addColorStop(0, 'rgba(100,149,237,0.9)');
+            lgr.addColorStop(0.4, 'rgba(100,149,237,0.3)');
+            lgr.addColorStop(1, 'transparent');
+            octx.beginPath(); octx.arc(lx, ly, 40 + pulse * 10, 0, Math.PI * 2);
+            octx.fillStyle = lgr; octx.fill();
+
+            const rx2 = w * 0.85, ry2 = h * 0.5;
+            const rgr = octx.createRadialGradient(rx2, ry2, 0, rx2, ry2, 40 + (1 - pulse) * 10);
+            rgr.addColorStop(0, 'rgba(196,132,138,0.9)');
+            rgr.addColorStop(0.4, 'rgba(196,132,138,0.3)');
+            rgr.addColorStop(1, 'transparent');
+            octx.beginPath(); octx.arc(rx2, ry2, 40 + (1 - pulse) * 10, 0, Math.PI * 2);
+            octx.fillStyle = rgr; octx.fill();
+
+            const grad = octx.createLinearGradient(lx, ly, rx2, ry2);
+            grad.addColorStop(0, 'rgba(100,149,237,0.5)');
+            grad.addColorStop(0.5, 'rgba(255,255,255,0.08)');
+            grad.addColorStop(1, 'rgba(196,132,138,0.5)');
+            octx.beginPath();
+            octx.moveTo(lx, ly);
+            const cpx = w * 0.5, cpy = ly - 20 + Math.sin(t * 0.4) * 15;
+            octx.quadraticCurveTo(cpx, cpy, rx2, ry2);
+            octx.strokeStyle = grad;
+            octx.lineWidth = 1;
+            octx.stroke();
+
+            const tp = (Math.sin(t * 0.5) * 0.5 + 0.5);
+            const px = lx + (rx2 - lx) * tp;
+            const py = ly + (cpy - ly) * 2 * tp * (1 - tp) + (ry2 - ly) * tp * tp;
+            octx.beginPath(); octx.arc(px, py, 3, 0, Math.PI * 2);
+            octx.fillStyle = 'rgba(232,201,138,0.9)';
+            octx.fill();
+
+            requestAnimationFrame(animOrbs);
+        })();
+
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(r => observer.observe(r));
+
+        // Audio overlay — play on first interaction
+        const overlay = document.getElementById('audioOverlay');
+        const music = document.getElementById('bgMusic');
+        const toggleBtn = document.getElementById('musicToggle');
+
+        overlay.addEventListener('click', () => {
+            music.play();
+            overlay.classList.add('fade-out');
+            toggleBtn.classList.add('visible');
+            setTimeout(() => overlay.remove(), 900);
+        });
+
+        toggleBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                toggleBtn.textContent = '⏸';
+            } else {
+                music.pause();
+                toggleBtn.textContent = '▶';
+            }
+        });
+    </script>
+</body>
+
+</html>
