@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>japan, may 2026</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&family=Caveat:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --ink: #e8e3da;
+            --paper: #0f0f14;
+            --mist: #1a1a22;
+            --warm: #c4956a;
+            --gold: #d4a853;
+            --blush: #e8c4b0;
+            --red: #c0392b;
+            --sakura: #f4d0d0;
+            --night: #0a0a10;
+            --neon: #ff6b6b;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'DM Mono', monospace;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        #hero {
+            height: 100vh;
+            background: var(--night);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 300;
+            font-style: italic;
+            color: #fff;
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+        }
+
+        .hero-title span {
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .hero-jp {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: rgba(255, 255, 255, 0.15);
+            margin-top: 1rem;
+            letter-spacing: 0.5em;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            animation: bob 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes bob {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(6px)
+            }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            gap: 2rem;
+            padding: 1.25rem 2rem;
+            mix-blend-mode: difference;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        nav a:hover {
+            opacity: 1
+        }
+
+        .chapter {
+            padding: 6rem 0;
+        }
+
+        .chapter-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .chapter-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--warm);
+            margin-bottom: 1rem;
+        }
+
+        .chapter-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1;
+            margin-bottom: 3rem;
+        }
+
+        .chapter-note {
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--warm);
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .chapter-dark {
+            background: var(--night);
+            color: #fff;
+        }
+
+        .chapter-dark .chapter-label {
+            color: var(--gold)
+        }
+
+        .chapter-dark .chapter-title {
+            color: #fff
+        }
+
+        .chapter-dark .chapter-note {
+            color: var(--gold)
+        }
+
+        .grid-cinematic {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-four {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-tall {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-hero-single {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-wrap {
+            position: relative;
+            overflow: hidden;
+            background: var(--mist);
+            cursor: pointer;
+        }
+
+        .photo-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .photo-wrap:hover img {
+            transform: scale(1.03)
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-wrap:hover .photo-caption {
+            opacity: 1
+        }
+
+        .h-190 {
+            height: 190px
+        }
+
+        .h-200 {
+            height: 200px
+        }
+
+        .h-220 {
+            height: 220px
+        }
+
+        .h-245 {
+            height: 245px
+        }
+
+        .h-250 {
+            height: 250px
+        }
+
+        .h-280 {
+            height: 280px
+        }
+
+        .h-300 {
+            height: 300px
+        }
+
+        .h-350 {
+            height: 350px
+        }
+
+        .h-400 {
+            height: 400px
+        }
+
+        .h-450 {
+            height: 450px
+        }
+
+        .h-500 {
+            height: 500px
+        }
+
+        .h-550 {
+            height: 550px
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 4rem auto;
+            opacity: 0.4;
+        }
+
+        .divider-dark {
+            background: var(--gold);
+        }
+
+        .prose {
+            max-width: 540px;
+            font-size: 0.8rem;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .prose-dark {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .pull-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.3;
+            color: var(--warm);
+            max-width: 600px;
+            margin: 2rem 0;
+        }
+
+        .pull-quote-dark {
+            color: var(--gold)
+        }
+
+        .stamp {
+            display: inline-block;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            transform: rotate(-3deg);
+            font-family: 'DM Mono', monospace;
+            margin-bottom: 1.5rem;
+        }
+
+        .stamp-dark {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        #tamagawa {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #confetti-canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .confetti-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(212, 168, 83, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        #tamagawa.confetti-active #confetti-canvas,
+        #tamagawa.confetti-active .confetti-glow {
+            opacity: 1;
+        }
+
+        #hp-section {
+            background: #0a0608;
+        }
+
+        #hp-section .chapter-title {
+            color: #d4a853
+        }
+
+        #nara-section {
+            background: linear-gradient(180deg, #12121a 0%, #0e0e16 100%);
+        }
+
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+
+        #lightbox.open {
+            display: flex
+        }
+
+        #lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0.6;
+            background: none;
+            border: none;
+            font-family: 'DM Mono', monospace;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        footer {
+            background: var(--night);
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            padding: 4rem 2rem;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+        }
+
+        footer .footer-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.15);
+            margin-bottom: 1rem;
+            letter-spacing: normal;
+            text-transform: none;
+        }
+
+        @media(max-width:768px) {
+
+            .grid-cinematic,
+            .grid-three,
+            .grid-four,
+            .grid-tall {
+                grid-template-columns: 1fr
+            }
+
+            .grid-two {
+                grid-template-columns: 1fr
+            }
+
+            nav {
+                gap: 1rem;
+                padding: 1rem
+            }
+
+            nav a {
+                font-size: 0.55rem
+            }
+
+            .h-500,
+            .h-550 {
+                height: 300px
+            }
+
+            .h-400,
+            .h-450 {
+                height: 250px
+            }
+
+            .h-350 {
+                height: 220px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <nav>
+        <a href="#journey">journey</a>
+        <a href="#disneysea">disneysea</a>
+        <a href="#tokyo">tokyo</a>
+        <a href="#tamagawa">tamagawa</a>
+        <a href="#hp">wizardry</a>
+        <a href="#nara">nara</a>
+    </nav>
+
+    <section id="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-text">
+            <h1 class="hero-title">Our journey in Japan,<br><span style="color: #e6bf83">May 2026 ^^</span></h1>
+            <p class="hero-sub">a travel journal in photographs hehehehh</p>
+        </div>
+    </section>
+
+    <section class="chapter chapter-dark" id="journey">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">01> The unforgiving journey</p>
+            <p class="chapter-note reveal">may 25, 2026, Mumbai -> Tokyo</p>
+
+            <div class="grid-cinematic reveal">
+                <div class="photo-wrap h-500" onclick="openLightbox(this)">
+                    <img src="photos/flight-dawn-window.jpg" alt="dawn from the plane window">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-250" onclick="openLightbox(this)">
+                        <img src="photos/flight-coastline.jpg" alt="japan coastline from above">
+                    </div>
+                    <div class="photo-wrap h-245" onclick="openLightbox(this)">
+                        <img src="photos/flight-fuji-from-air.jpg" alt="mount fuji from the plane">
+                    </div>
+                </div>
+            </div>
+
+            <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                <img src="photos/flight-landing-narita.jpg" alt="landing at narita">
+                <div class="photo-caption">landingggg attt Narita nternational</div>
+            </div>
+
+            <div class="divider divider-dark reveal"></div>
+
+        </div>
+    </section>
+
+    <section class="chapter" id="maihama">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">02> Maihamaaaa</p>
+            <h2 class="chapter-title reveal">Sheratonnn <br>by the sea</h2>
+
+            <div class="grid-cinematic reveal">
+                <div class="photo-wrap h-450" onclick="openLightbox(this)">
+                    <img src="photos/hotel-exterior.jpg" alt="hotel exterior">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/maihama-grass-path.jpg" alt="palm lined path with fluffy grass">
+                    </div>
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/maihama-walkway-sign.jpg" alt="palm road with disneysea sign">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/maihama-sunset-bay.jpg" alt="tokyo bay sunset">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/maihama-night-hotel.jpg" alt="disneysea hotel at night">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter chapter-dark" id="disneysea">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">03> Tokyo disneysea</p>
+            <h2 class="chapter-title reveal">Legs destroyer<br>walked all day looooong</h2>
+            <p class="chapter-note reveal">may 26, 2026</p>
+
+            <div class="grid-hero-single reveal">
+                <div class="photo-wrap h-550" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-globe-day.jpg" alt="disneysea globe fountain daytime">
+                </div>
+            </div>
+
+            <div class="grid-three reveal">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-harbor-panorama.jpg" alt="disneysea harbor panorama">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-lighthouse.jpg" alt="red and white lighthouse">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-columbia.jpg" alt="ss columbia steamship">
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-350" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-desert-plants.jpg" alt="yucca and agave plants">
+                    <div class="photo-caption">Ourrrrr Fibrousss leaveee planttttttt</div>
+                </div>
+            </div>
+
+            <div class="divider divider-dark reveal"></div>
+
+            <p class="chapter-label reveal">as the sun went downnnn</p>
+            <div class="grid-two reveal">
+                <div class="photo-wrap h-400" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-hotel-night.jpg" alt="disneysea hotel at night lit up">
+                </div>
+                <div class="photo-wrap h-400" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-globe-night.jpg" alt="disneysea globe at night">
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div style="display:flex;flex-direction:column;justify-content:center;padding:1rem 2rem 1rem 0">
+                    <p class="chapter-note">the souvenir from DisneySeeaaa</p>
+                    <p class="prose prose-dark">Can'ttt waittt forrr youuhhh to havee itttt 🥺🥺🥺</p>
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/disneysea-baymax.jpg" alt="baymax keychain souvenir">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter" id="shinjuku">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">04> Shinjuku</p>
+            <h2 class="chapter-title reveal">Tokyo<br>nighttt cityyy </h2>
+            <p class="chapter-note reveal">may 27, 2026</p>
+
+            <div class="grid-cinematic reveal">
+                <div class="photo-wrap h-500" onclick="openLightbox(this)">
+                    <img src="photos/shinjuku-beams-japan.jpg" alt="BEAMS Japan store facade">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-245" onclick="openLightbox(this)">
+                        <img src="photos/shinjuku-night-street.jpg" alt="shinjuku night street">
+                    </div>
+                    <div class="photo-wrap h-245" onclick="openLightbox(this)">
+                        <img src="photos/shinjuku-3d-cat.jpg" alt="3D cat billboard shinjuku">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-350" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-night-building.jpg" alt="gold pagoda building at night">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter chapter-dark" id="tokyo">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">05> Tsukiji & Asakusaaaa</p>
+            <h2 class="chapter-title reveal">Old Tokyo</h2>
+            <p class="chapter-note reveal">May 28, 2026</p>
+
+            <div class="grid-three reveal">
+                <div class="photo-wrap h-350" onclick="openLightbox(this)">
+                    <img src="photos/tsukiji-market-alley.jpg" alt="tsukiji outer market">
+                </div>
+                <div class="photo-wrap h-350" onclick="openLightbox(this)">
+                    <img src="photos/tsukiji-mochi.jpg" alt="strawberry mochi daifuku">
+                </div>
+                <div class="photo-wrap h-350" onclick="openLightbox(this)">
+                    <img src="photos/tsukiji-shiba-azuki.jpg" alt="shiba inu named azuki">
+                </div>
+            </div>
+
+            <div class="divider divider-dark reveal"></div>
+
+            <div class="grid-cinematic reveal">
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                        <img src="photos/asakusa-kaminarimon.jpg" alt="kaminarimon gate sensoji">
+                    </div>
+                    <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                        <img src="photos/asakusa-pagoda.jpg" alt="five storey pagoda sensoji">
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                        <img src="photos/asakusa-skytree.jpg" alt="tokyo skytree">
+                    </div>
+                    <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                        <img src="photos/tokyo-hydrangea-blue.jpg" alt="blue hydrangeas">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter" id="ginza">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">06> Ginza & Tokyo streets</p>
+            <h2 class="chapter-title reveal">cars, flowers,<br>& everything in betweeeeeeeeeen</h2>
+            <p class="chapter-note reveal">May 28–29, 2026</p>
+
+            <div class="grid-two reveal">
+                <div class="photo-wrap h-400" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-selfie-ginza.jpg" alt="selfie on ginza bridge">
+                    <div class="photo-caption">Heree... yourr idiot boy</div>
+
+                </div>
+                <div class="photo-wrap h-400" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-street-wide.jpg" alt="tokyo wide street">
+                </div>
+            </div>
+
+            <p class="chapter-note reveal" style="margin-top:2rem">the cars were unreal.</p>
+            <div class="grid-four reveal">
+                <div class="photo-wrap h-250" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-ferrari-roma.jpg" alt="ferrari roma with naruto bus">
+                </div>
+                <div class="photo-wrap h-250" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-porsche-911-black.jpg" alt="black porsche 911 carrera">
+                </div>
+                <div class="photo-wrap h-250" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-bmw-red.jpg" alt="red BMW alpina">
+                </div>
+                <div class="photo-wrap h-250" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-porsche-911-olive.jpg" alt="olive green porsche 911">
+                </div>
+            </div>
+
+            <div class="grid-three reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-azaleas-pink.jpg" alt="pink azaleas on sidewalk">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-metro-govt.jpg" alt="tokyo metropolitan government building">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-pigeon-road.jpg" alt="pigeon on road markings">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter chapter-dark" id="cats">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">07> Cutieee shop & teamlab planets</p>
+            <h2 class="chapter-title reveal">kittens<br>& orchids heheh</h2>
+            <p class="chapter-note reveal">may 29, 2026</p>
+
+            <div class="grid-four reveal">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/catshop-calico-kitten.jpg" alt="fluffy calico kitten at glass">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/catshop-bengal.jpg" alt="bengal cat lounging">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/catshop-tortoiseshell.jpg" alt="tiny tortoiseshell kitten">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/catshop-ginger.jpg" alt="ginger cat curled in bowl">
+                </div>
+            </div>
+
+            <div class="divider divider-dark reveal"></div>
+
+            <div class="grid-cinematic reveal">
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                        <img src="photos/teamlab-sign.jpg" alt="teamlab planets sign at dusk">
+                    </div>
+                    <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                        <img src="photos/teamlab-orchid-fullroom.jpg" alt="teamlab orchid room full view">
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-200" onclick="openLightbox(this)">
+                        <img src="photos/teamlab-orchid-white.jpg" alt="white orchids teamlab">
+                    </div>
+                    <div class="photo-wrap h-200" onclick="openLightbox(this)">
+                        <img src="photos/teamlab-orchid-purple.jpg" alt="purple orchids teamlab">
+                    </div>
+                    <div class="photo-wrap h-190" onclick="openLightbox(this)">
+                        <img src="photos/teamlab-orchid-pink.jpg" alt="pink orchids teamlab">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter" id="sti">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">08 — STI gallery</p>
+            <h2 class="chapter-title reveal">subaru<br>tecnica intl.</h2>
+            <p class="chapter-note reveal">may 30, 2026 · mitaka</p>
+
+            <div class="grid-cinematic reveal">
+                <div class="photo-wrap h-450" onclick="openLightbox(this)">
+                    <img src="photos/sti-wrx-racecar.jpg" alt="STI WRX race car">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/sti-sign.jpg" alt="STI gallery sign">
+                    </div>
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/sti-steering-wheel.jpg" alt="STI race car steering wheel cockpit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/sti-s210-badge.jpg" alt="S210 badge embroidered">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/sti-start-button.jpg" alt="STI red engine start button">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter" id="tamagawa">
+        <canvas id="confetti-canvas"></canvas>
+        <div class="confetti-glow"></div>
+        <div class="chapter-inner" style="position:relative;z-index:2">
+            <p class="chapter-label reveal">09 Tamagawa river</p>
+            <h2 class="chapter-title reveal" style="color:var(--warm)">the river,<br>the call</h2>
+            <p class="chapter-note reveal">may 30, 2026, beautiful afternoon</p>
+
+            <div class="grid-hero-single reveal">
+                <div class="photo-wrap h-500" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-river-wide.jpg" alt="tamagawa river wide view">
+                </div>
+            </div>
+
+            <div class="grid-three reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-river-shallow.jpg" alt="tamagawa shallow river">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-selfie-sunglasses.jpg" alt="selfie at tamagawa">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-weir-tower.jpg" alt="tamagawa weir with tower">
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-forest-path.jpg" alt="sunlit forest path tamagawa">
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-weir-dam.jpg" alt="tamagawa weir dam">
+                </div>
+            </div>
+
+            <div class="grid-three reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-280" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-village-road.jpg" alt="village road tamagawa">
+                </div>
+                <div class="photo-wrap h-280" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-azaleas-wall.jpg" alt="pink azaleas against wall">
+                </div>
+                <div class="photo-wrap h-280" onclick="openLightbox(this)">
+                    <img src="photos/tamagawa-dusk-road.jpg" alt="dusk road tamagawa with clouds">
+                </div>
+            </div>
+
+            <div class="divider reveal"></div>
+            <div class="reveal" style="text-align:center;padding:3rem 0">
+                <span class="stamp">first video call EVERRR</span>
+                <p class="pull-quote" style="margin:1.5rem auto;text-align:center;color:var(--warm)">we..both were
+                    smiling
+                    so much,<br>but mine was definitely wider and blushy.</p>
+                <p class="prose" style="margin:0 auto;text-align:center;color:rgba(255,255,255,0.55)">: )) I cannot
+                    forge, standing by this river, talking to you on the video call.. Gosh.. phenomenal.. <br>
+                    I could see two, absolutely beautiful sceneries.. one was the lush green one, and the other one was
+                    <em>you</em> ^^ who makes me all blushy blushy 😭😭😭😭😭😭
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter chapter-dark" id="hp" style="background:#08060a">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal" style="color:var(--gold)">10> harry potter studio tour</p>
+            <h2 class="chapter-title reveal" style="color:var(--gold)">Warnerrr Bros' Studioo,<br>Tokyo</h2>
+            <p class="chapter-note reveal">may 31, 2026</p>
+
+            <div class="grid-hero-single reveal">
+                <div class="photo-wrap h-550" onclick="openLightbox(this)">
+                    <img src="photos/hp-hogwarts-express.jpg" alt="hogwarts express locomotive">
+                    <div class="photo-caption">It looooked prettyy coooool</div>
+                </div>
+            </div>
+
+            <div class="grid-cinematic reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-450" onclick="openLightbox(this)">
+                    <img src="photos/hp-great-hall.jpg" alt="harry potter great hall">
+                    <div class="photo-caption">daaa great hall</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/hp-sorting-hat.jpg" alt="sorting hat">
+                        <div class="photo-caption">Hadddd me wondering howw does it make expressionsss</div>
+                    </div>
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/hp-goblin-face.jpg" alt="goblin prosthetic makeup">
+                        <div class="photo-caption">Me when you annoy me X)) heheh</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div style="display:flex;flex-direction:column;justify-content:center;padding:2rem">
+                    <p class="pull-quote pull-quote-dark">The pic that youuhh had appreciateddd : )))))))</p>
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/tokyo-train-board-chuo.jpg" alt="chuo line train board">
+                    <div class="photo-caption">Youuhh had appreciated this pic so muchhh... : )</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="chapter" id="nara" style="background:#12121a">
+        <div class="chapter-inner">
+            <p class="chapter-label reveal">11. Nara</p>
+            <h2 class="chapter-title reveal">Naaaraa<br>Parkkk</h2>
+            <p class="chapter-note reveal">june 1, 2026, our evening : ))))))</p>
+
+            <div class="grid-hero-single reveal">
+                <div class="photo-wrap h-550" onclick="openLightbox(this)">
+                    <img src="photos/nara-temple-sunset.jpg" alt="nara temple at golden hour">
+                    <div class="photo-caption">:))) hehehhe youuhh like thiss picc</div>
+                </div>
+            </div>
+
+            <div class="grid-cinematic reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-450" onclick="openLightbox(this)">
+                    <img src="photos/nara-deer-temple.jpg" alt="deer grazing at nara temple">
+                    <div class="photo-caption">cutiiieee pieees of Naraa</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.5rem">
+                    <div class="photo-wrap h-220" onclick="openLightbox(this)">
+                        <img src="photos/nara-temple-path.jpg" alt="nara temple path at dusk">
+                        <div class="photo-caption">:)))) Looong paths</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-two reveal" style="margin-top:0.5rem">
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/shinkansen-colorful-houses.jpg" alt="colorful houses from shinkansen">
+                    <div class="photo-caption">interestinggg tiny coloutful housesss youuhh had said hehe</div>
+                </div>
+                <div class="photo-wrap h-300" onclick="openLightbox(this)">
+                    <img src="photos/shinkansen-fuji-view.jpg" alt="mount fuji from shinkansen">
+                    <div class="photo-caption">Mt. Fujiii, seen from the Shinkansen window</div>
+                </div>
+            </div>
+
+            <div class="divider reveal"></div>
+
+            <div class="reveal" style="text-align:center;padding:2rem 0 0">
+                <p class="chapter-note" style="font-size:1.5rem">Iammm yettt to add moreeee but im sleeepy af</p>
+                <div class="photo-wrap h-400" onclick="openLightbox(this)" style="margin-top:1rem">
+                    <img src="photos/tokyo-big-sight.jpg" alt="tokyo big sight from train">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p class="footer-title">Japan, May 2026 ^^</p>
+        <p>clicked by kaustubh, inspired by youhhh,, drishti hehe</p>
+        <p
+            style="margin-top:2rem;font-size:0.8rem;color:var(--gold);text-transform:none;letter-spacing:0.1em;font-style:italic;">
+            I cannot wait to come back here with you.. someday in the foreseeable future.</p>
+    </footer>
+
+    <script>
+        const hCanvas = document.getElementById('hero-canvas');
+        const hCtx = hCanvas.getContext('2d');
+        let W, H, particles = [];
+
+        function resizeHero() {
+            W = hCanvas.width = hCanvas.offsetWidth;
+            H = hCanvas.height = hCanvas.offsetHeight;
+        }
+
+        class Particle {
+            constructor() { this.reset() }
+            reset() {
+                this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.r = Math.random() * 1.5 + 0.3;
+                this.speed = Math.random() * 0.3 + 0.05;
+                this.angle = Math.random() * Math.PI * 2;
+                this.alpha = Math.random() * 0.6 + 0.1;
+                this.color = Math.random() > 0.7 ? '#d4a853' : '#ffffff';
+            }
+            update() {
+                this.y -= this.speed;
+                this.x += Math.sin(this.angle) * 0.2;
+                if (this.y < -5) this.reset(), this.y = H + 5;
+            }
+            draw() {
+                hCtx.save();
+                hCtx.globalAlpha = this.alpha;
+                hCtx.fillStyle = this.color;
+                hCtx.beginPath();
+                hCtx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                hCtx.fill();
+                hCtx.restore();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 120; i++) particles.push(new Particle());
+        }
+
+        function animateHero() {
+            hCtx.clearRect(0, 0, W, H);
+            particles.forEach(p => { p.update(); p.draw() });
+            requestAnimationFrame(animateHero);
+        }
+
+        resizeHero();
+        initParticles();
+        animateHero();
+        window.addEventListener('resize', () => { resizeHero(); initParticles() });
+
+        const revealEls = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        revealEls.forEach(el => io.observe(el));
+
+        function openLightbox(wrap) {
+            const img = wrap.querySelector('img');
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox() });
+
+        const confSection = document.getElementById('tamagawa');
+        const confCanvas = document.getElementById('confetti-canvas');
+        const cCtx = confCanvas.getContext('2d');
+        let confetti = [], confettiInited = false, confettiAnimId = null;
+
+        const CONF_COLORS = ['#d4a853', '#f4c4c4', '#c4956a', '#fff', '#e8c4b0', '#f9e4b7', '#ffd6e7'];
+
+        class Conf {
+            constructor() {
+                this.x = Math.random() * confCanvas.width;
+                this.y = -10;
+                this.w = Math.random() * 8 + 4;
+                this.h = Math.random() * 4 + 2;
+                this.color = CONF_COLORS[Math.floor(Math.random() * CONF_COLORS.length)];
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 4;
+                this.vy = Math.random() * 3 + 1.5;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.alpha = 1;
+            }
+            update() {
+                this.y += this.vy;
+                this.x += this.vx;
+                this.rotation += this.rotSpeed;
+                if (this.y > confCanvas.height) this.y = -10, this.x = Math.random() * confCanvas.width;
+            }
+            draw() {
+                cCtx.save();
+                cCtx.globalAlpha = this.alpha;
+                cCtx.translate(this.x, this.y);
+                cCtx.rotate(this.rotation * Math.PI / 180);
+                cCtx.fillStyle = this.color;
+                cCtx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+                cCtx.restore();
+            }
+        }
+
+        function sizeConfCanvas() {
+            confCanvas.width = confSection.offsetWidth;
+            confCanvas.height = confSection.offsetHeight;
+        }
+
+        function initConfetti() {
+            if (confettiInited) return;
+            confettiInited = true;
+            sizeConfCanvas();
+            for (let i = 0; i < 200; i++) {
+                const c = new Conf();
+                c.y = Math.random() * confCanvas.height;
+                confetti.push(c);
+            }
+            for (let i = 0; i < 100; i++) confetti.push(new Conf());
+        }
+
+        function animateConf() {
+            cCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+            confetti.forEach(c => { c.update(); c.draw() });
+            confettiAnimId = requestAnimationFrame(animateConf);
+        }
+
+        function startConfetti() {
+            initConfetti();
+            confSection.classList.add('confetti-active');
+            if (!confettiAnimId) animateConf();
+        }
+
+        function stopConfetti() {
+            confSection.classList.remove('confetti-active');
+            if (confettiAnimId) {
+                cancelAnimationFrame(confettiAnimId);
+                confettiAnimId = null;
+            }
+        }
+
+        const confIO = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    startConfetti();
+                } else {
+                    stopConfetti();
+                }
+            });
+        }, { threshold: 0.15 });
+        confIO.observe(confSection);
+
+        window.addEventListener('resize', () => {
+            if (confettiInited) sizeConfCanvas();
+        });
+    </script>
+</body>
+
+</html>
