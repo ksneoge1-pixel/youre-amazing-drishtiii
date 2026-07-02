@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worst fear..</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=DM+Mono:ital,wght@0,300;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: #090807;
+        color: #b8ad9f;
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: 1.15rem;
+        line-height: 1.95;
+        transition: background-color 2.5s ease;
+        overflow-x: hidden;
+      }
+
+      body.warm {
+        background-color: #0f0b07;
+      }
+
+      #grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.9;
+        z-index: 100;
+      }
+
+      .page {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .ch {
+        padding: 7rem 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 1.4s ease,
+          transform 1.4s ease;
+      }
+      .ch.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      #ch-open {
+        padding-top: 42vh;
+        padding-bottom: 10rem;
+      }
+
+      .ts {
+        font-family: "DM Mono", monospace;
+        font-style: italic;
+        font-size: 0.62rem;
+        letter-spacing: 0.14em;
+        color: #453d36;
+        margin-bottom: 2.5rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2.6rem, 8vw, 4.2rem);
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.15;
+        color: #ddd3c4;
+        letter-spacing: -0.015em;
+        margin-bottom: 2.5rem;
+      }
+
+      .prose p {
+        margin-bottom: 1.6rem;
+      }
+      .prose p.dim {
+        color: #5a5048;
+        font-size: 1rem;
+      }
+
+      .bubbles {
+        margin: 3.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+
+      .bub {
+        display: inline-block;
+        padding: 0.55rem 1.1rem;
+        font-family: "DM Mono", monospace;
+        font-style: italic;
+        font-size: 0.82rem;
+        font-weight: 300;
+        line-height: 1.5;
+        border-radius: 18px 18px 4px 18px;
+        background: #1e1510;
+        color: #907a65;
+        border: 1px solid #2a1f16;
+        align-self: flex-end;
+        max-width: 90%;
+        opacity: 0;
+        transform: translateX(12px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .bub.in {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .breath {
+        width: 1px;
+        height: 70px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #2e2520,
+          transparent
+        );
+        margin: 1rem auto;
+      }
+
+      .turn {
+        text-align: center;
+        padding: 8rem 0;
+      }
+
+      .turn-line {
+        font-size: clamp(1.45rem, 4.5vw, 2.2rem);
+        font-style: italic;
+        color: #c48a38;
+        line-height: 1.7;
+        opacity: 0;
+        transition: opacity 2.5s ease;
+      }
+      .turn-line.in {
+        opacity: 1;
+      }
+
+      .turn-sub {
+        margin-top: 1.8rem;
+        font-family: "DM Mono", monospace;
+        font-style: italic;
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        color: #453d36;
+        opacity: 0;
+        transition: opacity 2s ease 1.4s;
+      }
+      .turn-sub.in {
+        opacity: 1;
+      }
+
+      em.w {
+        color: #c48a38;
+        font-style: italic;
+      }
+      em.r {
+        color: #b87870;
+        font-style: italic;
+      }
+
+      .closing p {
+        margin-bottom: 1.8rem;
+        font-size: 1.18rem;
+        color: #b0a598;
+        line-height: 2.05;
+      }
+
+      .sign {
+        margin-top: 5rem;
+        font-family: "DM Mono", monospace;
+        font-style: italic;
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        color: #453d36;
+        line-height: 2.2;
+      }
+
+      .special-ending {
+        margin-top: 8rem;
+        text-align: center;
+        padding-bottom: 8rem;
+      }
+
+      .special-ending p {
+        font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+        color: #ddd3c4;
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateY(15px);
+        transition:
+          opacity 3s ease,
+          transform 3s ease;
+      }
+
+      .special-ending.in p {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .special-ending p.second-line {
+        transition-delay: 2s;
+        color: #c48a38;
+      }
+
+      .special-ending.in p.always {
+        letter-spacing: 0.1em;
+      }
+
+      .special-ending p.always {
+        margin-top: 2.5rem;
+        font-size: clamp(2rem, 6vw, 2.8rem);
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        animation: glowPulse 4s ease-in-out infinite;
+        transition-delay: 4.5s;
+      }
+
+      .always-word,
+      .rest-of-text {
+        background: linear-gradient(
+          -45deg,
+          #ffda99 20%,
+          #ffffff 40%,
+          #ffda99 60%,
+          #c48a38 80%
+        );
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        animation: textShine 5s linear infinite;
+      }
+
+      @keyframes textShine {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      @keyframes glowPulse {
+        0%,
+        100% {
+          filter: drop-shadow(0 0 12px rgba(255, 218, 153, 0.3));
+        }
+        50% {
+          filter: drop-shadow(0 0 28px rgba(255, 218, 153, 0.7));
+        }
+      }
+
+      .always-word {
+        position: relative;
+        display: inline-block;
+      }
+      .always-word::before,
+      .always-word::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 0;
+        height: 2px;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #ffda99, #c48a38);
+        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 10px rgba(255, 218, 153, 0.8);
+      }
+      .always-word::before {
+        bottom: 2px;
+      }
+      .always-word::after {
+        bottom: -5px;
+      }
+
+      .special-ending.in .always-word::before {
+        width: 100%;
+        transition-delay: 8s;
+      }
+      .special-ending.in .always-word::after {
+        width: 100%;
+        transition-delay: 8.6s;
+      }
+
+      .spacer {
+        height: 25vh;
+      }
+
+      #horizon-glow {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0;
+        mix-blend-mode: screen;
+        background:
+          radial-gradient(
+            circle at 50% 115%,
+            rgba(255, 230, 160, 0.4) 0%,
+            rgba(255, 170, 50, 0.25) 20%,
+            rgba(220, 100, 30, 0.1) 40%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 160% 80% at 50% 110%,
+            rgba(200, 70, 20, 0.3) 0%,
+            rgba(150, 40, 15, 0.1) 40%,
+            transparent 75%
+          ),
+          radial-gradient(
+            ellipse 220% 100% at 50% 115%,
+            rgba(120, 20, 30, 0.2) 0%,
+            rgba(60, 10, 20, 0.05) 50%,
+            transparent 85%
+          ),
+          linear-gradient(
+            to top,
+            rgba(255, 140, 40, 0.15) 0%,
+            rgba(160, 40, 20, 0.05) 20%,
+            transparent 50%
+          );
+        animation: glowBreathe 8s ease-in-out infinite;
+      }
+
+      @keyframes glowBreathe {
+        0%,
+        100% {
+          filter: brightness(1) saturate(1);
+        }
+        50% {
+          filter: brightness(1.25) saturate(1.15);
+        }
+      }
+
+      .media-player {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 200;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(30, 21, 16, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(196, 138, 56, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      .media-player:hover {
+        background: rgba(196, 138, 56, 0.15);
+        border-color: rgba(196, 138, 56, 0.5);
+        transform: scale(1.05);
+      }
+      .media-player svg {
+        width: 16px;
+        height: 16px;
+        fill: #ddd3c4;
+        transition: fill 0.3s ease;
+      }
+      .media-player:hover svg {
+        fill: #ffda99;
+      }
+
+      #start-overlay {
+        position: fixed;
+        inset: 0;
+        background: #090807;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 1.5s ease;
+      }
+
+      #start-overlay p {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: #ddd3c4;
+        font-style: italic;
+        opacity: 0.7;
+        letter-spacing: 0.1em;
+        animation: breathText 3s ease-in-out infinite;
+      }
+
+      @keyframes breathText {
+        0%,
+        100% {
+          opacity: 0.4;
+          filter: blur(1px);
+        }
+        50% {
+          opacity: 1;
+          filter: blur(0px);
+          text-shadow: 0 0 10px rgba(221, 211, 196, 0.4);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="start-overlay" style="display: none">
+      <p>Together..for the foreseeable future...</p>
+    </div>
+
+    <audio id="bg-music" src="src/snowfall.mp3" loop autoplay></audio>
+    <div class="media-player" id="media-player" title="Play/Pause">
+      <svg id="icon-pause" viewBox="0 0 24 24" style="display: none">
+        <rect x="6" y="4" width="4" height="16"></rect>
+        <rect x="14" y="4" width="4" height="16"></rect>
+      </svg>
+      <svg id="icon-play" viewBox="0 0 24 24">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    </div>
+    <canvas id="grain"></canvas>
+
+    <div class="page">
+      <div class="ch" id="ch-open">
+        <div class="ts">29th June 2026... 10:30pm..</div>
+        <h1 class="hero-title">My worst nightmare..came into existence</h1>
+        <div class="prose">
+          <p>
+            Sigh..the infamous nightmares i used to get.. which.."forced" me,
+            into wanting to talk to you more..somehow. The first occurence was
+            long back..followed by a series of nights.. making me into believing
+            it might actually come true.. Those nights.. i used to wake up,
+            sweating, heart racing, not wanting to fall asleep..cz the lack of
+            sleep..was Nothing, absolutely nothing as compared to
+            those..horrendous dreams.. <br />
+            hmmm.... we just talked now, it's..22:29, 2nd of July (I probably
+            will complete and send it tonight itself..), youhh are going to
+            sleeeeep, wished me sweet dreams..what a coincidence... : ))) <br />
+            I hope i WILL, have some sweet dreams, aapne jo kaha ^^ heheh <br />
+          </p>
+        </div>
+      </div>
+      <div class="ch" id="ch-fear">
+        <div class="prose">
+          <p>
+            my literal body responded...to the fact that i was blocked..it
+            responded in ways.. that weren't so violent before.. First i was
+            struck by disbelief.. that no.. she didn't block me.. maybe she just
+            removed her pfp, and went offline due to some reason. But then..
+            thought that you won't just..leave like that. Then i waited..and
+            waited.. re-reading our on-going conversation..which hit me as.. a
+            bit different.. a little life-less.. Your..responses weren't like
+            usual.. they felt a bit quieter.. and THEN it occurred to me, that..
+            you might've blocked me,whichhh,, gosh landed me into the denial
+            phase X).. sigh.. it wasn;t so funny at that time.. I started
+            panicking.. i started ovrethinking.. why did she block me..? I sent
+            so many texts.. on whatsapp itself..sigh.. begging, pleading, for
+            you to talk to me, if something's bothering you about me. Little did
+            i know.. about your situation there.. I waited until 11:11..i was
+            still skeptical, unable to believe that.. i was blocked.. but right
+            after 11:11.. I called you. it ringed once, and the message played
+            "The number you're trying to call is currently busy." sigh.. i
+            called you exactly 10 times.. then searched up how does a blocked
+            ringtone soun d like.. and well.. it matched. Sigh... uske baad jo
+            panic strike hua mujhe...First of all.. i literally started feeling
+            like.. everything is destroyed..devastated.. like nothing is..left.
+            Then.. i started crying..I was crying so much..(it's..making me cry
+            rn..too..2nd July, 23:56)..which caused me severe hyperventilation..
+            i went into the bathroom.. after some time.. the stress caused
+            vom..yeaa <br />
+            Then..came the chest pain. I was really scared.. That.. one incident
+            didn't just..affect my mind, like worrying, but my body too..
+            which.. signifies that..you are..deeply engraved into my..
+            being..existence. I, then finally took a PCM, and fell asleep.
+            <br />
+          </p>
+          <p>i typed so many things..</p>
+        </div>
+
+        <div class="bubbles" id="bubbles">
+          <div class="bub">drishti please just tell me you're okay</div>
+          <div class="bub">i don't care about anything else. just you.</div>
+          <div class="bub">I beg you...</div>
+          <div class="bub">Please don't leave me..</div>
+          <div class="bub">i dont want to lose you..</div>
+        </div>
+
+        <div class="prose">
+          <p>
+            i held most of it back. because i was unsure, after some time i got
+            clarity in my mind, once the panic started to fade away, not knowing
+            what..actually happened.. because i just knew, that you would never
+            block me.. there must be some reason..and you'd come back.. hence
+            the last email i sent you was.. like that.
+          </p>
+        </div>
+      </div>
+
+      <div class="ch" id="ch-without">
+        <div class="prose">
+          <p>i thought about what the days would look like..without..YOU</p>
+          <p>
+            mornings with no <em class="r">goood morningg..</em>,no
+            <em class="r">how are youuh?</em>, no
+            <em class="r">I'll see youh soon..</em> and countless other..
+            ordinary..yet precious texts of yours..
+          </p>
+          <p>
+            no one who knows almost everything about me.. my struggles, our
+            connection, our little universe X)..heheh.., ginger's mastii, our
+            handwritten, heartfelt letters... without having me to explain
+            myself much.. if not at all..
+          </p>
+          <p class="dim">
+            This..kind of absence.. or critical deficiency.. I'll never be able
+            to handle..
+          </p>
+        </div>
+      </div>
+      <div class="ch turn" id="ch-turn">
+        <div class="turn-line" id="turn-line">
+          "dad doesn't have a problem with you.<br />just the amount of time we
+          talk."
+        </div>
+        <div class="turn-sub" id="turn-sub">
+          and <em class="r">that's</em> the first time i felt the relief..
+          literally exhaled of relief..(yet..he asked again..tonight..sigh)
+          but..this shall pass too :,,,)))
+        </div>
+      </div>
+      <div class="ch" id="ch-close">
+        <div class="closing">
+          <p>
+            i know.. things are delicate.. now. i know you can't always talk..
+            and
+            <em class="r">"we'll see"</em> is the only answer you can give right
+            now.. I'm not asking for more than that..
+          </p>
+          <p>I will be patient, I will wait.. as long as it takes..</p>
+          <p>because it's you, drishti.</p>
+          <p>it's always been you.</p>
+          <p>and you're worth it all.. you're worth everything : )) ^^</p>
+        </div>
+        <div class="sign">
+          yours.. for the "foreseeable"(forever) future..(sigh im sorry
+          but..yeah..you can.. ignore this..line..)<br />
+          kaustubh 🫂🏡🌏♾️
+        </div>
+      </div>
+      <div class="ch special-ending" id="ch-special">
+        <p>You are important to me, drishti.</p>
+        <p class="second-line">The most important to me..</p>
+        <p class="always">
+          <span class="always-word">ALWAYS</span
+          ><span class="rest-of-text"> will be.</span>
+        </p>
+      </div>
+
+      <div class="spacer"></div>
+    </div>
+
+    <div id="horizon-glow"></div>
+
+    <script>
+      const canvas = document.getElementById("grain");
+      const ctx = canvas.getContext("2d");
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+      function grain() {
+        const w = canvas.width,
+          h = canvas.height;
+        const img = ctx.createImageData(w, h);
+        const d = img.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const v = (Math.random() * 255) | 0;
+          d[i] = d[i + 1] = d[i + 2] = v;
+          d[i + 3] = 255;
+        }
+        ctx.putImageData(img, 0, 0);
+      }
+      grain();
+      setInterval(grain, 100);
+
+      const chObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add("in");
+            if (e.target.id === "ch-turn" || e.target.id === "ch-close") {
+              document.body.classList.add("warm");
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll(".ch").forEach((c) => chObs.observe(c));
+
+      const bubObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.querySelectorAll(".bub").forEach((b, i) => {
+              setTimeout(() => b.classList.add("in"), i * 320);
+            });
+            bubObs.unobserve(e.target);
+          });
+        },
+        { threshold: 0.2 },
+      );
+      const bubWrap = document.getElementById("bubbles");
+      if (bubWrap) bubObs.observe(bubWrap);
+
+      const turnObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            document.getElementById("turn-line").classList.add("in");
+            document.getElementById("turn-sub").classList.add("in");
+            turnObs.unobserve(e.target);
+          });
+        },
+        { threshold: 0.3 },
+      );
+      const turnEl = document.getElementById("ch-turn");
+      if (turnEl) turnObs.observe(turnEl);
+
+      const glow = document.getElementById("horizon-glow");
+      let glowTarget = 0;
+      let glowCurrent = 0;
+      function updateGlow() {
+        const scrollY = window.scrollY;
+        const maxScroll =
+          document.documentElement.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return;
+        const progress = scrollY / maxScroll;
+        const fadeStart = 0.5;
+        const t = Math.max(0, (progress - fadeStart) / (1 - fadeStart));
+        glowTarget = t * (2 - t);
+      }
+      function renderGlow() {
+        glowCurrent += (glowTarget - glowCurrent) * 0.08;
+        glow.style.opacity = glowCurrent;
+
+        const baseGrain = 0.03;
+        const minGrain = baseGrain * 0.2;
+        canvas.style.opacity = baseGrain - (baseGrain - minGrain) * glowCurrent;
+
+        requestAnimationFrame(renderGlow);
+      }
+      window.addEventListener("scroll", updateGlow, { passive: true });
+      updateGlow();
+      renderGlow();
+
+      const bgMusic = document.getElementById("bg-music");
+      const iconPlay = document.getElementById("icon-play");
+      const iconPause = document.getElementById("icon-pause");
+      const mediaPlayer = document.getElementById("media-player");
+
+      function updateMediaIcon() {
+        if (bgMusic.paused) {
+          iconPlay.style.display = "block";
+          iconPause.style.display = "none";
+        } else {
+          iconPlay.style.display = "none";
+          iconPause.style.display = "block";
+        }
+      }
+
+      mediaPlayer.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (bgMusic.paused) {
+          bgMusic.play();
+        } else {
+          bgMusic.pause();
+        }
+      });
+
+      bgMusic.addEventListener("play", updateMediaIcon);
+      bgMusic.addEventListener("pause", updateMediaIcon);
+
+      bgMusic.volume = 0.5;
+      bgMusic
+        .play()
+        .then(updateMediaIcon)
+        .catch(() => {
+          updateMediaIcon();
+          const overlay = document.getElementById("start-overlay");
+          overlay.style.display = "flex";
+
+          const playOnInteraction = () => {
+            bgMusic.play();
+            overlay.style.opacity = "0";
+            setTimeout(() => {
+              overlay.style.display = "none";
+            }, 1500);
+
+            document.removeEventListener("click", playOnInteraction);
+            document.removeEventListener("touchstart", playOnInteraction);
+          };
+          document.addEventListener("click", playOnInteraction);
+          document.addEventListener("touchstart", playOnInteraction);
+        });
+    </script>
+  </body>
+</html>
