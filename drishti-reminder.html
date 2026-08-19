@@ -1,0 +1,1953 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>A teeny-tinyy Reminder</title>
+
+    <!-- =========================================================
+       FONTS
+  ========================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* =========================================================
+       RESET
+    ========================================================== */
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-snap-type: y proximity;
+      }
+
+      body {
+        min-height: 100vh;
+
+        background: #080807;
+        color: #eee9df;
+
+        font-family: "DM Sans", sans-serif;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      section {
+        scroll-snap-align: start;
+      }
+
+      /* =========================================================
+       OPENING — SCENE 01
+    ========================================================== */
+
+      .opening {
+        position: relative;
+
+        width: 100%;
+        height: 100vh;
+        min-height: 100svh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        background:
+          radial-gradient(
+            circle at 50% 43%,
+            rgba(171, 136, 69, 0.13),
+            transparent 31%
+          ),
+          radial-gradient(
+            circle at 10% 90%,
+            rgba(130, 101, 51, 0.06),
+            transparent 27%
+          ),
+          #080807;
+      }
+
+      /* =========================================================
+       OPENING AMBIENT LIGHT
+    ========================================================== */
+
+      .ambient-light {
+        position: absolute;
+
+        width: 42vw;
+        height: 42vw;
+
+        min-width: 350px;
+        min-height: 350px;
+
+        max-width: 680px;
+        max-height: 680px;
+
+        border-radius: 50%;
+
+        background: rgba(190, 151, 76, 0.035);
+
+        filter: blur(90px);
+
+        animation: breathe 8s ease-in-out infinite;
+      }
+
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scale(0.92);
+          opacity: 0.45;
+        }
+
+        50% {
+          transform: scale(1.08);
+          opacity: 1;
+        }
+      }
+
+      /* =========================================================
+       LIGHT RAYS
+    ========================================================== */
+
+      .light-ray {
+        position: absolute;
+
+        width: 1px;
+        height: 65vh;
+
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(185, 151, 86, 0.08),
+          transparent
+        );
+
+        filter: blur(1px);
+
+        opacity: 0.45;
+
+        transform-origin: center;
+      }
+
+      .light-ray.one {
+        transform: rotate(24deg);
+      }
+
+      .light-ray.two {
+        transform: rotate(-27deg);
+      }
+
+      /* =========================================================
+       FILM GRAIN
+    ========================================================== */
+
+      .grain {
+        position: absolute;
+
+        inset: -50%;
+
+        pointer-events: none;
+
+        opacity: 0.035;
+
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.7'/%3E%3C/svg%3E");
+
+        animation: grain 0.25s steps(2) infinite;
+      }
+
+      @keyframes grain {
+        0% {
+          transform: translate(0, 0);
+        }
+
+        25% {
+          transform: translate(2%, -1%);
+        }
+
+        50% {
+          transform: translate(-1%, 2%);
+        }
+
+        75% {
+          transform: translate(1%, 1%);
+        }
+
+        100% {
+          transform: translate(-2%, -1%);
+        }
+      }
+
+      /* =========================================================
+       OPENING CONTENT
+    ========================================================== */
+
+      .opening-content {
+        position: relative;
+
+        z-index: 5;
+
+        width: min(680px, 88vw);
+
+        text-align: center;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        animation: reveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      @keyframes reveal {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* =========================================================
+       GENERIC EYEBROW
+    ========================================================== */
+
+      .eyebrow {
+        margin-bottom: 28px;
+
+        color: #b89a5e;
+
+        font-size: 10px;
+        font-weight: 500;
+
+        letter-spacing: 0.32em;
+
+        text-transform: uppercase;
+      }
+
+      /* =========================================================
+       OPENING TITLE
+    ========================================================== */
+
+      .title {
+        font-family: "Playfair Display", serif;
+
+        font-size: clamp(72px, 10vw, 138px);
+
+        font-weight: 400;
+
+        line-height: 0.86;
+
+        letter-spacing: -0.055em;
+
+        color: #eee9df;
+      }
+
+      .title span {
+        color: #b99a5d;
+
+        font-style: italic;
+      }
+
+      /* =========================================================
+       DIVIDER
+    ========================================================== */
+
+      .divider {
+        width: 34px;
+        height: 1px;
+
+        margin: 44px 0 31px;
+
+        background: #927644;
+
+        opacity: 0.8;
+      }
+
+      /* =========================================================
+       INTRO
+    ========================================================== */
+
+      .intro {
+        max-width: 440px;
+
+        color: #aaa69e;
+
+        font-size: 15px;
+
+        line-height: 1.9;
+
+        letter-spacing: 0.012em;
+      }
+
+      /* =========================================================
+       ENTER BUTTON
+    ========================================================== */
+
+      .enter {
+        position: relative;
+
+        margin-top: 46px;
+
+        padding: 14px 0;
+
+        display: flex;
+        align-items: center;
+
+        gap: 17px;
+
+        border: none;
+
+        background: transparent;
+
+        color: #d9d3c7;
+
+        font-family: inherit;
+
+        font-size: 10px;
+        font-weight: 500;
+
+        letter-spacing: 0.18em;
+
+        text-transform: uppercase;
+
+        cursor: pointer;
+
+        transition:
+          color 350ms ease,
+          gap 350ms ease;
+      }
+
+      .enter::after {
+        content: "";
+
+        position: absolute;
+
+        left: 0;
+        right: 0;
+
+        bottom: 3px;
+
+        height: 1px;
+
+        background: #a4864e;
+
+        transform: scaleX(0);
+
+        transform-origin: right;
+
+        transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .enter:hover {
+        color: #c6a666;
+
+        gap: 25px;
+      }
+
+      .enter:hover::after {
+        transform: scaleX(1);
+
+        transform-origin: left;
+      }
+
+      .enter-arrow {
+        color: #b99a5d;
+
+        font-size: 18px;
+
+        line-height: 1;
+
+        transition: transform 350ms ease;
+      }
+
+      .enter:hover .enter-arrow {
+        transform: translateX(4px);
+      }
+
+      /* =========================================================
+       BOTTOM NOTE
+    ========================================================== */
+
+      .bottom-note {
+        position: absolute;
+
+        z-index: 5;
+
+        bottom: 29px;
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        color: #504e49;
+
+        font-size: 8px;
+
+        letter-spacing: 0.25em;
+
+        text-transform: uppercase;
+
+        white-space: nowrap;
+      }
+
+      /* =========================================================
+       OPENING LEAVING
+    ========================================================== */
+
+      .opening.leaving {
+        animation: fadeAway 900ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+      }
+
+      @keyframes fadeAway {
+        to {
+          opacity: 0;
+          transform: scale(1.025);
+        }
+      }
+
+      /* =========================================================
+       SCENE 02 — REMINDER
+    ========================================================== */
+
+      .reminder {
+        position: relative;
+
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        background:
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(174, 137, 68, 0.1),
+            transparent 32%
+          ),
+          #0a0908;
+
+        opacity: 0;
+
+        transform: translateY(30px);
+
+        transition:
+          opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reminder.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       REMINDER GLOW
+    ========================================================== */
+
+      .reminder-glow {
+        position: absolute;
+
+        width: 40vw;
+        height: 40vw;
+
+        min-width: 300px;
+        min-height: 300px;
+
+        max-width: 650px;
+        max-height: 650px;
+
+        border-radius: 50%;
+
+        background: rgba(186, 145, 70, 0.045);
+
+        filter: blur(100px);
+
+        animation: reminderBreath 9s ease-in-out infinite;
+      }
+
+      @keyframes reminderBreath {
+        0%,
+        100% {
+          transform: scale(0.9);
+          opacity: 0.5;
+        }
+
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+
+      /* =========================================================
+       REMINDER CONTENT
+    ========================================================== */
+
+      .reminder-content {
+        position: relative;
+
+        z-index: 2;
+
+        width: min(650px, 88vw);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        text-align: center;
+      }
+
+      /* =========================================================
+       REMINDER EYEBROW
+    ========================================================== */
+
+      .reminder-eyebrow {
+        opacity: 0;
+
+        transform: translateY(15px);
+
+        transition:
+          opacity 1s ease 0.35s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+      }
+
+      .reminder.visible .reminder-eyebrow {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       REMINDER TITLE
+    ========================================================== */
+
+      .reminder-title {
+        font-family: "Playfair Display", serif;
+
+        font-size: clamp(58px, 8vw, 108px);
+
+        font-weight: 400;
+
+        line-height: 0.95;
+
+        letter-spacing: -0.045em;
+
+        color: #eee9df;
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+        transition:
+          opacity 1.2s ease 0.55s,
+          transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
+      }
+
+      .reminder.visible .reminder-title {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       REMINDER LINE
+    ========================================================== */
+
+      .reminder-line {
+        width: 0;
+        height: 1px;
+
+        margin: 38px 0 30px;
+
+        background: #9b7c47;
+
+        transition: width 1s cubic-bezier(0.16, 1, 0.3, 1) 1s;
+      }
+
+      .reminder.visible .reminder-line {
+        width: 42px;
+      }
+
+      /* =========================================================
+       REMINDER TEXT
+    ========================================================== */
+
+      .reminder-text {
+        max-width: 490px;
+
+        color: #aaa69e;
+
+        font-size: 15px;
+
+        line-height: 1.95;
+
+        letter-spacing: 0.012em;
+
+        opacity: 0;
+
+        transform: translateY(18px);
+
+        transition:
+          opacity 1s ease 1.15s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 1.15s;
+      }
+
+      .reminder.visible .reminder-text {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       REMINDER SMALL
+    ========================================================== */
+
+      .reminder-small {
+        margin-top: 20px;
+
+        color: #706d66;
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 16px;
+
+        font-style: italic;
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+        transition:
+          opacity 1s ease 1.45s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 1.45s;
+      }
+
+      .reminder.visible .reminder-small {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       CONTINUE INDICATOR
+    ========================================================== */
+
+      .continue-indicator {
+        position: absolute;
+
+        top: calc(100% + 110px);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 10px;
+
+        color: #514f4a;
+
+        font-size: 8px;
+
+        letter-spacing: 0.22em;
+
+        text-transform: uppercase;
+
+        opacity: 0;
+
+        transition: opacity 1s ease 2.1s;
+      }
+
+      .reminder.visible .continue-indicator {
+        opacity: 1;
+      }
+
+      .continue-arrow {
+        color: #a08350;
+
+        font-size: 18px;
+
+        animation: gentleDown 2s ease-in-out infinite;
+      }
+
+      @keyframes gentleDown {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(6px);
+        }
+      }
+
+      /* =========================================================
+       SCENE 03 — BEYOND THE NUMBERS
+    ========================================================== */
+
+      .beyond {
+        position: relative;
+
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        background:
+          radial-gradient(
+            circle at 50% 48%,
+            rgba(174, 137, 68, 0.075),
+            transparent 34%
+          ),
+          #090807;
+
+        opacity: 0;
+
+        transform: translateY(35px);
+
+        transition:
+          opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .beyond.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       BEYOND GLOW
+    ========================================================== */
+
+      .beyond-glow {
+        position: absolute;
+
+        width: 45vw;
+        height: 45vw;
+
+        min-width: 300px;
+        min-height: 300px;
+
+        max-width: 650px;
+        max-height: 650px;
+
+        border-radius: 50%;
+
+        background: rgba(184, 143, 70, 0.035);
+
+        filter: blur(110px);
+
+        animation: beyondBreath 10s ease-in-out infinite;
+      }
+
+      @keyframes beyondBreath {
+        0%,
+        100% {
+          transform: scale(0.92);
+          opacity: 0.4;
+        }
+
+        50% {
+          transform: scale(1.08);
+          opacity: 0.9;
+        }
+      }
+
+      /* =========================================================
+       BEYOND CONTENT
+    ========================================================== */
+
+      .beyond-content {
+        position: relative;
+
+        z-index: 2;
+
+        width: min(700px, 88vw);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        text-align: center;
+      }
+
+      /* =========================================================
+       BEYOND EYEBROW
+    ========================================================== */
+
+      .beyond-eyebrow {
+        margin-bottom: 34px;
+
+        color: #a88b54;
+
+        font-size: 9px;
+        font-weight: 500;
+
+        letter-spacing: 0.31em;
+
+        text-transform: uppercase;
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+        transition:
+          opacity 1s ease 0.3s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+      }
+
+      .beyond.visible .beyond-eyebrow {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       BEYOND TITLE
+    ========================================================== */
+
+      .beyond-title {
+        max-width: 700px;
+
+        font-family: "Playfair Display", serif;
+
+        font-size: clamp(48px, 7vw, 88px);
+
+        font-weight: 400;
+
+        line-height: 1.02;
+
+        letter-spacing: -0.045em;
+
+        color: #eee9df;
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+        transition:
+          opacity 1.2s ease 0.55s,
+          transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
+      }
+
+      .beyond.visible .beyond-title {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       BEYOND LINE
+    ========================================================== */
+
+      .beyond-line {
+        width: 0;
+        height: 1px;
+
+        margin: 42px 0 34px;
+
+        background: #987a46;
+
+        transition: width 900ms cubic-bezier(0.16, 1, 0.3, 1) 1s;
+      }
+
+      .beyond.visible .beyond-line {
+        width: 42px;
+      }
+
+      /* =========================================================
+       BEYOND TEXT
+    ========================================================== */
+
+      .beyond-text {
+        max-width: 510px;
+
+        color: #aaa69e;
+
+        font-size: 15px;
+
+        line-height: 2;
+
+        letter-spacing: 0.012em;
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
+        transition:
+          opacity 1s ease 1.15s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 1.15s;
+      }
+
+      .beyond.visible .beyond-text {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       BEYOND EMPHASIS
+    ========================================================== */
+
+      .beyond-emphasis {
+        margin-top: 38px;
+
+        font-family: "Playfair Display", serif;
+
+        color: #b99a5d;
+
+        font-size: clamp(38px, 5vw, 62px);
+
+        font-style: italic;
+
+        line-height: 1;
+
+        letter-spacing: -0.035em;
+
+        opacity: 0;
+
+        transform: translateY(18px);
+
+        transition:
+          opacity 1.1s ease 1.55s,
+          transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.55s;
+      }
+
+      .beyond.visible .beyond-emphasis {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       BEYOND FINAL
+    ========================================================== */
+
+      .beyond-final {
+        margin-top: 28px;
+
+        color: #706d66;
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 16px;
+
+        font-style: italic;
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+        transition:
+          opacity 1s ease 1.9s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 1.9s;
+      }
+
+      .beyond.visible .beyond-final {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       BEYOND CONTINUE
+    ========================================================== */
+
+      .beyond-continue {
+        position: absolute;
+
+        top: calc(100% + 105px);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 10px;
+
+        color: #504e49;
+
+        font-size: 8px;
+
+        letter-spacing: 0.22em;
+
+        text-transform: uppercase;
+
+        opacity: 0;
+
+        transition: opacity 1s ease 2.5s;
+      }
+
+      .beyond.visible .beyond-continue {
+        opacity: 1;
+      }
+
+      .beyond-arrow {
+        color: #a08350;
+
+        font-size: 18px;
+
+        animation: gentleDownBeyond 2s ease-in-out infinite;
+      }
+
+      @keyframes gentleDownBeyond {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(6px);
+        }
+      }
+
+      /* =========================================================
+       SCENE 04 — THE ACHIEVEMENT
+    ========================================================== */
+
+      .achievement {
+        position: relative;
+
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100svh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        background:
+          radial-gradient(
+            circle at 50% 45%,
+            rgba(184, 143, 70, 0.12),
+            transparent 30%
+          ),
+          #080807;
+
+        opacity: 0;
+
+        transform: translateY(35px);
+
+        transition:
+          opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .achievement.visible {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       ACHIEVEMENT LIGHT
+    ========================================================== */
+
+      .achievement-light {
+        position: absolute;
+
+        width: 55vw;
+        height: 55vw;
+
+        min-width: 350px;
+        min-height: 350px;
+
+        max-width: 800px;
+        max-height: 800px;
+
+        border-radius: 50%;
+
+        background: rgba(190, 151, 76, 0.045);
+
+        filter: blur(120px);
+
+        animation: achievementBreath 11s ease-in-out infinite;
+      }
+
+      @keyframes achievementBreath {
+        0%,
+        100% {
+          transform: scale(0.88);
+          opacity: 0.4;
+        }
+
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+
+      /* =========================================================
+       ACHIEVEMENT CONTENT
+    ========================================================== */
+
+      .achievement-content {
+        position: relative;
+
+        z-index: 3;
+
+        width: min(850px, 90vw);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        text-align: center;
+      }
+
+      /* =========================================================
+       ACHIEVEMENT EYEBROW
+    ========================================================== */
+
+      .achievement-eyebrow {
+        margin-bottom: 28px;
+
+        color: #a88b54;
+
+        font-size: 9px;
+        font-weight: 500;
+
+        letter-spacing: 0.32em;
+
+        text-transform: uppercase;
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+        transition:
+          opacity 1s ease 0.3s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+      }
+
+      .achievement.visible .achievement-eyebrow {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      /* =========================================================
+       ACHIEVEMENT TITLE
+    ========================================================== */
+
+      .achievement-title {
+        font-family: "Playfair Display", serif;
+
+        font-size: clamp(62px, 9vw, 118px);
+
+        font-weight: 400;
+
+        line-height: 0.9;
+
+        letter-spacing: -0.055em;
+
+        color: #eee9df;
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+        transition:
+          opacity 1.2s ease 0.5s,
+          transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+      }
+
+      .achievement.visible .achievement-title {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      .achievement-title span {
+        color: #b99a5d;
+
+        font-style: italic;
+      }
+
+      /* =========================================================
+       ACHIEVEMENT LINE
+    ========================================================== */
+
+      .achievement-line {
+        width: 0;
+        height: 1px;
+
+        margin: 36px 0 35px;
+
+        background: #9b7c47;
+
+        transition: width 900ms cubic-bezier(0.16, 1, 0.3, 1) 1s;
+      }
+
+      .achievement.visible .achievement-line {
+        width: 42px;
+      }
+
+      /* =========================================================
+       TROPHY FRAME
+    ========================================================== */
+
+      .trophy-frame {
+        position: relative;
+
+        width: min(650px, 82vw);
+
+        aspect-ratio: 16 / 9;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        border: 1px solid rgba(174, 137, 68, 0.22);
+
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.025),
+          rgba(0, 0, 0, 0.18)
+        );
+
+        box-shadow:
+          0 30px 100px rgba(0, 0, 0, 0.55),
+          inset 0 0 80px rgba(184, 143, 70, 0.025);
+
+        opacity: 0;
+
+        transform: translateY(30px) scale(0.97);
+
+        transition:
+          opacity 1.5s ease 1.2s,
+          transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) 1.2s;
+      }
+
+      .achievement.visible .trophy-frame {
+        opacity: 1;
+
+        transform: translateY(0) scale(1);
+      }
+
+      /* =========================================================
+       TROPHY IMAGE
+    ========================================================== */
+
+      .trophy-image {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: block;
+
+        opacity: 0;
+
+        transform: scale(1.035);
+
+        transition:
+          opacity 1.8s ease 1.5s,
+          transform 5s cubic-bezier(0.16, 1, 0.3, 1) 1.4s;
+      }
+
+      .achievement.visible .trophy-image {
+        opacity: 1;
+
+        transform: scale(1);
+      }
+
+      /* =========================================================
+       IMAGE OVERLAY
+    ========================================================== */
+
+      .trophy-frame::after {
+        content: "";
+
+        position: absolute;
+
+        inset: 0;
+
+        pointer-events: none;
+
+        background: linear-gradient(
+          to bottom,
+          rgba(8, 8, 7, 0.03),
+          rgba(8, 8, 7, 0.18)
+        );
+      }
+
+      /* =========================================================
+       TROPHY PLACEHOLDER
+    ========================================================== */
+
+      .trophy-placeholder {
+        position: absolute;
+
+        inset: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 12px;
+
+        color: #706d66;
+
+        font-size: 9px;
+
+        letter-spacing: 0.2em;
+
+        text-transform: uppercase;
+      }
+
+      .trophy-placeholder-symbol {
+        color: #a08350;
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 42px;
+
+        opacity: 0.7;
+      }
+
+      /* =========================================================
+       ACHIEVEMENT CAPTION
+    ========================================================== */
+
+      .achievement-caption {
+        margin-top: 28px;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 8px;
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+        transition:
+          opacity 1s ease 2.2s,
+          transform 1s cubic-bezier(0.16, 1, 0.3, 1) 2.2s;
+      }
+
+      .achievement.visible .achievement-caption {
+        opacity: 1;
+
+        transform: translateY(0);
+      }
+
+      .achievement-caption-main {
+        color: #eee9df;
+
+        font-family: "Playfair Display", serif;
+
+        font-size: 25px;
+
+        font-style: italic;
+      }
+
+      .achievement-caption-sub {
+        color: #706d66;
+
+        font-size: 9px;
+
+        letter-spacing: 0.2em;
+
+        text-transform: uppercase;
+      }
+
+      /* =========================================================
+       ACHIEVEMENT CONTINUE
+    ========================================================== */
+
+      .achievement-continue {
+        position: absolute;
+
+        top: calc(100% + 85px);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        gap: 10px;
+
+        color: #504e49;
+
+        font-size: 8px;
+
+        letter-spacing: 0.22em;
+
+        text-transform: uppercase;
+
+        opacity: 0;
+
+        transition: opacity 1s ease 2.8s;
+      }
+
+      .achievement.visible .achievement-continue {
+        opacity: 1;
+      }
+
+      .achievement-arrow {
+        color: #a08350;
+
+        font-size: 18px;
+
+        animation: achievementArrow 2s ease-in-out infinite;
+      }
+
+      @keyframes achievementArrow {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+
+        50% {
+          transform: translateY(6px);
+        }
+      }
+
+      /* =========================================================
+       MOBILE
+    ========================================================== */
+
+      @media (max-width: 600px) {
+        .opening {
+          background:
+            radial-gradient(
+              circle at 50% 40%,
+              rgba(171, 136, 69, 0.11),
+              transparent 44%
+            ),
+            #080807;
+        }
+
+        .eyebrow {
+          margin-bottom: 24px;
+
+          font-size: 9px;
+        }
+
+        .title {
+          font-size: clamp(72px, 21vw, 110px);
+        }
+
+        .divider {
+          margin: 36px 0 26px;
+        }
+
+        .intro {
+          max-width: 310px;
+
+          font-size: 14px;
+
+          line-height: 1.85;
+        }
+
+        .enter {
+          margin-top: 38px;
+        }
+
+        .bottom-note {
+          bottom: 21px;
+
+          font-size: 7px;
+        }
+
+        /* REMINDER */
+
+        .reminder {
+          background:
+            radial-gradient(
+              circle at 50% 45%,
+              rgba(174, 137, 68, 0.09),
+              transparent 42%
+            ),
+            #0a0908;
+        }
+
+        .reminder-title {
+          font-size: clamp(55px, 16vw, 90px);
+        }
+
+        .reminder-text {
+          max-width: 320px;
+
+          font-size: 14px;
+
+          line-height: 1.9;
+        }
+
+        .reminder-small {
+          font-size: 15px;
+        }
+
+        .continue-indicator {
+          top: calc(100% + 75px);
+        }
+
+        /* BEYOND */
+
+        .beyond {
+          background:
+            radial-gradient(
+              circle at 50% 45%,
+              rgba(174, 137, 68, 0.07),
+              transparent 42%
+            ),
+            #090807;
+        }
+
+        .beyond-eyebrow {
+          margin-bottom: 27px;
+
+          font-size: 8px;
+        }
+
+        .beyond-title {
+          max-width: 330px;
+
+          font-size: clamp(43px, 12vw, 68px);
+
+          line-height: 1.04;
+        }
+
+        .beyond-line {
+          margin: 34px 0 27px;
+        }
+
+        .beyond-text {
+          max-width: 315px;
+
+          font-size: 14px;
+
+          line-height: 1.9;
+        }
+
+        .beyond-emphasis {
+          margin-top: 32px;
+
+          font-size: clamp(38px, 12vw, 55px);
+        }
+
+        .beyond-final {
+          max-width: 290px;
+
+          margin-top: 24px;
+
+          font-size: 15px;
+        }
+
+        .beyond-continue {
+          top: calc(100% + 70px);
+        }
+
+        /* ACHIEVEMENT */
+
+        .achievement {
+          background:
+            radial-gradient(
+              circle at 50% 42%,
+              rgba(184, 143, 70, 0.09),
+              transparent 40%
+            ),
+            #080807;
+        }
+
+        .achievement-title {
+          font-size: clamp(58px, 18vw, 88px);
+        }
+
+        .trophy-frame {
+          width: 86vw;
+
+          aspect-ratio: 4 / 3;
+        }
+
+        .achievement-caption-main {
+          font-size: 22px;
+        }
+
+        .achievement-continue {
+          top: calc(100% + 65px);
+        }
+      }
+
+      /* =========================================================
+       ACCESSIBILITY
+    ========================================================== */
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <audio id="bgMusic" src="src/Cry.mp3" loop></audio>
+
+    <!-- =========================================================
+       SCENE 01 — OPENING
+  ========================================================== -->
+
+    <section class="opening" id="opening">
+      <div class="ambient-light"></div>
+
+      <div class="light-ray one"></div>
+      <div class="light-ray two"></div>
+
+      <div class="grain"></div>
+
+      <div class="opening-content">
+        <p class="eyebrow">A teeny-tiny reminder</p>
+
+        <h1 class="title">
+          Heyyyyy,<br />
+          <span>drishtiiii : )</span>
+        </h1>
+
+        <div class="divider"></div>
+
+        <p class="intro">
+          Before you worry about tomorrow, take a second to remember what you've
+          already done.
+        </p>
+
+        <button class="enter" id="enterButton" type="button">
+          <span>Take a little look</span>
+
+          <span class="enter-arrow"> → </span>
+        </button>
+      </div>
+
+      <div class="bottom-note">made with a leettiiil bit of care X)</div>
+    </section>
+
+    <!-- =========================================================
+       SCENE 02 — THE REMINDER
+  ========================================================== -->
+
+    <section class="reminder" id="reminder">
+      <div class="reminder-glow"></div>
+
+      <div class="reminder-content">
+        <p class="eyebrow reminder-eyebrow">Before anything else</p>
+
+        <h2 class="reminder-title">Look at youhh</h2>
+
+        <div class="reminder-line"></div>
+
+        <p class="reminder-text">
+          Somewhere between all the headaches.. and other difficulties, youh
+          still managed to do something so extraordinary.
+        </p>
+
+        <p class="reminder-small">And I don't think you should forget that.</p>
+
+        <div class="continue-indicator">
+          <span> there's moreeee </span>
+
+          <span class="continue-arrow"> ↓ </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       SCENE 03 — BEYOND THE NUMBERS
+  ========================================================== -->
+
+    <section class="beyond" id="beyond">
+      <div class="beyond-glow"></div>
+
+      <div class="beyond-content">
+        <p class="beyond-eyebrow">Beyond the rankkk</p>
+
+        <h2 class="beyond-title">
+          It wasn't just about<br />
+          being the topper.
+        </h2>
+
+        <div class="beyond-line"></div>
+
+        <p class="beyond-text">
+          It was everything you overcame.<br />
+          Every time you chose hardwork over comfort.<br />
+          Every night you kept going when you were tired.<br />
+          Every little thing nobody else saw...
+        </p>
+
+        <p class="beyond-emphasis">You kept swimming.</p>
+
+        <p class="beyond-final">That's the part I'm happy for.</p>
+
+        <div class="beyond-continue">
+          <span> there's something else </span>
+
+          <span class="beyond-arrow"> ↓ </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       SCENE 04 — THE ACHIEVEMENT
+  ========================================================== -->
+
+    <section class="achievement" id="achievement">
+      <div class="achievement-light"></div>
+
+      <div class="achievement-content">
+        <p class="achievement-eyebrow">Something worth remembering</p>
+
+        <h2 class="achievement-title">Four <span>awardss</span></h2>
+
+        <div class="achievement-line"></div>
+
+        <!-- =====================================================
+           TROPHY IMAGE
+
+           IMPORTANT:
+           Put your trophy image in the same folder as this HTML
+           and name it:
+
+           trophies.jpg
+
+           If your image has a different name, change src below.
+      ====================================================== -->
+
+        <div class="trophy-frame">
+          <img
+            class="trophy-image"
+            src="src/images/awards.jpg"
+            alt="Four trophies received by Drishti"
+          />
+
+          <!-- This appears automatically if the image cannot load. -->
+
+          <div class="trophy-placeholder" id="trophyPlaceholder">
+            <div class="trophy-placeholder-symbol">✦</div>
+
+            <span> your four trophies </span>
+          </div>
+        </div>
+
+        <div class="achievement-caption">
+          <span class="achievement-caption-main">
+            Four little pieces of your resilienceee
+          </span>
+        </div>
+
+        <div class="achievement-continue">
+          <span> keep going </span>
+
+          <span class="achievement-arrow"> ↓ </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+
+    <script>
+      /* =========================================================
+       ELEMENTS
+    ========================================================== */
+
+      const bgMusic = document.getElementById("bgMusic");
+      const opening = document.getElementById("opening");
+
+      const enterButton = document.getElementById("enterButton");
+
+      const reminder = document.getElementById("reminder");
+
+      const beyond = document.getElementById("beyond");
+
+      const achievement = document.getElementById("achievement");
+
+      const trophyImage = document.querySelector(".trophy-image");
+
+      const trophyPlaceholder = document.getElementById("trophyPlaceholder");
+
+      /* =========================================================
+       STATE
+    ========================================================== */
+
+      let hasEntered = false;
+
+      /* =========================================================
+       TROPHY IMAGE FALLBACK
+    ========================================================== */
+
+      trophyImage.addEventListener("load", () => {
+        trophyPlaceholder.style.display = "none";
+      });
+
+      trophyImage.addEventListener("error", () => {
+        trophyImage.style.display = "none";
+
+        trophyPlaceholder.style.display = "flex";
+      });
+
+      /*
+       * If the image is already cached when this script runs,
+       * make sure the placeholder disappears.
+       */
+
+      if (trophyImage.complete) {
+        if (trophyImage.naturalWidth > 0) {
+          trophyPlaceholder.style.display = "none";
+        } else {
+          trophyImage.style.display = "none";
+
+          trophyPlaceholder.style.display = "flex";
+        }
+      }
+
+      /* =========================================================
+       SCENE 01 → SCENE 02
+    ========================================================== */
+
+      enterButton.addEventListener("click", () => {
+        if (hasEntered) {
+          return;
+        }
+
+        hasEntered = true;
+
+        /* Play background music */
+        bgMusic.play().catch((err) => console.log("Audio play failed:", err));
+
+        /* Disable button so it cannot be clicked twice */
+
+        enterButton.disabled = true;
+
+        enterButton.style.pointerEvents = "none";
+
+        /* Start opening fade */
+
+        opening.classList.add("leaving");
+
+        /*
+         * Give the opening a moment to begin disappearing,
+         * then reveal Scene 02 and scroll to it.
+         */
+
+        setTimeout(() => {
+          reminder.classList.add("visible");
+
+          reminder.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 450);
+      });
+
+      /* =========================================================
+       INTERSECTION OBSERVER
+       
+       This is the important part.
+
+       Every scene gets revealed when it enters
+       the viewport.
+    ========================================================== */
+
+      const sceneObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.22,
+        },
+      );
+
+      /* =========================================================
+       OBSERVE SCENES
+    ========================================================== */
+
+      sceneObserver.observe(reminder);
+
+      sceneObserver.observe(beyond);
+
+      sceneObserver.observe(achievement);
+
+      /* =========================================================
+       MANUAL SCENE REVEAL FALLBACK
+       
+       Makes sure the scenes work even if the browser's
+       IntersectionObserver behaves differently.
+    ========================================================== */
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          const viewportHeight = window.innerHeight;
+
+          const reminderTop = reminder.getBoundingClientRect().top;
+
+          const beyondTop = beyond.getBoundingClientRect().top;
+
+          const achievementTop = achievement.getBoundingClientRect().top;
+
+          if (reminderTop < viewportHeight * 0.8) {
+            reminder.classList.add("visible");
+          }
+
+          if (beyondTop < viewportHeight * 0.8) {
+            beyond.classList.add("visible");
+          }
+
+          if (achievementTop < viewportHeight * 0.8) {
+            achievement.classList.add("visible");
+          }
+        },
+        {
+          passive: true,
+        },
+      );
+
+      /* =========================================================
+       KEYBOARD SUPPORT
+       
+       Enter/Space on the opening button already works
+       naturally because it is a real <button>.
+    ========================================================== */
+    </script>
+  </body>
+</html>
